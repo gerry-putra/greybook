@@ -1,0 +1,110 @@
+<%- include("../partials/header") %>
+
+<h1>Book of '<%= book.title %>'</h1>
+
+<h4>Author: <%= book.author.username %> </h4>
+
+<h4>Associates: </h4>
+<% for(let associate of book.associates) { %>
+    <p><strong><%= associate.username %></strong></p>
+<% } %> 
+
+<em><h4>Created: <%= book.created.toDateString() %></h4></em>
+<hr>
+
+<!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
+<% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+    <a href="/greybook/<%= book._id %>/bookedit">Edit book</a>
+    <hr>
+    <form action="/greybook/<%= book._id %>/newentry" method="POST">
+        <h3>Add new entry: </h3>
+        <input type="date" name="date" required>
+        <input type="text" placeholder="Description" name="description"required>
+        <input type="number" placeholder="Amount" name="amount" required>
+    
+        <label for="entrytype">Entry type:</label>
+        <select id="entrytype" name="entrytype">
+            <option value="loan">Loan</option>
+            <option value="payment">Payment</option>
+        </select>
+    
+        <label for="tofrom">To/From:</label>
+        <select name="tofrom" id="tofrom">
+            <% for(let associate of book.associates) { %>
+                <option value="<%= associate.id %>">
+                    <%= associate.username %>
+                </option>
+            <% } %> 
+        </select>
+    
+        <button>Add entry</button>
+    </form>
+<% } %>
+
+<!-- SHOW ENTRIES -->
+<hr>
+<div>
+    <h3>View all entries: </h3>
+    <% if(book.entries.length === 0) { %>
+        <p>No entries</p>
+    <% } else { %>
+        <table>
+            <tr>
+                <th><strong>Date</strong></th>
+                <th><strong>Description</strong></th>
+                <th><strong>Amount</strong></th>
+                <th><strong>Type</strong></th>
+                <th><strong>To/from</strong></th>
+            </tr>
+            <% for(let entry of book.entries) { %>
+                <tr>
+                    <td><%= entry.date %></td>
+                    <td><%= entry.description %></td>
+                    
+                    <% if(entry.type === "payment") { %>
+                        <td>-$ <%= entry.amount %></td>
+                    <% } else { %>
+                        <td>$ <%= entry.amount %></td>
+                    <% } %>
+                    <td><%= entry.type.toUpperCase() %></td>
+                    <td><%= entry.tofrom.username %></td>
+                    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                        <td>
+                            <a href="/greybook/<%= book._id %>/<%= entry._id %>/editentry">
+                                Edit entry
+                            </a>
+                        </td>
+                    <% } %> 
+                </tr>
+            <% } %>
+        </table>
+    <% } %>
+</div>
+<hr>
+
+<!-- SHOW COMMENTS -->
+<div>
+    <hr>
+    <h3>Comments: </h3>
+    <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
+        <label for="newcomment">New comment: </label>
+        <input type="text" name="newcomment" id="newcomment" placeholder="Enter comment here...">
+        <button>Add comment</button>
+    </form>
+    <hr>
+    <% for(let comment of book.comments) { %>
+        <strong><%= comment.author.username %></strong>
+        <span>3 days ago</span>
+        <p><%= comment.text %></p>
+        <% if(currentUser && currentUser._id.equals(comment.author.id)) { %>
+            <!-- Edit comment page -->
+            <a href="/greybook/<%= book._id %>/comment/<%= comment.id %>/commentedit">Edit</a>
+        <% } %> 
+        <hr>
+    <% } %>
+</div>
+
+
+<a href="/greybook/">Go back</a>
+
+<%- include("../partials/footer") %>

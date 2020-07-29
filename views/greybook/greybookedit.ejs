@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+
+<h1>EDIT BOOK <%= book.title %></h1>
+
+<form action="/greybook/<%= book._id %>?_method=PUT" method="POST">
+    <div>
+        <label for="booktitle">Book Title </label>
+        <input type="text" id="booktitle" value="<%= book.title %>" name="title" required>
+    </div>
+    <button>Edit book</button>
+</form>
+
+<form action="/greybook/<%= book._id %>?_method=DELETE" method="POST">
+    <button>Delete <%= book.title %></button>
+</form>
+
+<a href="/greybook/<%= book._id %>">Go back</a>
+
+<%- include("../partials/footer") %>

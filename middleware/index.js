@@ -1,0 +1,55 @@
+const   middlewareObj   = {},
+        Book            = require("../models/book"),
+        Comment         = require("../models/comment");
+
+middlewareObj.checkBookOwnership = async (req, res, next) => {
+    if(req.isAuthenticated()) {
+        try {
+            let foundBook   	= await Book.findById(req.params.bookid);
+            if(foundBook.author.id.equals(req.user._id)) {
+                next();
+            } else {
+                req.flash("error", "You do not have permission to do that.");
+                // "back" redirects user BACK to wherever they came from...
+                res.redirect("back");
+            }
+        } catch(error) {
+            req.flash("error", "Error! Book not found.");
+            res.redirect("back");
+        }
+	} else {
+		req.flash("error", "You need to be logged in to do that.");
+		res.redirect("back");
+	}
+}
+
+middlewareObj.checkCommentOwnership = async (req, res, next) => {
+    if(req.isAuthenticated()) {
+        try {
+            let foundComment   		= await Comment.findById(req.params.commentid);
+            if(foundComment.author.id.equals(req.user._id)) {
+                next();
+            } else {
+                req.flash("error", "You do not have permission to do that.");
+                // "back" redirects user BACK to wherever they came from...
+                res.redirect("back");
+            }
+        } catch(error) {
+            req.flash("error", "Error! Comment not found.");
+            res.redirect("back");
+        }
+	} else {
+		req.flash("error", "You need to be logged in to do that.");
+		res.redirect("back");
+	}
+}
+
+middlewareObj.isLoggedIn = (req, res, next) => {
+	if(req.isAuthenticated()) {
+		return next();
+    }
+    req.flash("error", "Access denied! You need to be logged in.");
+	res.redirect("/login");
+}
+
+module.exports  = middlewareObj;

@@ -1,0 +1,24 @@
+<%- include("../partials/header") %>
+
+<h1>CREATE NEW BOOK PAGE!</h1>
+
+<form action="/greybook/new" method="POST">
+    <div>
+        <label for="booktitle">Book Title </label>
+        <input type="text" id="booktitle" placeholder="Title" name="title" required>
+    </div>
+
+    <h4>Add associates:</h4>
+    <% for(let i = 0; i < users.length; i++) { %> 
+        <% if(!currentUser._id.equals(users[i]._id)) { %>
+            <div>
+                <label for="<%= 'associate' + i %>"><%= users[i].username %></label>
+                <input type="checkbox" id="<%= 'associate' + i %>" name="associate" value="<%= users[i]._id %>">
+            </div>
+        <% } %>
+    <% } %> 
+    <button>Create Book</button>
+</form>
+<a href="/greybook">Go back</a>
+
+<%- include("../partials/footer") %>

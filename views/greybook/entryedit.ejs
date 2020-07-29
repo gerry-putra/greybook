@@ -1,0 +1,30 @@
+<h1>EDIT ENTRY</h1>
+
+<form action="/greybook/<%= book._id %>/<%= entry._id %>?_method=PUT" method="POST">
+    <h3>Edit entry: </h3>
+    <input type="date" value="<%= entry.date %>" name="date" required>
+    <input type="text" value="<%= entry.description %>" name="description" required>
+    <input type="number" value="<%= entry.amount %>" name="amount" required>
+
+    <label for="entrytype">Entry type:</label>
+    <select id="entrytype" name="entrytype">
+        <option value="loan">Loan</option>
+        <option value="payment">Payment</option>
+    </select>
+
+    <label for="tofrom">To/From:</label>
+    <select name="tofrom" id="tofrom">
+        <% for(let associate of book.associates) { %>
+            <option value="<%= associate.id %>">
+                <%= associate.username %>
+            </option>
+        <% } %> 
+    </select>
+    <button>Edit entry</button>
+</form>
+
+<form action="/greybook/<%= book._id %>/<%= entry._id %>?_method=DELETE" method="POST">
+    <button>Delete entry</button>
+</form>
+
+<a href="/greybook/<%= book._id %>">Go back</a>

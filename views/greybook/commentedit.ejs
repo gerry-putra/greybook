@@ -1,0 +1,14 @@
+<%- include("../partials/header") %>
+
+<h3>Edit comment: </h3>
+<form action="/greybook/<%= book_id %>/comment/<%= comment._id %>?_method=PUT" method="POST">
+    <label for="comment">Comment: </label>
+    <input type="text" name="comment" id="comment" value="<%= comment.text %>">
+    <button>Update comment</button>
+</form>
+<form action="/greybook/<%= book_id %>/comment/<%= comment._id %>?_method=DELETE" method="POST">
+    <button>Delete comment</button>
+</form>
+<a href="/greybook/<%= book_id %>">Go back</a>
+
+<%- include("../partials/footer") %>

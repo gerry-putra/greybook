@@ -1,0 +1,40 @@
+<%- include("../partials/header") %>
+
+<h1>Hi, <%= currentUser.username %>! Welcome to GreyBook :)</h1>
+
+<h4>Created by GreyGhostProjects:</h4>
+<p>This will be the home page of the Grey Book app.</p>
+<p>Grey Book will serve clients by keeping a record of their money that is loaned out.</p>
+<p>Clients are able to see who they owe money to or who owe them money.</p>
+
+<h2>List of Books:</h2>
+<hr>
+<% books.forEach((book) => { %>
+    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+        <div class="books-display">
+            <h2><a href="/greybook/<%= book._id %>"><%= book.title %></a></h2>
+        </div>
+    <% } %>
+<% }); %>
+<hr>
+
+<br>
+
+<h2>List of Associated Books:</h2>
+<hr>
+<% books.forEach((book) => { %>
+    <% book.associates.forEach((associate) => { %>
+        <% if(currentUser && currentUser._id.equals(associate.id)) { %>
+            <div class="books-display">
+                <h2><a href="/greybook/<%= book._id %>"><%= book.title %></a></h2>
+            </div>
+        <% } %>
+    <% }); %>
+<% }); %>
+<hr>
+
+<p><a class="btn btn-primary btn-lg" href="/greybook/new">Create New Book</a></p>
+<a href="/logout">Log out</a>
+<a href="/">Go back</a>
+
+<%- include("../partials/footer") %>
