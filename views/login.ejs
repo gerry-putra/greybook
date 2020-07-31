@@ -1,13 +1,22 @@
 <%- include("./partials/header") %>
 
-<h1>LOGIN PAGE!</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12 align-items-center">
+            <form class="form-signin text-center" action="/login" method="POST">
+                <i class="fas fa-book fa-4x mb-4 text-dark"></i>
+                <h1 class="h3 mb-3 font-weight-normal text-dark">Sign in to Greybook</h1>
 
-<form action="/login" method="POST">
-    <input type="text" placeholder="Username" name="username">
-    <input type="password" placeholder="Password" name="password">
-    <button>Log in</button>
-</form>
-
-<a href="/">Go back</a>
-
+                <input type="text" id="inputUsername" class="form-control" 
+                    placeholder="Username" name="username" required>
+                <input type="password" id="inputPassword" class="form-control" 
+                    placeholder="Password" name="password" required>
+                  
+                <button class="btn btn-lg btn-dark btn-block mt-3 mb-2" type="submit">Sign in</button>
+                <a href="/register">Not a member yet? Register here!</a>      
+            </form>
+        </div>
+    </div>
+</div>
+    
 <%- include("./partials/footer") %>
