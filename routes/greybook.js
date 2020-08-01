@@ -50,7 +50,7 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 				associateObj 	= {id: associateId, username: foundUser.username};
 				newBook.associates.push(associateObj);
 			}
-		} else {
+		} else if(req.body.associate != null || req.body.associate != undefined) {
 			let foundUser 	= await User.findById(req.body.associate);
 			associateObj 	= {id: req.body.associate, username: foundUser.username};
 			newBook.associates.push(associateObj);
@@ -60,6 +60,7 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 		res.redirect("/greybook");
 
 	} catch(error) {
+		console.log(error);
 		req.flash("error", "3:Something went wrong, please try again...");
 		return res.redirect("/greybook/new");
 	}
