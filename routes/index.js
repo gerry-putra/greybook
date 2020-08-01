@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 // LOGIN route
 router.get("/login", (req, res) => {
     if(req.isAuthenticated()) {
-		req.flash("error", "You are already logged in bitch! You must be logged out to relog.");
+		req.flash("error", "You must be signed out to sign in with another account.");
 		return res.redirect("/greybook");
 	}
     res.render("login");
@@ -57,7 +57,7 @@ router.post("/register", async (req, res) => {
 // Logout ROUTE logic...
 router.get("/logout", (req,res) => {
     req.logout();
-    req.flash("success", "You are logged out");
+    req.flash("success", "Successfully signed out. Goodbye!");
 	res.redirect("/");
 });
 

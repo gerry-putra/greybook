@@ -27,4 +27,9 @@ body {
 
 #navbarMain {
     background-color: #525252;
+    padding: 0.6rem;
+}
+
+#navbarBrand {
+    font-weight: 200;
 }
