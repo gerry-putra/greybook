@@ -1,0 +1,18 @@
+html, body {
+    font-family: 'Mulish', sans-serif;
+    height: 100%;
+}
+
+body {
+    align-items: center;
+    background-color: #f5f5f5;
+    padding-top: 3rem;
+}
+
+#registerForm {
+    max-width: 30rem;
+}
+
+label {
+    font-weight: 100;
+}
