@@ -1,13 +1,12 @@
-html, body {
+body {
     font-family: 'Mulish', sans-serif;
-    height: 100%;
 }
 
-td,th {
+#entriesDisp td,th {
     padding-right: 32px;
 }
 
-#newcomment {
+#newComment {
     width: 30%;
     margin-right: 8px;
     margin-left: 8px;

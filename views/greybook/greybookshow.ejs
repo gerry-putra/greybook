@@ -22,8 +22,8 @@
         <input type="text" placeholder="Description" name="description"required>
         <input type="number" placeholder="Amount" name="amount" required>
     
-        <label for="entrytype">Entry type:</label>
-        <select id="entrytype" name="entrytype">
+        <label for="#entryType">Entry type:</label>
+        <select id="entryType" name="entrytype">
             <option value="loan">Loan</option>
             <option value="payment">Payment</option>
         </select>
@@ -48,7 +48,7 @@
     <% if(book.entries.length === 0) { %>
         <p>No entries</p>
     <% } else { %>
-        <table>
+        <table id="entriesDisp">
             <tr>
                 <th><strong>Date</strong></th>
                 <th><strong>Description</strong></th>
@@ -87,8 +87,8 @@
     <hr>
     <h3>Comments: </h3>
     <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
-        <label for="newcomment">New comment: </label>
-        <input type="text" name="newcomment" id="newcomment" placeholder="Enter comment here...">
+        <label for="TnewComment">New comment: </label>
+        <input type="text" name="newcomment" id="newComment" placeholder="Enter comment here...">
         <button>Add comment</button>
     </form>
     <hr>
