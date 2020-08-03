@@ -2,9 +2,9 @@
 
 <div id="myCarousel" class="carousel slide shadow" data-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
     </ol>
 
     <div class="carousel-inner">
@@ -70,14 +70,16 @@
 
 
 <div class="container">
-    <h2>Created Books:</h2>
-    <hr>
-    <div class="row text-center">
-        
+    <h2 class="text-dark galleryLabel">Created Books</h2>
+    <hr class="gallery">
+    <div class="row text-center justify-content-around">
+
+        <% let count = 0; %> 
         <% books.forEach((book) => { %>
             <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                <% count++; %> 
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card border-0 mx-auto shadow homeCards">
+                    <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
                         <a href="/greybook/<%= book._id %>">
                             <img src="img/book1.jpg" class="card-img-top" alt="...">
                         </a>
@@ -89,7 +91,18 @@
                     </div>
                 </div>
             <% } %>
-        <% }); %>     
+        <% }); %> 
+        <% if(count == 0) { %>
+            <p class="noBookNotif pt-3">You do not have any created books.</p>
+            <div class="container pb-5 mb-3">
+                <div class="row justify-content-center">
+                    <a class="btn btn-lg btn-outline-dark" href="/greybook/new" role="button">
+                        Create One Now!
+                    </a>
+                </div>
+            </div>
+        <% } %>  
+
     </div>
 </div>
 
@@ -98,15 +111,17 @@
 <br>
 
 <div class="container">
-    <h2>Associated Books:</h2>
-    <hr>
+    <h2 class="text-dark galleryLabel">Associated Books</h2>
+    <hr class="gallery">
     <div class="row text-center justify-content-around">
-        
+
+        <% let countAsso = 0; %> 
         <% books.forEach((book) => { %>
             <% book.associates.forEach((associate) => { %>
                 <% if(currentUser && currentUser._id.equals(associate.id)) { %>
+                    <% countAsso++; %> 
                     <div class="col-12 col-md-6 col-lg-4">
-                        <div class="card border-0 mb-4 mt-2 shadow" style="width: 18rem;">
+                        <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
                             <a href="/greybook/<%= book._id %>">
                                 <img src="img/book1.jpg" class="card-img-top" alt="...">
                             </a>
@@ -119,7 +134,11 @@
                     </div>
                 <% } %>
             <% }); %>  
-        <% }); %>     
+        <% }); %>
+        <% if(countAsso == 0) { %>
+            <p class="noBookNotif pt-3">No associated books.</p>
+        <% } %> 
+
     </div>
 </div>
 
