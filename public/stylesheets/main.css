@@ -25,6 +25,7 @@ body {
     margin-left: 8px;
 }
 
+/* navbar stylings */
 #navbarContent .nav-link {
     font-weight: 300;
     font-size: 1.2rem;
@@ -34,13 +35,14 @@ body {
 #navbarMain {
     background-color: #525252;
     padding: 0.6rem;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.08rem;
 }
 
 #navbarBrand {
     font-weight: 200;
 }
 
+/* carousel stylings */
 /* Carousel base class */
 .carousel {
     margin-bottom: 4rem;
@@ -68,6 +70,7 @@ body {
     border-color: #f5f5f5;
 }
 
+/* home stylings */
 .homeBookTitle {
     font-size: 1.6rem;
     font-weight: 200;
@@ -99,4 +102,36 @@ body {
 hr.gallery {
     border-top: 3px double #8c8b8b;
     margin-bottom: 2rem;
+}
+
+/* new book stylings */
+.container-newbook {
+    margin-top: 6rem;
+    text-align: center;
+    color: #525252;
+}
+
+.newbookLabel {
+    font-weight: 100;
+}
+
+.addAssoBox {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1.2rem;
+    padding-right: 10rem;
+    text-align: left;
+    border: 0.04em solid lightgray;
+    border-radius: 0.4rem;
+    background: white;
+}
+
+.addAssoLabel {
+    font-weight: 300;
+}
+
+.formHeader {
+    font-weight: 200;
+    font-size: 2.2rem;
+    letter-spacing: 0.1rem;
 }

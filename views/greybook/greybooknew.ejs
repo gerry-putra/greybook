@@ -1,24 +1,59 @@
 <%- include("../partials/header") %>
 
-<h1>CREATE NEW BOOK PAGE!</h1>
+<div class="container container-newbook">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-4">
+                <i class="fas fa-book fa-4x mb-4 text-dark"></i>
+                <h1 class="h3 mb-3 formHeader text-dark">Create New Book</h1>
+            </div> 
+            <form class="px-5" action="/greybook/new" method="POST">
+                <div class="form-group px-5">
+                    <label class="mt-3 d-block text-left newbookLabel" for="booktype">Book Type </label>
+                    <select class="form-control form-control-lg" name="type" id="booktype">
+                        <option value="loanbook">Loan Record Book</option>
+                        <option value="cookbook">Cook Book</option>
+                    </select>
+                    <label class="mt-3 d-block text-left newbookLabel" for="booktitle">Book Title </label>
+                    <input class="form-control form-control-lg" type="text" id="booktitle" 
+                        placeholder="Title" name="title" maxlength="45" required>
+                    <small class="form-text text-muted text-left pl-1">
+                        45 characters max.
+                    </small>
 
-<form action="/greybook/new" method="POST">
-    <div>
-        <label for="booktitle">Book Title </label>
-        <input type="text" id="booktitle" placeholder="Title" name="title" maxlength="24" required>
+                    <div>
+                        <div class="form-control form-control-lg">
+                            <select class="form-control form-control-lg" name="type" id="booktype">
+                                <option value="loanbook">Loan Record Book</option>
+                                <option value="cookbook">Cook Book</option>
+                            </select>
+                        </div>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                
+                    <div class="addAssoBox my-5">
+                        <h4 class="addAssoLabel">Add associates:</h4>
+                        <% for(let i = 0; i < users.length; i++) { %> 
+                            <% if(!currentUser._id.equals(users[i]._id)) { %>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
+                                        name="associate" value="<%= users[i]._id %>">
+                                    <label class="custom-control-label newbookLabel" for="<%= 'associate' + i %>">
+                                        <%= users[i].username %>
+                                    </label>
+                                </div>
+                            <% } %>
+                        <% } %> 
+                    </div>    
+                    
+                    <button type="submit" class="btn btn-lg btn-block btn-dark my-4">Create Book</button>
+                    <a href="/greybook">Go Back</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <h4>Add associates:</h4>
-    <% for(let i = 0; i < users.length; i++) { %> 
-        <% if(!currentUser._id.equals(users[i]._id)) { %>
-            <div>
-                <label for="<%= 'associate' + i %>"><%= users[i].username %></label>
-                <input type="checkbox" id="<%= 'associate' + i %>" name="associate" value="<%= users[i]._id %>">
-            </div>
-        <% } %>
-    <% } %> 
-    <button>Create Book</button>
-</form>
-<a href="/greybook">Go back</a>
+</div>
 
 <%- include("../partials/footer") %>
