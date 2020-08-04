@@ -25,7 +25,8 @@ body {
     margin-left: 8px;
 }
 
-/* navbar stylings */
+
+/* NAVBAR stylings */
 #navbarContent .nav-link {
     font-weight: 300;
     font-size: 1.2rem;
@@ -42,7 +43,8 @@ body {
     font-weight: 200;
 }
 
-/* carousel stylings */
+
+/* CAROUSEL stylings */
 /* Carousel base class */
 .carousel {
     margin-bottom: 4rem;
@@ -70,7 +72,8 @@ body {
     border-color: #f5f5f5;
 }
 
-/* home stylings */
+
+/* HOME stylings */
 .homeBookTitle {
     font-size: 1.6rem;
     font-weight: 200;
@@ -107,7 +110,8 @@ hr.gallery {
     margin-bottom: 2rem;
 }
 
-/* new book stylings */
+
+/* CREATE NEW BOOK stylings */
 .container-newbook {
     margin-top: 6rem;
     text-align: center;
@@ -147,3 +151,6 @@ hr.gallery {
     border-radius: 0.4rem;
     background: white;
 }
+
+
+/* SHOW BOOK stylings */
