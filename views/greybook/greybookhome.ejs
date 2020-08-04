@@ -81,11 +81,11 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
                         <a href="/greybook/<%= book._id %>">
-                            <img src="img/book1.jpg" class="card-img-top" alt="...">
+                            <img src="<%= book.cover %>" class="card-img-top" alt="...">
                         </a>
                         <div class="card-body homeCardBody">
                             <a class="card-title text-light homeBookTitle" href="/greybook/<%= book._id %>">
-                                <%= book.title %>
+                                <%= book.title %> (<%= book.type %>)
                             </a>
                         </div>
                     </div>
@@ -123,11 +123,11 @@
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
                             <a href="/greybook/<%= book._id %>">
-                                <img src="img/book1.jpg" class="card-img-top" alt="...">
+                                <img src="<%= book.cover %>" class="card-img-top" alt="...">
                             </a>
                             <div class="card-body homeCardBody">
                                 <a class="card-title text-light homeBookTitle" href="/greybook/<%= book._id %>">
-                                    <%= book.title %>
+                                    <%= book.title %> (<%= book.type %>)
                                 </a>
                             </div>
                         </div>

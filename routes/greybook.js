@@ -75,6 +75,8 @@ router.get("/greybook/:bookid", middleware.isLoggedIn, async (req, res) => {
 			.populate("entries")
 			.populate("comments")
 			.exec();
+			
+		// if statement here to branch for rendering between bookTypes...
 		res.render("greybook/greybookshow", {book: foundBook});
 
 	} catch(error) {
