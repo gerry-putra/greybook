@@ -35,11 +35,13 @@ router.get("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 // Greybook CREATE NEW BOOK Route
 router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	let	title	= req.body.title,
+		type	= req.body.type,
+		cover	= req.body.cover,
 		author	= {
 			id		: req.user._id,
 			username: req.user.username
 		};
-	let bookObj	= {title: title, author: author};
+	let bookObj	= {title: title, type: type, cover: cover, author: author};
 
 	try {
 		let newBook			= await Book.create(bookObj);
