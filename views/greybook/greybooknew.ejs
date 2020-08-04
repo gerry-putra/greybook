@@ -21,20 +21,22 @@
                         45 characters max.
                     </small>
 
-                    <div>
+                    <label class="mt-4 d-block text-left newbookLabel">Book Cover </label>
+                    <div class="coverSelectBox">
                         <div>
-                            <select class="form-control form-control-lg" name="type" id="booktype">
-                                <option value="loanbook">Loan Record Book</option>
-                                <option value="cookbook">Cook Book</option>
+                            <select class="form-control form-control-lg" name="cover" id="bookcover">
+                                <option value="/img/book1.jpg">GreyBook Cover Image 1</option>
+                                <option value="/img/book2.jpg">GreyBook Cover Image 2</option>
+                                <option value="/img/book3.jpg">GreyBook Cover Image 3</option>
                             </select>
                         </div>
                         <div>
-                            <img src="" alt="">
+                            <img src="/img/book1.jpg" id="coverImage" class="rounded mx-auto img-fluid d-block coverSelectImg">
                         </div>
                     </div>
-                
-                    <div class="addAssoBox my-5">
-                        <h4 class="addAssoLabel">Add associates:</h4>
+
+                    <label class="mt-4 d-block text-left newbookLabel">Add associates </label>
+                    <div class="addAssoBox">
                         <% for(let i = 0; i < users.length; i++) { %> 
                             <% if(!currentUser._id.equals(users[i]._id)) { %>
                                 <div class="custom-control custom-checkbox">
@@ -48,12 +50,20 @@
                         <% } %> 
                     </div>    
                     
-                    <button type="submit" class="btn btn-lg btn-block btn-dark my-4">Create Book</button>
+                    <button type="submit" class="btn btn-lg btn-block btn-dark mt-5 mb-3">Create Book</button>
                     <a href="/greybook">Go Back</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $("#bookcover").change(function(){
+            $("img[id=coverImage]").attr("src",$(this).val());
+        });
+    });
+</script>
 
 <%- include("../partials/footer") %>

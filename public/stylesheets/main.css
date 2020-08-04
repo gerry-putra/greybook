@@ -126,12 +126,21 @@ hr.gallery {
     background: white;
 }
 
-.addAssoLabel {
-    font-weight: 300;
-}
-
 .formHeader {
     font-weight: 200;
     font-size: 2.2rem;
     letter-spacing: 0.1rem;
+}
+
+.coverSelectImg {
+    width: 50%;
+    padding-top: 1rem;
+}
+
+.coverSelectBox {
+    padding: 1.5rem;
+    text-align: left;
+    border: 0.04em solid lightgray;
+    border-radius: 0.4rem;
+    background: white;
 }
