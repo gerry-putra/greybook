@@ -2,64 +2,51 @@
 
 <div class="container-fluid pt-5 containerShowbook">
     <div class="row border">
-        <div class="col-md-3 d-none d-md-block bd-sidebar border border-left-0 showSidebar">
-            <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-3">
-            <h4>Book of '<%= book.title %>'</h4>
+        <div class="col-3 d-none d-md-block bd-sidebar shadow showSidebar">
+            <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
+            
+            <div class="px-3">
+                <div id="bookInfoHeader">
+                    <h4><%= book.title %></h4>
+                    <h5><%= book.type %></h5>
+                    <hr>
+                </div>
+            
+                <div id="bookInfoDesc" class="py-1">
+                    <p><%= book.desc %></p>
+                </div>
 
-            <h5>Type: <%= book.type %> </h5>
-
-            <h6>Author: <%= book.author.username %> </h6>
-
-            <h6 class="d-inline">Associates: </h6>
-            <% for(let i = 0; i < book.associates.length; i++) { %>
-                <% if(i < book.associates.length - 1) { %>
-                    <span><strong><%= book.associates[i].username %>,</strong></span>
-                <% } else { %>
-                    <span><strong><%= book.associates[i].username %></strong></span>
-                <% } %>         
-            <% } %> 
-
-            <em><h6 class="mt-3">Created: <%= book.created.toDateString() %></h6></em>
-
-            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                <a href="/greybook/<%= book._id %>/bookedit">Edit book</a>
-            <% } %> 
-            <a class="pl-3" href="/greybook">Go back</a>
+                <div class="mb-3" id="bookInfoAssoAuthor">
+                    <h6 class="d-inline">Associates: </h6>
+                    <% for(let i = 0; i < book.associates.length; i++) { %>
+                        <% if(i < book.associates.length - 1) { %>
+                            <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
+                        <% } else { %>
+                            <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
+                        <% } %>         
+                    <% } %> 
+        
+                    <h6>Author: <strong><%= book.author.username %></strong></h6>
+                    <h6>Created on: <strong><%= book.created.toDateString() %></strong></h6>
+                </div>
+                
+                <div class="pb-4" id="bookInfoEditGoback">
+                    <a href="/greybook">Go back</a>
+                    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                        <a class="pl-3" href="/greybook/<%= book._id %>/bookedit">Edit book</a>
+                    <% } %> 
+                </div>
+            </div>
         </div>
-        <div class="col-12 col-md-9 border">
-            <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
-            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                <form action="/greybook/<%= book._id %>/newentry" method="POST">
-                    <h3>Add new entry: </h3>
-                    <input type="date" name="date" required>
-                    <input type="text" placeholder="Description" name="description"required>
-                    <input type="number" placeholder="Amount" name="amount" required>
-                
-                    <label for="entryType">Entry type:</label>
-                    <select id="entryType" name="entrytype">
-                        <option value="loan">Loan</option>
-                        <option value="payment">Payment</option>
-                    </select>
-                
-                    <label for="tofrom">To/From:</label>
-                    <select name="tofrom" id="tofrom">
-                        <% for(let associate of book.associates) { %>
-                            <option value="<%= associate.id %>">
-                                <%= associate.username %>
-                            </option>
-                        <% } %> 
-                    </select>
-                
-                    <button>Add entry</button>
-                </form>
-            <% } %>
+            
+        
 
+        <div class="col-9 mt-4">
             <!-- SHOW ENTRIES -->
-            <hr>
             <div>
                 <h3>View all entries: </h3>
                 <% if(book.entries.length === 0) { %>
-                    <p>No entries</p>
+                    <p>There are no entries</p>
                 <% } else { %>
                     <table id="entriesDisp">
                         <tr>
@@ -93,6 +80,32 @@
                     </table>
                 <% } %>
             </div>
+            <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
+            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                <form action="/greybook/<%= book._id %>/newentry" method="POST">
+                    <h3>Add new entry: </h3>
+                    <input type="date" name="date" required>
+                    <input type="text" placeholder="Description" name="description"required>
+                    <input type="number" placeholder="Amount" name="amount" required>
+                
+                    <label for="entryType">Entry type:</label>
+                    <select id="entryType" name="entrytype">
+                        <option value="loan">Loan</option>
+                        <option value="payment">Payment</option>
+                    </select>
+                
+                    <label for="tofrom">To/From:</label>
+                    <select name="tofrom" id="tofrom">
+                        <% for(let associate of book.associates) { %>
+                            <option value="<%= associate.id %>">
+                                <%= associate.username %>
+                            </option>
+                        <% } %> 
+                    </select>
+                
+                    <button>Add entry</button>
+                </form>
+            <% } %>
 
             <!-- SHOW COMMENTS -->
             <div>
