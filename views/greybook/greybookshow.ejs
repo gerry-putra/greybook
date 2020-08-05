@@ -2,6 +2,7 @@
 
 <div class="container-fluid pt-5 containerShowbook">
     <div class="row border">
+
         <div class="col-xl-3 bd-sidebar shadow showSidebar">
             <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
             
@@ -11,11 +12,9 @@
                     <h5><%= book.type %></h5>
                     <hr>
                 </div>
-            
                 <div id="bookInfoDesc" class="py-1">
                     <p><%= book.desc %></p>
                 </div>
-
                 <div class="mb-3" id="bookInfoAssoAuthor">
                     <h6 class="d-inline">Associates: </h6>
                     <% for(let i = 0; i < book.associates.length; i++) { %>
@@ -29,7 +28,6 @@
                     <h6>Author: <strong><%= book.author.username %></strong></h6>
                     <h6>Created on: <strong><%= book.created.toDateString() %></strong></h6>
                 </div>
-                
                 <div class="pb-4" id="bookInfoEditGoback">
                     <a href="/greybook">Go back</a>
                     <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
@@ -37,9 +35,8 @@
                     <% } %> 
                 </div>
             </div>
-        </div>
-            
-        
+
+        </div> <!--- LEFT column (sidebar) end --->
 
         <div class="col-xl-9 mt-4" id="rightContent">
             <!-- SHOW ENTRIES -->
@@ -75,59 +72,105 @@
             </div>
 
             <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
-            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                <form action="/greybook/<%= book._id %>/newentry" method="POST">
-                    <h3>Add new entry: </h3>
-                    <input type="date" name="date" required>
-                    <input type="text" placeholder="Description" name="description"required>
-                    <input type="number" placeholder="Amount" name="amount" required>
+            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>     
+                <div class="accordion my-5 accordionCollapse" id="addEntryCollapse">
+                    <div class="card shadow-sm">
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-center accordionBtn" 
+                                type="button" data-toggle="collapse" data-target="#addEntryMenu" 
+                                aria-expanded="true" aria-controls="addEntryMenu">Add New Entry  
+                            </button>
+                            </h2>
+                        </div>
                 
-                    <label for="entryType">Entry type:</label>
-                    <select id="entryType" name="entrytype">
-                        <option value="loan">Loan</option>
-                        <option value="payment">Payment</option>
-                    </select>
-                
-                    <label for="tofrom">To/From:</label>
-                    <select name="tofrom" id="tofrom">
-                        <% for(let associate of book.associates) { %>
-                            <option value="<%= associate.id %>">
-                                <%= associate.username %>
-                            </option>
-                        <% } %> 
-                    </select>
-                
-                    <button>Add entry</button>
-                </form>
+                        <div id="addEntryMenu" class="collapse px-5 pt-2" aria-labelledby="headingOne" 
+                            data-parent="#addEntryCollapse">
+                            <div class="card-body">
+                                <form action="/greybook/<%= book._id %>/newentry" method="POST">
+                                    <div class="form-group">
+                                        <label for="entryDateInput">Date </label>
+                                        <input class="form-control" type="date" name="date" id="entryDateInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="entryDescInput">Description </label>
+                                        <input class="form-control" type="text" name="description" id="entryDescInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="entryAmountInput">Amount </label>
+                                        <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="entryType">Entry Type </label>
+                                        <select class="form-control" id="entryType" name="entrytype">
+                                            <option value="loan">Loan</option>
+                                            <option value="payment">Payment</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tofrom">To/From </label>
+                                        <select class="form-control" id="tofrom" name="tofrom">
+                                            <% for(let associate of book.associates) { %>
+                                                <option value="<%= associate.id %>">
+                                                    <%= associate.username %>
+                                                </option>
+                                            <% } %> 
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-lg btn-block btn-dark mt-5 mb-4">Add Entry</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <% } %>
-
+            
             <!-- SHOW COMMENTS -->
-            <div>
-                <hr>
-                <h3>Comments: </h3>
-                <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
-                    <label for="TnewComment">New comment: </label>
-                    <input type="text" name="newcomment" id="newComment" placeholder="Enter comment here...">
-                    <button>Add comment</button>
-                </form>
-                <hr>
-                <% if(book.comments.length === 0) { %>
-                    <p>No comments.</p>
-                <% } else { %>
-                    <% for(let comment of book.comments) { %>
-                        <strong><%= comment.author.username %></strong>
-                        <span>3 days ago</span>
-                        <p><%= comment.text %></p>
-                        <% if(currentUser && currentUser._id.equals(comment.author.id)) { %>
-                            <!-- Edit comment page -->
-                            <a href="/greybook/<%= book._id %>/comment/<%= comment.id %>/commentedit">Edit</a>
-                        <% } %> 
-                        <hr>
-                    <% } %>
-                <% } %> 
+            <div class="accordion my-5 accordionCollapse" id="commentCollapse">
+                <div class="card shadow-sm">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-center accordionBtn" 
+                            type="button" data-toggle="collapse" data-target="#commentMenu" 
+                            aria-expanded="true" aria-controls="commentMenu">Comments  
+                        </button>
+                        </h2>
+                    </div>
+            
+                    <div id="commentMenu" class="collapse show px-5 pt-2" aria-labelledby="headingOne" 
+                        data-parent="#commentCollapse">
+                        <div class="card-body">
+                            <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
+                                <div class="form-group">
+                                    <label for="newComment">New comment </label>
+                                    <input class="form-control" type="text" name="newcomment" id="newComment">
+                                </div>
+                                
+                                <button class="btn btn-lg btn-block btn-dark my-4">Add Comment</button>
+                            </form>
+                            <hr>
+                            <% if(book.comments.length === 0) { %>
+                                <p>No comments.</p>
+                            <% } else { %>
+                                <% for(let comment of book.comments) { %>
+                                    <strong><%= comment.author.username %></strong>
+                                    <span>3 days ago</span>
+                                    <p><%= comment.text %></p>
+                                    <% if(currentUser && currentUser._id.equals(comment.author.id)) { %>
+                                        <!-- Edit comment page -->
+                                        <a href="/greybook/<%= book._id %>/comment/<%= comment.id %>/commentedit">Edit</a>
+                                    <% } %> 
+                                    <hr>
+                                <% } %>
+                            <% } %> 
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</div>
+            
+        </div> <!--- RIGHT column end --->
+
+    </div> <!--- main row end --->
+</div> <!--- main container end --->
 
 <%- include("../partials/footer") %>

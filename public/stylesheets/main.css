@@ -218,8 +218,17 @@ hr.gallery {
     color: #525252;
 }
 
-#newComment {
-    min-width: 30%;
-    margin-right: 8px;
-    margin-left: 8px;
+.accordionBtn {
+    color: #525252;
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 0.2rem;
+}
+.accordionBtn:hover {
+    color: #979797;
+    text-decoration: none;
+}
+
+.accordionCollapse .card {
+    background-color: #ededed;
 }
