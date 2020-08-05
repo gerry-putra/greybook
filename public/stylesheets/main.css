@@ -196,8 +196,26 @@ hr.gallery {
 }
 
 /* RIGHT SIDE */
-#entriesDisp td,th {
-    padding-right: 32px;
+#viewEntriesHeader {
+    font-weight: 200;
+    font-size: 3rem;
+    letter-spacing: 0.3rem;
+}
+
+#entriesTable th {
+    letter-spacing: 0.01rem;
+    font-weight: 500;
+    font-size: 1rem;
+    color: #525252;
+}
+
+#entriesTable td {
+    font-weight: 300;
+    color: #525252;
+}
+
+#rightContent {
+    color: #525252;
 }
 
 #newComment {

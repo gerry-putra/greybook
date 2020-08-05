@@ -1,0 +1,9 @@
+// Edit entry trigger (previously from table)
+
+<% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+    <td>
+        <a href="/greybook/<%= book._id %>/<%= entry._id %>/editentry">
+            Edit entry
+        </a>
+    </td>
+<% } %> 

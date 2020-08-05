@@ -41,20 +41,20 @@
             
         
 
-        <div class="col-xl-9 mt-4">
+        <div class="col-xl-9 mt-4" id="rightContent">
             <!-- SHOW ENTRIES -->
             <div>
-                <h3>View all entries: </h3>
+                <h3 class="py-2" id="viewEntriesHeader">Book Entries</h3>
                 <% if(book.entries.length === 0) { %>
                     <p>There are no entries</p>
                 <% } else { %>
-                    <table class="table table-striped" id="entriesDisp">
+                    <table class="table table-striped" id="entriesTable">
                         <tr>
-                            <th><strong>Date</strong></th>
-                            <th><strong>Description</strong></th>
-                            <th><strong>Amount</strong></th>
-                            <th><strong>Type</strong></th>
-                            <th><strong>To/from</strong></th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>To/from</th>
                         </tr>
                         <% for(let entry of book.entries) { %>
                             <tr>
@@ -62,24 +62,18 @@
                                 <td><%= entry.description %></td>
                                 
                                 <% if(entry.type === "payment") { %>
-                                    <td>-$ <%= entry.amount %></td>
+                                    <td class="text-success">-$ <%= entry.amount %></td>
                                 <% } else { %>
                                     <td>$ <%= entry.amount %></td>
                                 <% } %>
                                 <td><%= entry.type.toUpperCase() %></td>
                                 <td><%= entry.tofrom.username %></td>
-                                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                                    <td>
-                                        <a href="/greybook/<%= book._id %>/<%= entry._id %>/editentry">
-                                            Edit entry
-                                        </a>
-                                    </td>
-                                <% } %> 
                             </tr>
                         <% } %>
                     </table>
                 <% } %>
             </div>
+
             <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
             <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
                 <form action="/greybook/<%= book._id %>/newentry" method="POST">
