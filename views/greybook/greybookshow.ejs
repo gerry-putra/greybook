@@ -2,7 +2,7 @@
 
 <div class="container-fluid pt-5 containerShowbook">
     <div class="row border">
-        <div class="col-3 d-none d-md-block bd-sidebar shadow showSidebar">
+        <div class="col-xl-3 bd-sidebar shadow showSidebar">
             <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
             
             <div class="px-3">
@@ -41,14 +41,14 @@
             
         
 
-        <div class="col-9 mt-4">
+        <div class="col-xl-9 mt-4">
             <!-- SHOW ENTRIES -->
             <div>
                 <h3>View all entries: </h3>
                 <% if(book.entries.length === 0) { %>
                     <p>There are no entries</p>
                 <% } else { %>
-                    <table id="entriesDisp">
+                    <table class="table table-striped" id="entriesDisp">
                         <tr>
                             <th><strong>Date</strong></th>
                             <th><strong>Description</strong></th>
