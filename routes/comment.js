@@ -31,17 +31,6 @@ router.post("/greybook/:bookid/comment/newcomment", middleware.isLoggedIn, async
 	
 });
 
-// EDIT Comment Route
-router.get("/greybook/:bookid/comment/:commentid/commentedit", middleware.checkCommentOwnership, async (req, res) => {
-	try {
-		let foundComment	= await Comment.findById(req.params.commentid);
-		res.render("greybook/commentedit", {book_id: req.params.bookid, comment: foundComment});
-	} catch(error) {
-		req.flash("error", "Error when retrieving comment from database...");
-		res.redirect("/greybook/" + req.params.bookid);
-	}
-});
-
 // UPDATE Comment Route
 router.put("/greybook/:bookid/comment/:commentid", middleware.checkCommentOwnership, async (req, res) => {
 	try {

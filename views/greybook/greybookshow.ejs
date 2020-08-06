@@ -3,6 +3,7 @@
 <div class="container-fluid pt-5 containerShowbook">
     <div class="row border">
 
+        <!-- LEFT COLUMN SIDEBAR HERE -->
         <div class="col-xl-3 bd-sidebar shadow showSidebar">
             <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
             
@@ -37,6 +38,7 @@
             </div>
         </div> <!--- LEFT column (sidebar) end --->
 
+        <!-- RIGHT COLUMN HERE -->
         <div class="col-xl-9 mt-4 px-0 px-lg-5" id="rightContent">
             <!-- SHOW ENTRIES -->
             <div>
@@ -133,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-            <% } %>
+            <% } %> <!-- Add new entry section ends here -->
             
             <!-- SHOW COMMENTS -->
             <div class="accordion my-5 accordionCollapse" id="commentCollapse">
@@ -161,22 +163,44 @@
                             <hr>
                             <% if(book.comments.length === 0) { %>
                                 <p class="noEntriesComment">No comments.</p>
+
                             <% } else { %>
                                 <% for(let i = book.comments.length - 1; i >= 0; i--) { %>
                                     <strong><%= book.comments[i].author.username %></strong>
-                                    <span class="pl-3"><%= moment(book.comments[i].created).fromNow() %></span>
-                                    <p id="commentText"><%= book.comments[i].text %></p>
+                                    <span class="float-right"><%= moment(book.comments[i].created).fromNow() %></span>
+                                    
+                                    <!-- Edit COMMENT section STARTS here -->
                                     <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>
-                                        <!-- Edit comment page -->
-                                        <a href="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>/commentedit">Edit</a>
-                                    <% } %> 
+                                        
+                                        <a class="pl-3" data-toggle="collapse" href="#collapseExample<%= i %>" role="button" 
+                                        aria-expanded="false" aria-controls="collapseExample<%= i %>">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        <div class="collapse" id="collapseExample<%= i %>">
+                                            <div class="">
+                                                <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
+                                                    <div class="form-group">
+                                                        <input class="form-control mt-3" type="text" name="comment" 
+                                                            id="comment" value="<%= book.comments[i].text %>">
+                                                        <button class="btn btn-dark mt-3">Update</button>
+                                                    </div>
+                                                </form>
+                                                <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
+                                                    <button class="btn btn-sm btn-outline-danger mb-4">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    <% } %> <!-- Edit comment ends here -->
+
+                                    <p id="commentText"><%= book.comments[i].text %></p>
                                     <hr>
                                 <% } %>
                             <% } %> 
                         </div>
                     </div>
                 </div>
-            </div>
+
+            </div> <!-- Comment section ends here -->
             
         </div> <!--- RIGHT column end --->
 
