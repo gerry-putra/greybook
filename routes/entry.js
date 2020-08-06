@@ -36,14 +36,14 @@ router.post("/greybook/:bookid/newentry", middleware.checkBookOwnership, async (
 });
 
 // EDIT Entry Route
-router.get("/greybook/:bookid/:entryid/editentry", middleware.checkBookOwnership, async (req, res) => {
+router.get("/greybook/:bookid/entry/:entryid/editentry", middleware.checkBookOwnership, async (req, res) => {
 	let foundBook	= await Book.findById(req.params.bookid);
 	let foundEntry	= await Entry.findById(req.params.entryid);
 	res.render("greybook/entryedit", {book: foundBook, entry: foundEntry});
 });
 
 // UPDATE Entry Route
-router.put("/greybook/:bookid/:entryid", middleware.checkBookOwnership, async (req, res) => {
+router.put("/greybook/:bookid/entry/:entryid", middleware.checkBookOwnership, async (req, res) => {
 	let	description	= req.body.description,
 		amount		= req.body.amount,
 		type		= req.body.entrytype;
@@ -66,7 +66,7 @@ router.put("/greybook/:bookid/:entryid", middleware.checkBookOwnership, async (r
 });
 
 // DELETE Entry Route
-router.delete("/greybook/:bookid/:entryid", middleware.checkBookOwnership, async (req, res) => {
+router.delete("/greybook/:bookid/entry/:entryid", middleware.checkBookOwnership, async (req, res) => {
     try {
         let deletedEntry    = await Entry.findByIdAndRemove(req.params.entryid);
         let foundBook       = await Book.findById(req.params.bookid);

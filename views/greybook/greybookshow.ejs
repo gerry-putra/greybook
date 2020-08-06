@@ -37,7 +37,7 @@
             </div>
         </div> <!--- LEFT column (sidebar) end --->
 
-        <div class="col-xl-9 mt-4 px-lg-5" id="rightContent">
+        <div class="col-xl-9 mt-4 px-0 px-lg-5" id="rightContent">
             <!-- SHOW ENTRIES -->
             <div>
                 <h3 class="py-2" id="viewEntriesHeader">Book Entries</h3>
@@ -64,6 +64,13 @@
                                 <% } %>
                                 <td><%= entry.type.toUpperCase() %></td>
                                 <td id="entryTofrom"><%= entry.tofrom.username %></td>
+                                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                                    <td id="editEntryBtn">
+                                        <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+                                <% } %> 
                             </tr>
                         <% } %>
                     </table>
@@ -88,11 +95,11 @@
                             <div class="card-body">
                                 <form action="/greybook/<%= book._id %>/newentry" method="POST">
                                     <div class="form-group">
-                                        <label for="entryDateInput">Date </label>
+                                        <label class="showBookLabels" for="entryDateInput">Date </label>
                                         <input class="form-control" type="date" name="date" id="entryDateInput" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="entryDescInput">Description </label>
+                                        <label class="showBookLabels" for="entryDescInput">Description </label>
                                         <input class="form-control" type="text" name="description" 
                                             id="entryDescInput" maxlength="72" required>
                                         <small class="form-text text-muted text-left pl-1">
@@ -100,18 +107,18 @@
                                         </small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="entryAmountInput">Amount </label>
+                                        <label class="showBookLabels" for="entryAmountInput">Amount </label>
                                         <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="entryType">Entry Type </label>
+                                        <label  class="showBookLabels"for="entryType">Entry Type </label>
                                         <select class="form-control" id="entryType" name="entrytype">
                                             <option value="loan">Loan</option>
                                             <option value="payment">Payment</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tofrom">To/From </label>
+                                        <label class="showBookLabels" for="tofrom">To/From </label>
                                         <select class="form-control" id="tofrom" name="tofrom">
                                             <% for(let associate of book.associates) { %>
                                                 <option value="<%= associate.id %>">
@@ -145,7 +152,7 @@
                         <div class="card-body">
                             <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
                                 <div class="form-group">
-                                    <label for="newComment">New comment </label>
+                                    <label class="showBookLabels" for="newComment">New comment </label>
                                     <input class="form-control" type="text" name="newcomment" id="newComment">
                                 </div>
                                 

@@ -1,0 +1,15 @@
+.editEntryContainer {
+    margin-top: 6rem;
+}
+
+.editEntryContainer h1 {
+    font-weight: 200;
+    font-size: 2.2rem;
+    letter-spacing: 0.1rem;
+    text-align: center;
+}
+
+.editEntryContainer label {
+    font-weight: 200;
+}
+

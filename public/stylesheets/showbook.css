@@ -52,13 +52,15 @@
     padding-top: 1rem;
 }
 
-
-
 /* RIGHT SIDE */
 #viewEntriesHeader {
     font-weight: 200;
     font-size: 3rem;
     letter-spacing: 0.3rem;
+}
+
+#entriesTable {
+    border: none;
 }
 
 #entriesTable #entryDesc,#entryTofrom {
@@ -79,6 +81,7 @@
 
 #rightContent {
     color: #525252;
+    border: none;
 }
 
 .accordionBtn {
@@ -103,4 +106,8 @@
     letter-spacing: 0.18rem;
     font-weight: 300;
     padding-top: 1.2rem;
+}
+
+.showBookLabels {
+    font-weight: 200;
 }
