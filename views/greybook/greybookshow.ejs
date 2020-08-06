@@ -26,7 +26,7 @@
                     <% } %> 
         
                     <h6>Author: <strong><%= book.author.username %></strong></h6>
-                    <h6>Created on: <strong><%= book.created.toDateString() %></strong></h6>
+                    <h6>Created: <em><%= book.created.toDateString() %> </em><strong>(<%= moment(book.created).fromNow() %>)</strong></h6>
                 </div>
                 <div class="pb-4" id="bookInfoEditGoback">
                     <a href="/greybook">Go back</a>
@@ -155,13 +155,13 @@
                             <% if(book.comments.length === 0) { %>
                                 <p class="noEntriesComment">No comments.</p>
                             <% } else { %>
-                                <% for(let comment of book.comments) { %>
-                                    <strong><%= comment.author.username %></strong>
-                                    <span>3 days ago</span>
-                                    <p><%= comment.text %></p>
-                                    <% if(currentUser && currentUser._id.equals(comment.author.id)) { %>
+                                <% for(let i = book.comments.length - 1; i >= 0; i--) { %>
+                                    <strong><%= book.comments[i].author.username %></strong>
+                                    <span class="pl-3"><%= moment(book.comments[i].created).fromNow() %></span>
+                                    <p id="commentText"><%= book.comments[i].text %></p>
+                                    <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>
                                         <!-- Edit comment page -->
-                                        <a href="/greybook/<%= book._id %>/comment/<%= comment.id %>/commentedit">Edit</a>
+                                        <a href="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>/commentedit">Edit</a>
                                     <% } %> 
                                     <hr>
                                 <% } %>

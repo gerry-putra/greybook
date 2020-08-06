@@ -21,6 +21,7 @@ app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public")); // Tell express to serve the public directory...
 app.use(methodOverride("_method")); // Lets you use the HTTP (PUT or DELETE) where its not supported.
 app.use(flash());
+app.locals.moment = require('moment');
 
 
 //=========================
