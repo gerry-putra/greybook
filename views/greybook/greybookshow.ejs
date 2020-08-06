@@ -35,7 +35,6 @@
                     <% } %> 
                 </div>
             </div>
-
         </div> <!--- LEFT column (sidebar) end --->
 
         <div class="col-xl-9 mt-4 px-lg-5" id="rightContent">
@@ -43,7 +42,7 @@
             <div>
                 <h3 class="py-2" id="viewEntriesHeader">Book Entries</h3>
                 <% if(book.entries.length === 0) { %>
-                    <p>There are no entries</p>
+                    <p class="noEntriesComment">There are no entries.</p>
                 <% } else { %>
                     <table class="table table-striped" id="entriesTable">
                         <tr>
@@ -56,7 +55,7 @@
                         <% for(let entry of book.entries) { %>
                             <tr>
                                 <td><%= entry.date %></td>
-                                <td><%= entry.description %></td>
+                                <td id="entryDesc"><%= entry.description %></td>
                                 
                                 <% if(entry.type === "payment") { %>
                                     <td class="text-success">-$ <%= entry.amount %></td>
@@ -64,7 +63,7 @@
                                     <td>$ <%= entry.amount %></td>
                                 <% } %>
                                 <td><%= entry.type.toUpperCase() %></td>
-                                <td><%= entry.tofrom.username %></td>
+                                <td id="entryTofrom"><%= entry.tofrom.username %></td>
                             </tr>
                         <% } %>
                     </table>
@@ -94,7 +93,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="entryDescInput">Description </label>
-                                        <input class="form-control" type="text" name="description" id="entryDescInput" required>
+                                        <input class="form-control" type="text" name="description" 
+                                            id="entryDescInput" maxlength="72" required>
+                                        <small class="form-text text-muted text-left pl-1">
+                                            Give your entry a brief description of what it is about. 72 characters max.
+                                        </small>
                                     </div>
                                     <div class="form-group">
                                         <label for="entryAmountInput">Amount </label>
@@ -150,7 +153,7 @@
                             </form>
                             <hr>
                             <% if(book.comments.length === 0) { %>
-                                <p>No comments.</p>
+                                <p class="noEntriesComment">No comments.</p>
                             <% } else { %>
                                 <% for(let comment of book.comments) { %>
                                     <strong><%= comment.author.username %></strong>

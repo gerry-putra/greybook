@@ -1,16 +1,10 @@
 /* SHOW BOOK stylings */
 /* LEFT SIDE */
-.showSidebar {
-    background: #7a7a7a;
-    color: #dadada;
-    min-height: calc(100vh - 50px);
-    padding-top: 1rem;
-}
-
 #bookInfoHeader h4 {
     font-weight: 300;
     font-size: 2.5rem;
     letter-spacing: 0.3rem;
+    overflow-wrap: break-word;
 }
 
 #bookInfoHeader h5 {
@@ -27,6 +21,7 @@
     font-weight: 400;
     font-size: 1.2rem;
     letter-spacing: 0.18rem;
+    overflow-wrap: break-word;
 }
 
 #bookInfoAssoAuthor span {
@@ -50,12 +45,24 @@
     text-decoration: none;
 }
 
+.showSidebar {
+    background: #7a7a7a;
+    color: #dadada;
+    min-height: calc(100vh - 50px);
+    padding-top: 1rem;
+}
+
+
 
 /* RIGHT SIDE */
 #viewEntriesHeader {
     font-weight: 200;
     font-size: 3rem;
     letter-spacing: 0.3rem;
+}
+
+#entriesTable #entryDesc,#entryTofrom {
+    word-break: break-all;
 }
 
 #entriesTable th {
@@ -87,4 +94,13 @@
 
 .accordionCollapse .card {
     background-color: #ededed;
+}
+
+.noEntriesComment {
+    text-align: center;
+    color: #525252;
+    font-size: 1.1rem;
+    letter-spacing: 0.18rem;
+    font-weight: 300;
+    padding-top: 1.2rem;
 }

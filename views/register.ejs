@@ -21,9 +21,9 @@
         <form action="/register" method="POST">
             <div class="form-group">
                 <label for="registerUsername">Username</label>
-                <input type="text" class="form-control form-control-lg" id="registerUsername" name="username" required>
+                <input type="text" class="form-control form-control-lg" id="registerUsername" name="username" maxlength="16" required>
                 <small id="#registerUsername" class="form-text text-muted pl-1">
-                    Will be used to sign in and be your GreyBook public identity.
+                    Will be used to sign in and be your GreyBook public identity. 16 characters max.
                 </small>
             </div>
 
