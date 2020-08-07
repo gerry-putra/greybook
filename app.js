@@ -12,6 +12,7 @@ const   express         = require("express"),
 const 	indexRoutes		= require("./routes/index"),
 	 	greybookRoutes	= require("./routes/greybook"),
 	 	entryRoutes 	= require("./routes/entry"),
+	 	profileRoutes 	= require("./routes/profile"),
 	 	commentRoutes	= require("./routes/comment");
 
 // Set Up
@@ -54,6 +55,7 @@ app.use("/", indexRoutes);
 app.use("/", greybookRoutes);
 app.use("/", entryRoutes);
 app.use("/", commentRoutes);
+app.use("/", profileRoutes);
 
 
 app.listen(process.env.PORT || 3001, process.env.IP, () => {
