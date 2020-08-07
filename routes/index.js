@@ -20,20 +20,6 @@ router.get("/greybook/search/results", middleware.isLoggedIn, async (req, res) =
 	} else {
 		res.render("user_search/searchresult", {users: foundUsers});
 	}
-
-	
-	// try {
-	// 	let response2 = await axios.get(url);
-	// 	let searchData = response2.data.Search;
-	// 	if(searchData !== undefined) {
-	// 		response.render("results", {data: searchData});
-	// 	} else {
-	// 		response.render("noResult");
-	// 	}
-	// } catch(error) {
-	// 	console.log("Something gone wrong!");
-	// 	console.log(error);
-	// }
 });
 
 // LOGIN route
