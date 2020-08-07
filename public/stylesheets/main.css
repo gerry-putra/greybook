@@ -37,7 +37,8 @@ body {
 .dropdown-menu {
     width: 26rem;
     height: 6rem;
-    background: #646464;
+    background: #525252;
+    border: none;
 }
 
 #search input {
