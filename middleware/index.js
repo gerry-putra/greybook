@@ -9,10 +9,42 @@ middlewareObj.checkBookOwnership = async (req, res, next) => {
             if(foundBook.author.id.equals(req.user._id)) {
                 next();
             } else {
-                req.flash("error", "You do not have permission to do that.");
+                req.flash("error", "Denied! You do not have permission to access.");
                 // "back" redirects user BACK to wherever they came from...
                 res.redirect("back");
             }
+        } catch(error) {
+            req.flash("error", "Error! Book not found.");
+            res.redirect("back");
+        }
+	} else {
+		req.flash("error", "You need to be logged in to do that.");
+		res.redirect("back");
+	}
+}
+
+middlewareObj.checkBookAndAssoOwnership = async (req, res, next) => {
+    if(req.isAuthenticated()) {
+        try {
+            let foundBook   	= await Book.findById(req.params.bookid);
+                if(foundBook.author.id.equals(req.user._id)) {
+                    next();
+                } else if(foundBook.associates.length > 0) {
+                    foundBook.associates.forEach((asso) => {
+                        if(asso.id.equals(req.user._id)) {
+                            next();
+                        } else {
+                            req.flash("error", "Denied! You do not have permission to access.");
+                            // "back" redirects user BACK to wherever they came from...
+                            res.redirect("back");
+                        }
+                    });
+                } else {
+                    req.flash("error", "Denied! You do not have permission to access.");
+                    // "back" redirects user BACK to wherever they came from...
+                    res.redirect("back");
+                }
+
         } catch(error) {
             req.flash("error", "Error! Book not found.");
             res.redirect("back");

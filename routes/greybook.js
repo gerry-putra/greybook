@@ -70,7 +70,7 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 });
 
 // Greybook SHOW BOOK Route
-router.get("/greybook/:bookid", middleware.isLoggedIn, async (req, res) => {
+router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req, res) => {
 	try {
 		let foundBook = await Book.findById(req.params.bookid)
 			.populate("entries")

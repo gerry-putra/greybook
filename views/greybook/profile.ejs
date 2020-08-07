@@ -2,8 +2,80 @@
 
 <h1>TESTING PROFILE PAGE!</h1>
 <h1>TESTING PROFILE PAGE!</h1>
-<h1>TESTING PROFILE PAGE!</h1>
+<hr>
 
-<h1></h1>
+<h1><%= user.username %> Profile Page</h1>
+<h3>Name: <%= user.firstname %> <%= user.lastname %></h3>
+<h3>Email Address: <%= user.email %></h3>
+<hr>
+
+<div class="container px-lg-0">
+    <h2 class="text-dark galleryLabel d-inline">Created Books</h2>
+    <hr class="gallery">
+    <div class="row text-center justify-content-around">
+
+        <% let count = 0; %> 
+        <% books.forEach((book) => { %>
+            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                <% count++; %> 
+                <div class="col-12 col-lg-6 col-xl-4">
+                    <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
+                        <a href="/greybook/<%= book._id %>">
+                            <img src="<%= book.cover %>" class="card-img-top" alt="...">
+                        </a>
+                        <div class="card-body homeCardBody">
+                            <a class="card-title text-light homeBookTitle" href="/greybook/<%= book._id %>">
+                                <%= book.title %> (<%= book.type %>)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        <% }); %> 
+        <% if(count == 0) { %>
+            <p class="noBookNotif pt-3">You do not have any created books.</p>
+            <div class="container pb-5 mb-3">
+                <div class="row justify-content-center">
+                    <a class="btn btn-lg btn-outline-dark" href="/greybook/new" role="button">
+                        Create One Now!
+                    </a>
+                </div>
+            </div>
+        <% } %>  
+
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+
+<div class="container mb-5">
+    <h2 class="text-dark galleryLabel">Associated Books</h2>
+    <hr class="gallery">
+    <div class="row text-center justify-content-around">
+
+        <% let countAsso = 0; %> 
+        <% assoBooks.forEach((assoBook) => { %>
+            <% countAsso++; %> 
+            <div class="col-12 col-lg-6 col-xl-4">
+                <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
+                    <a href="/greybook/<%= assoBook._id %>">
+                        <img src="<%= assoBook.cover %>" class="card-img-top" alt="...">
+                    </a>
+                    <div class="card-body homeCardBody">
+                        <a class="card-title text-light homeBookTitle" href="/greybook/<%= assoBook._id %>">
+                            <%= assoBook.title %> (<%= assoBook.type %>)
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+        <% if(countAsso == 0) { %>
+            <p class="noBookNotif pt-3">No associated books.</p>
+        <% } %> 
+
+    </div>
+</div>
 
 <%- include("../partials/footer") %>

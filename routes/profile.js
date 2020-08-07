@@ -6,19 +6,27 @@ const   express         = require("express"),
         User 	 		= require("../models/user"),
         middleware 		= require("../middleware");
 
-        
 //==================//
 //  PROFILE ROUTES  //
 //==================//
 // SHOW Profile Route
 router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, res) => {
-    let foundUser   = await User.findById(req.params.userid);
-    let foundBooks  = await Book.find({author: {id: foundUser._id, username: foundUser.username}});
-    res.render("greybook/profile", {user: user, books: foundBooks});
+    try {
+        let foundUser       = await User.findById(req.params.userid);
+        let foundBooks      = await Book.find({author: {id: foundUser._id, username: foundUser.username}});
+        let foundAssoBooks  = await Book.find({associates: {id: foundUser._id, username: foundUser.username}});
+        res.render("greybook/profile", {user: foundUser, books: foundBooks, assoBooks: foundAssoBooks});
+    } catch(error) {
+        res.redirect("back");
+    }
 });
 
 
 // EDIT Profile Route
+// Features: Edit names, upload profile pic, change password, change email address, add/remove Friends, 
+//           Link to Show All Books Page -- 
+//                in 'show all books' page show overalls for every books created/associated.
+
 // GET
 
 
