@@ -34,6 +34,19 @@ body {
     font-weight: 200;
 }
 
+.dropdown-menu {
+    width: 26rem;
+    height: 6rem;
+    background: #646464;
+}
+
+#search input {
+    width: 18rem;
+}
+#search small {
+    color: #bebebe;
+}
+
 
 
 

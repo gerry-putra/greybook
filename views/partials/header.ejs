@@ -40,6 +40,24 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" 
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Search
+                    </a>
+                    <div class="dropdown-menu pt-3" aria-labelledby="navbarDropdown">
+                        <form class="form-inline pl-3" id="search" action="/greybook/search/results" method="GET">
+                            <input class="form-control" name="search" type="search" 
+                                placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success ml-3" type="submit">Search</button>
+                            <small class="form-text text-left mt-2 ml-2">
+                                Search a user by their username.
+                            </small>
+                        </form>
+                    </div>
+                </li>
+
+                
                 <% if(!currentUser) { %> 
                     <li class="nav-item">
                         <a class="nav-link" href="/login">Sign in</a>

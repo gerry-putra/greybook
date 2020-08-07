@@ -1,7 +1,8 @@
 const   express         = require("express"),
         router          = express.Router(),
         passport		= require("passport"),
-        User 	 		= require("../models/user");
+		User 	 		= require("../models/user"),
+		middleware 		= require("../middleware");
         
 //================//
 //  INDEX ROUTES  //
@@ -9,6 +10,30 @@ const   express         = require("express"),
 //LANDING PAGE route
 router.get("/", (req, res) => {
     res.render("landing");
+});
+
+// User Search Result route
+router.get("/greybook/search/results", middleware.isLoggedIn, async (req, res) => {
+	let foundUsers	= await User.find({username: req.query.search});
+	if(foundUsers.length === 0 || foundUsers === undefined) {
+		res.render("user_search/noresult");
+	} else {
+		res.render("user_search/searchresult", {users: foundUsers});
+	}
+
+	
+	// try {
+	// 	let response2 = await axios.get(url);
+	// 	let searchData = response2.data.Search;
+	// 	if(searchData !== undefined) {
+	// 		response.render("results", {data: searchData});
+	// 	} else {
+	// 		response.render("noResult");
+	// 	}
+	// } catch(error) {
+	// 	console.log("Something gone wrong!");
+	// 	console.log(error);
+	// }
 });
 
 // LOGIN route

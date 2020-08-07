@@ -1,0 +1,16 @@
+<%- include("../partials/header") %>
+
+<h1>SEARCH RESULT PAGE</h1>
+<h1>SEARCH RESULT PAGE</h1>
+<h1>SEARCH RESULT PAGE</h1>
+
+<% users.forEach((user) => { %>
+    <a href="/greybook/userprofile/<%= user._id %>">
+        <h5>Username: <%= user.username %>, 
+            Name: <%= user.firstname %> <%= user.lastname %>,
+            Email: <%= user.email %>
+        </h5>
+    </a>
+<% }); %>
+
+<%- include("../partials/footer") %>
