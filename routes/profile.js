@@ -15,7 +15,11 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
         let foundUser       = await User.findById(req.params.userid);
         let foundBooks      = await Book.find({author: {id: foundUser._id, username: foundUser.username}});
         let foundAssoBooks  = await Book.find({associates: {id: foundUser._id, username: foundUser.username}});
-        res.render("greybook/profile", {user: foundUser, books: foundBooks, assoBooks: foundAssoBooks});
+        if(req.user._id.equals(req.params.userid)) {
+            res.render("profile/profile", {user: foundUser, books: foundBooks, assoBooks: foundAssoBooks});
+        } else {
+            res.render("profile/otherprofile", {user: foundUser, books: foundBooks, assoBooks: foundAssoBooks});
+        }
     } catch(error) {
         res.redirect("back");
     }

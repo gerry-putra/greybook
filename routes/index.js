@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
 router.get("/greybook/search/results", middleware.isLoggedIn, async (req, res) => {
 	let foundUsers	= await User.find({username: req.query.search});
 	if(foundUsers.length === 0 || foundUsers === undefined) {
-		res.render("user_search/noresult");
+		res.render("user_search/noresult", {search: req.query.search});
 	} else {
 		res.render("user_search/searchresult", {users: foundUsers});
 	}

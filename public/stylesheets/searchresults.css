@@ -1,0 +1,28 @@
+.containerSearchResults {
+    margin-top: 6rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+.containerSearchResults h1,h4 {
+    font-weight: 300;
+    letter-spacing: 0.1rem;
+}
+.containerSearchResults h4 {
+    font-size: 1.4rem;
+    padding-left: 2rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.6rem;
+}
+
+.searchResult h5 {
+    font-weight: 400;
+    font-size: 1.4rem;
+    padding-bottom: none;
+}
+.searchResult h5,p {
+    padding-left: 2rem;
+}
+
+.searchIcon {
+    color: #555555;
+}

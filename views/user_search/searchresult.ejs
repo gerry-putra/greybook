@@ -1,16 +1,22 @@
 <%- include("../partials/header") %>
 
-<h1>SEARCH RESULT PAGE</h1>
-<h1>SEARCH RESULT PAGE</h1>
-<h1>SEARCH RESULT PAGE</h1>
-
-<% users.forEach((user) => { %>
-    <a href="/greybook/userprofile/<%= user._id %>">
-        <h5>Username: <%= user.username %>, 
-            Name: <%= user.firstname %> <%= user.lastname %>,
-            Email: <%= user.email %>
-        </h5>
-    </a>
-<% }); %>
+<div class="container containerSearchResults">
+    <h1>Search Result</h1>
+    <h4><i class="fas fa-search searchIcon"></i> <%= users.length %> username/s found!</h4>
+    
+    <div class="searchResult">
+        <% users.forEach((user) => { %>
+            <hr>
+            <a href="/greybook/userprofile/<%= user._id %>">
+                <h5>Username: <strong><%= user.username %></strong></h5>
+            </a> 
+            <p>Name: <%= user.firstname %> <%= user.lastname %></p>
+            <% if(user.bio) { %>
+                <p><%= user.bio %></p>
+            <% } %>
+            <hr> 
+        <% }); %>
+    </div>
+</div>
 
 <%- include("../partials/footer") %>
