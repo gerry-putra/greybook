@@ -11,22 +11,29 @@
                 <div class="px-3">
                     <div id="bookInfoHeader">
                         <h4><%= book.title %></h4>
-                        <h5><%= book.type %></h5>
+                        <% if(book.associates.length !== 0) { %>
+                            <h5><%= book.type %></h5>
+                        <% } else { %>
+                            <h5><%= book.type %> <strong>(Private)</strong></h5>
+                        <% } %> 
+                        
                         <hr>
                     </div>
                     <div id="bookInfoDesc" class="py-1">
                         <p><%= book.desc %></p>
                     </div>
                     <div class="mb-3" id="bookInfoAssoAuthor">
-                        <h6 class="d-inline">Associates: </h6>
-                        <% for(let i = 0; i < book.associates.length; i++) { %>
-                            <% if(i < book.associates.length - 1) { %>
-                                <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
-                            <% } else { %>
-                                <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
-                            <% } %>         
+                        <% if(book.associates.length !== 0) { %>
+                            <h6 class="d-inline">Associates: </h6>
+                            <% for(let i = 0; i < book.associates.length; i++) { %>
+                                <% if(i < book.associates.length - 1) { %>
+                                    <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
+                                <% } else { %>
+                                    <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
+                                <% } %>         
+                            <% } %> 
                         <% } %> 
-            
+                        
                         <h6>Author: <strong><%= book.author.username %></strong></h6>
                         <h6>Created: <em><%= book.created.toDateString() %> </em><strong>(<%= moment(book.created).fromNow() %>)</strong></h6>
                     </div>
@@ -55,20 +62,32 @@
                             <th>Description</th>
                             <th>Amount</th>
                             <th>Type</th>
-                            <th>To/from</th>
+                            <% if(book.associates.length !== 0) { %>
+                                <th>To/from</th>
+                            <% } %> 
                         </tr>
+                        
+                        <% let sum          = 0; %>
+                        <% let loanTotal    = 0; %>
+                        <% let paymentTotal = 0; %>
                         <% for(let entry of book.entries) { %>
                             <tr>
                                 <td><%= entry.date %></td>
                                 <td id="entryDesc"><%= entry.description %></td>
                                 
                                 <% if(entry.type === "payment") { %>
-                                    <td class="text-success">-$ <%= entry.amount %></td>
+                                    <% sum          -= entry.amount; %>
+                                    <% paymentTotal += entry.amount; %>
+                                    <td class="text-success">-<%= entry.amount %></td>
                                 <% } else { %>
-                                    <td>$ <%= entry.amount %></td>
+                                    <% loanTotal    += entry.amount; %>
+                                    <% sum          += entry.amount; %>
+                                    <td><%= entry.amount %></td>
                                 <% } %>
                                 <td><%= entry.type.toUpperCase() %></td>
-                                <td id="entryTofrom"><%= entry.tofrom.username %></td>
+                                <% if(book.associates.length !== 0) { %>
+                                    <td id="entryTofrom"><%= entry.tofrom.username %></td>
+                                <% } %> 
                                 <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
                                     <td id="editEntryBtn">
                                         <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
@@ -79,6 +98,10 @@
                             </tr>
                         <% } %>
                     </table>
+                    <h1>Existing Loan: <%= sum %></h1>
+                    <h1>Total Loans: <%= loanTotal %></h1>
+                    <h1>Total Payments: <%= paymentTotal %></h1>
+                    
                 <% } %>
             </div>
 

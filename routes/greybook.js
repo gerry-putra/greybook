@@ -76,7 +76,19 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 			.populate("entries")
 			.populate("comments")
 			.exec();
-			
+		
+		let assoEntriesArr		= [];
+		let foundEntries = await Entry.find({bookid: req.params.bookid});
+		console.log(foundEntries);
+		// if(foundBook.associates.length !== 0) {
+		// 	foundBook.associates.forEach(async (associate) => {
+				
+		// 		console.log(foundEntries);
+		// 		assoEntriesArr.push(foundEntries);
+		// 	});	
+		// 	// console.log(assoEntriesArr);
+		// }	
+		// console.log(assoEntriesArr);
 		// if statement here to branch for rendering between bookTypes...
 		res.render("greybook/greybookshow", {book: foundBook});
 
