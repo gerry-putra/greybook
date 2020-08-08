@@ -13,10 +13,6 @@
     letter-spacing: 0.3rem;
 }
 
-#bookInfoHeader hr {
-    background-color: #dadada;
-}
-
 #bookInfoDesc p {
     font-weight: 400;
     font-size: 1.2rem;
@@ -38,19 +34,16 @@
     margin: 0;
 }
 
-#bookInfoEditGoback a {
-    color: #dadada;
-}
-#bookInfoEditGoback a:hover {
-    color: #525252;
-    text-decoration: none;
-}
-
 .showSidebar {
     background: #7a7a7a;
     color: #dadada;
     min-height: calc(100vh - 50px);
     padding-top: 1rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+.showSidebar hr {
+    background-color: #dadada;
 }
 
 /* RIGHT SIDE */

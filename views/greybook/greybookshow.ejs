@@ -5,36 +5,38 @@
 
         <!-- LEFT COLUMN SIDEBAR HERE -->
         <div class="col-xl-3 bd-sidebar shadow showSidebar">
-            <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
-            
             <div class="px-3">
-                <div id="bookInfoHeader">
-                    <h4><%= book.title %></h4>
-                    <h5><%= book.type %></h5>
-                    <hr>
+                <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
+            
+                <div class="px-3">
+                    <div id="bookInfoHeader">
+                        <h4><%= book.title %></h4>
+                        <h5><%= book.type %></h5>
+                        <hr>
+                    </div>
+                    <div id="bookInfoDesc" class="py-1">
+                        <p><%= book.desc %></p>
+                    </div>
+                    <div class="mb-3" id="bookInfoAssoAuthor">
+                        <h6 class="d-inline">Associates: </h6>
+                        <% for(let i = 0; i < book.associates.length; i++) { %>
+                            <% if(i < book.associates.length - 1) { %>
+                                <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
+                            <% } else { %>
+                                <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
+                            <% } %>         
+                        <% } %> 
+            
+                        <h6>Author: <strong><%= book.author.username %></strong></h6>
+                        <h6>Created: <em><%= book.created.toDateString() %> </em><strong>(<%= moment(book.created).fromNow() %>)</strong></h6>
+                    </div>
                 </div>
-                <div id="bookInfoDesc" class="py-1">
-                    <p><%= book.desc %></p>
-                </div>
-                <div class="mb-3" id="bookInfoAssoAuthor">
-                    <h6 class="d-inline">Associates: </h6>
-                    <% for(let i = 0; i < book.associates.length; i++) { %>
-                        <% if(i < book.associates.length - 1) { %>
-                            <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
-                        <% } else { %>
-                            <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
-                        <% } %>         
-                    <% } %> 
-        
-                    <h6>Author: <strong><%= book.author.username %></strong></h6>
-                    <h6>Created: <em><%= book.created.toDateString() %> </em><strong>(<%= moment(book.created).fromNow() %>)</strong></h6>
-                </div>
-                <div class="pb-4" id="bookInfoEditGoback">
-                    <a href="/greybook">Go back</a>
-                    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                        <a class="pl-3" href="/greybook/<%= book._id %>/bookedit">Edit book</a>
-                    <% } %> 
-                </div>
+            </div>
+            <div class="list-group profileLinkSidebar">
+                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                    <a class="list-group-item list-group-item-action" href="/greybook/<%= book._id %>/bookedit">Edit Book</a>
+                <% } %> 
+                <a href="/greybook" class="list-group-item list-group-item-action">Go Back Home</a>          
             </div>
         </div> <!--- LEFT column (sidebar) end --->
 
@@ -160,7 +162,6 @@
                                 
                                 <button class="btn btn-lg btn-block btn-dark my-4">Add Comment</button>
                             </form>
-                            <hr>
                             <% if(book.comments.length === 0) { %>
                                 <p class="noEntriesComment">No comments.</p>
 
@@ -172,21 +173,19 @@
                                     <!-- Edit COMMENT section STARTS here -->
                                     <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>
                                         
-                                        <a class="pl-3" data-toggle="collapse" href="#collapseExample<%= i %>" role="button" 
-                                        aria-expanded="false" aria-controls="collapseExample<%= i %>">
+                                        <a class="pl-3" data-toggle="collapse" href="#collapseEditComment<%= i %>" role="button" 
+                                        aria-expanded="false" aria-controls="collapseEditComment<%= i %>">
                                             <i class="far fa-edit"></i>
                                         </a>
-                                        <div class="collapse" id="collapseExample<%= i %>">
+                                        <div class="collapse" id="collapseEditComment<%= i %>">
                                             <div class="">
                                                 <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
-                                                    <div class="form-group">
-                                                        <input class="form-control mt-3" type="text" name="comment" 
-                                                            id="comment" value="<%= book.comments[i].text %>">
-                                                        <button class="btn btn-dark mt-3">Update</button>
-                                                    </div>
+                                                    <input class="form-control mt-3" type="text" name="comment" 
+                                                        id="comment" value="<%= book.comments[i].text %>">
+                                                    <button class="btn btn-dark mt-3">Update</button>
                                                 </form>
                                                 <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
-                                                    <button class="btn btn-sm btn-outline-danger mb-4">Delete</button>
+                                                    <button class="btn btn-sm btn-outline-danger mt-2 mb-3">Delete</button>
                                                 </form>
                                             </div>
                                         </div>

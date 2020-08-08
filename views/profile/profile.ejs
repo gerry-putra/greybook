@@ -5,28 +5,37 @@
 
         <!-- LEFT COLUMN SIDEBAR HERE -->
         <div class="col-xl-3 bd-sidebar shadow showSidebar">
-            <img src="/img/book1.jpg" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
-            
             <div class="px-3">
-                <div id="bookInfoHeader">
-                    <h4 class="text-center"><%= user.username %></h4>
-                    <hr>
+                <img src="/img/book1.jpg" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
+            
+                <div class="px-3">
+                    <div id="bookInfoHeader">
+                        <h4 class="text-center"><%= user.username %></h4>
+                        <hr>
+                    </div>
+                    <div id="bookInfoDesc" class="py-1">
+                        <% if(user.bio === null || user.bio === undefined) { %>
+                            <p class="text-center">No Bio</p>
+                        <% } else { %>
+                            <p>Bio: <%= user.bio %></p>
+                        <% } %>
+                        <hr> 
+                    </div>
+                    <div class="mb-3" id="bookInfoAssoAuthor">
+                        <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
+                        <h6>Email: <strong><%= user.email %></strong></h6>
+                        <h6>Member since 
+                            <em><%= user.created.toDateString() %> </em>
+                            <strong>(<%= moment(user.created).fromNow() %>)</strong>
+                        </h6>
+                    </div>
                 </div>
-                <div id="bookInfoDesc" class="py-1">
-                    <% if(user.bio === null || user.bio === undefined) { %>
-                        <p>No Bio</p>
-                    <% } else { %>
-                        <p>Bio: <%= user.bio %></p>
-                    <% } %> 
-                </div>
-                <div class="mb-3" id="bookInfoAssoAuthor">
-                    <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
-                    <h6>Email: <strong><%= user.email %></strong></h6>
-                    <h6>Member since 
-                        <em><%= user.created.toDateString() %> </em>
-                        <strong>(<%= moment(user.created).fromNow() %>)</strong>
-                    </h6>
-                </div>
+            </div>
+            
+            <div class="list-group profileLinkSidebar">
+                <a href="/greybook/userprofile/<%= currentUser._id %>/editprofile" 
+                    class="list-group-item list-group-item-action">Edit Profile</a>
+                <a href="#" class="list-group-item list-group-item-action">Friends List</a>          
             </div>
             
         </div> <!--- LEFT column (sidebar) end --->
