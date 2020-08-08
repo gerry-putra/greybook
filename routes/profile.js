@@ -21,6 +21,7 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
             res.render("profile/otherprofile", {user: foundUser, books: foundBooks, assoBooks: foundAssoBooks});
         }
     } catch(error) {
+        req.flash("error", "PROF 1: Something went wrong!");
         res.redirect("back");
     }
 });
@@ -32,7 +33,15 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
 //                in 'show all books' page show overalls for every books created/associated.
 
 // GET
-
+router.get("/greybook/userprofile/:userid/editprofile", middleware.checkProfileOwnership, async (req, res) => {
+    try {
+        let foundUser   = await User.findById(req.params.userid);
+        res.render("profile/editprofile", {user: foundUser});
+    } catch(error) {
+        req.flash("error", "PROF 2: Something went wrong!");
+        res.redirect("back");
+    }
+});
 
 // UPDATE
 
