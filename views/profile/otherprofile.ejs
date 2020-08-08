@@ -1,15 +1,42 @@
 <%- include("../partials/header") %>
 
-<h1>TESTING PROFILE PAGE!</h1>
-<h1>TESTING PROFILE PAGE!</h1>
-<hr>
+<div class="container text-center otherProfileContainer">
+    <img src="/img/book1.jpg" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
+            
+    <div class="px-3">
+        <div id="bookInfoHeader">
+            <h4 class="text-center"><%= user.username %></h4>
+            <button id="addFriendBtn" class="btn btn-outline-dark my-3">
+                <i class="fas fa-user-plus"></i> Add Friend
+            </button>
+            <hr>
+        </div>
+        <div id="bookInfoDesc" class="py-1">
+            <% if(user.bio === null || user.bio === undefined) { %>
+                <p>No Bio</p>
+            <% } else { %>
+                <p>Bio: <%= user.bio %></p>
+            <% } %> 
+            <hr>
+        </div>
+        <div class="mb-3" id="bookInfoAssoAuthor">
+            <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
+            <h6>Email: <strong><%= user.email %></strong></h6>
+            <h6>Member since 
+                <em><%= user.created.toDateString() %> </em>
+                <strong>(<%= moment(user.created).fromNow() %>)</strong>
+            </h6>
+        </div>
+    </div>
+    <hr>
+    
+    <h5 class="otherProfileBookCount"><%= books.length %> books created.</h5>
+    <h5 class="otherProfileBookCount"><%= assoBooks.length %> books associated.</h5>
+</div>
 
-<h1><%= user.username %> Profile Page</h1>
-<h3>Name: <%= user.firstname %> <%= user.lastname %></h3>
-<h3>Email Address: <%= user.email %></h3>
-<hr>
+<script>
+    let btn = document.getElementById("addFriendBtn");
+</script>
 
-<h5><%= books.length %> books created.</h5>
-<h5><%= assoBooks.length %> books associated.</h5>
 
 <%- include("../partials/footer") %>

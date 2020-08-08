@@ -1,0 +1,15 @@
+#profilePic {
+    width: 18rem;
+    height: 18rem;
+}
+
+.otherProfileContainer {
+    padding-top: 6rem;
+    width: 30rem;
+}
+
+.otherProfileBookCount {
+    letter-spacing: 0.1rem;
+    font-weight: 300;
+    font-size: 1.6rem;
+}

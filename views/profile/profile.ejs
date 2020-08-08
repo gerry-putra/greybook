@@ -1,72 +1,122 @@
 <%- include("../partials/header") %>
 
-<h1>TESTING PROFILE PAGE!</h1>
-<h1>TESTING PROFILE PAGE!</h1>
-<hr>
+<div class="container-fluid pt-5 containerShowbook">
+    <div class="row border">
 
-<h1><%= user.username %> Profile Page</h1>
-<h3>Name: <%= user.firstname %> <%= user.lastname %></h3>
-<h3>Email Address: <%= user.email %></h3>
-<hr>
+        <!-- LEFT COLUMN SIDEBAR HERE -->
+        <div class="col-xl-3 bd-sidebar shadow showSidebar">
+            <img src="/img/book1.jpg" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
+            
+            <div class="px-3">
+                <div id="bookInfoHeader">
+                    <h4 class="text-center"><%= user.username %></h4>
+                    <hr>
+                </div>
+                <div id="bookInfoDesc" class="py-1">
+                    <% if(user.bio === null || user.bio === undefined) { %>
+                        <p>No Bio</p>
+                    <% } else { %>
+                        <p>Bio: <%= user.bio %></p>
+                    <% } %> 
+                </div>
+                <div class="mb-3" id="bookInfoAssoAuthor">
+                    <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
+                    <h6>Email: <strong><%= user.email %></strong></h6>
+                    <h6>Member since 
+                        <em><%= user.created.toDateString() %> </em>
+                        <strong>(<%= moment(user.created).fromNow() %>)</strong>
+                    </h6>
+                </div>
+            </div>
+            
+        </div> <!--- LEFT column (sidebar) end --->
 
-<div class="container px-lg-0">
-    <h2 class="text-dark galleryLabel d-inline">Created Books</h2>
-    <hr class="gallery">
-    <div class="row text-center justify-content-around">
+        <!-- RIGHT COLUMN HERE -->
+        <div class="col-xl-9 mt-4 px-0 px-lg-5" id="rightContent">
 
-        <% let count = 0; %> 
-        <% books.forEach((book) => { %>
-            <% count++; %> 
-            <div class="col-12 col-lg-6 col-xl-4">
-                <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
-                    <a href="/greybook/<%= book._id %>">
-                        <img src="<%= book.cover %>" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body homeCardBody">
-                        <a class="card-title text-light homeBookTitle" href="/greybook/<%= book._id %>">
-                            <%= book.title %> (<%= book.type %>)
-                        </a>
+            <!-- All Books -->
+            <div class="accordion my-5 accordionCollapse" id="addEntryCollapse">
+                <div class="card shadow-sm">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                        <button class="btn btn-link btn-block text-center accordionBtn" 
+                            type="button" data-toggle="collapse" data-target="#addEntryMenu" 
+                            aria-expanded="true" aria-controls="addEntryMenu">All Books  
+                        </button>
+                        </h2>
+                    </div>
+            
+                    <div id="addEntryMenu" class="collapse show px-5 pt-2" aria-labelledby="headingOne" 
+                        data-parent="#addEntryCollapse">
+                        <div class="card-body">
+
+                            <div class="container px-lg-0">
+                                <h2 class="text-dark galleryLabel d-inline">Created Books</h2>
+                                <hr class="gallery">
+                                <div class="row text-center justify-content-around">
+                            
+                                    <% let count = 0; %> 
+                                    <% books.forEach((book) => { %>
+                                        <% count++; %> 
+                                        <div class="col-12 col-lg-6">
+                                            <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
+                                                <a href="/greybook/<%= book._id %>">
+                                                    <img src="<%= book.cover %>" class="card-img-top" alt="...">
+                                                </a>
+                                                <div class="card-body homeCardBody">
+                                                    <a class="card-title text-light homeBookTitle" href="/greybook/<%= book._id %>">
+                                                        <%= book.title %> (<%= book.type %>)
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %> 
+                                    <% if(count == 0) { %>
+                                        <p class="noBookNotif pt-3">No created books.</p>
+                                    <% } %>  
+                            
+                                </div>
+                            </div>
+                            
+                            <br>
+                            <br>
+                            <br>
+                            
+                            <div class="container mb-5">
+                                <h2 class="text-dark galleryLabel">Associated Books</h2>
+                                <hr class="gallery">
+                                <div class="row text-center justify-content-around">
+                            
+                                    <% let countAsso = 0; %> 
+                                    <% assoBooks.forEach((assoBook) => { %>
+                                        <% countAsso++; %> 
+                                        <div class="col-12 col-lg-6">
+                                            <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
+                                                <a href="/greybook/<%= assoBook._id %>">
+                                                    <img src="<%= assoBook.cover %>" class="card-img-top" alt="...">
+                                                </a>
+                                                <div class="card-body homeCardBody">
+                                                    <a class="card-title text-light homeBookTitle" href="/greybook/<%= assoBook._id %>">
+                                                        <%= assoBook.title %> (<%= assoBook.type %>)
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                    <% if(countAsso == 0) { %>
+                                        <p class="noBookNotif pt-3">No associated books.</p>
+                                    <% } %> 
+                            
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        <% }); %> 
-        <% if(count == 0) { %>
-            <p class="noBookNotif pt-3">No created books.</p>
-        <% } %>  
 
-    </div>
-</div>
+        </div> <!--- RIGHT column end --->
 
-<br>
-<br>
-<br>
-
-<div class="container mb-5">
-    <h2 class="text-dark galleryLabel">Associated Books</h2>
-    <hr class="gallery">
-    <div class="row text-center justify-content-around">
-
-        <% let countAsso = 0; %> 
-        <% assoBooks.forEach((assoBook) => { %>
-            <% countAsso++; %> 
-            <div class="col-12 col-lg-6 col-xl-4">
-                <div class="card border-0 mx-auto mt-3 mb-3 shadow homeCards">
-                    <a href="/greybook/<%= assoBook._id %>">
-                        <img src="<%= assoBook.cover %>" class="card-img-top" alt="...">
-                    </a>
-                    <div class="card-body homeCardBody">
-                        <a class="card-title text-light homeBookTitle" href="/greybook/<%= assoBook._id %>">
-                            <%= assoBook.title %> (<%= assoBook.type %>)
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <% }); %>
-        <% if(countAsso == 0) { %>
-            <p class="noBookNotif pt-3">No associated books.</p>
-        <% } %> 
-
-    </div>
-</div>
+    </div> <!--- main row end --->
+</div> <!--- main container end --->
 
 <%- include("../partials/footer") %>
