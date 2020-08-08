@@ -11,24 +11,37 @@ const   express         = require("express"),
 // CREATE Entry Logic Route
 router.post("/greybook/:bookid/newentry", middleware.checkBookOwnership, async (req, res) => {
 	try {
-		let	date		= req.body.date,
+		let	bookid		= req.params.bookid,
+			date		= req.body.date,
 			description	= req.body.description,
 			amount		= req.body.amount,
 			type		= req.body.entrytype;
 		let foundUser	= await User.findById(req.body.tofrom);
-		let tofromObj	= {id: req.body.tofrom, username: foundUser.username};
-		let entryObj	= {
-			date: date, 
-			description: description, 
-			amount: amount, 
-			type: type, 
-			tofrom: tofromObj};
-		let newEntry	= await Entry.create(entryObj);
 		let foundBook	= await Book.findById(req.params.bookid);
+		let entryObj	= {};
+		if(foundBook.associates.length === 0) {
+			entryObj	= {
+				bookid: bookid,
+				date: date, 
+				description: description, 
+				amount: amount, 
+				type: type};
+		} else {
+			let tofromObj	= {id: req.body.tofrom, username: foundUser.username};
+			entryObj	= {
+				bookid: bookid,
+				date: date, 
+				description: description, 
+				amount: amount, 
+				type: type, 
+				tofrom: tofromObj};
+		}
+		let newEntry	= await Entry.create(entryObj);
 		foundBook.entries.push(newEntry._id);
 		foundBook.save();
 		req.flash("success", "Successfully created new entry!");
 		res.redirect("/greybook/" + req.params.bookid);
+		
 	} catch(error) {
 		req.flash("error", "5:Something went wrong, please try again...");
 		res.redirect("/greybook/" + req.params.bookid);

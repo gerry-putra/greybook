@@ -1,6 +1,7 @@
 const   mongoose = require("mongoose");
 
 const EntrySchema = new mongoose.Schema({
+    bookid: String,
     date: String,
     description: String,
     amount: Number,
