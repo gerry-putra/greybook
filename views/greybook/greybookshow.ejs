@@ -34,9 +34,10 @@
             </div>
             <div class="list-group profileLinkSidebar">
                 <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                    <a class="list-group-item list-group-item-action" href="/greybook/<%= book._id %>/bookedit">Edit Book</a>
+                    <a class="list-group-item list-group-item-action" 
+                        href="/greybook/<%= book._id %>/bookedit">Edit Book</a>
                 <% } %> 
-                <a href="/greybook" class="list-group-item list-group-item-action">Go Back Home</a>          
+                <a href="/greybook" class="list-group-item list-group-item-action">Go Back Home</a>
             </div>
         </div> <!--- LEFT column (sidebar) end --->
 

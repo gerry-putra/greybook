@@ -1,12 +1,13 @@
 <%- include("../partials/header") %>
 
-<div class="container text-center otherProfileContainer">
+<div class="container text-center otherProfileContainer shadow-lg">
     <img src="/img/book1.jpg" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
             
     <div class="px-3">
         <div id="bookInfoHeader">
             <h4 class="text-center"><%= user.username %></h4>
-            <button id="addFriendBtn" class="btn btn-outline-dark my-3">
+            <h5><a href="#" id="viewFriends"><i class="fas fa-user-friends"></i> 8 friends</a></h5>
+            <button id="addFriendBtn" class="btn btn-outline-light mt-1 mb-3">
                 <i class="fas fa-user-plus"></i> Add Friend
             </button>
             <hr>
@@ -17,7 +18,6 @@
             <% } else { %>
                 <p>Bio: <%= user.bio %></p>
             <% } %> 
-            <hr>
         </div>
         <div class="mb-3" id="bookInfoAssoAuthor">
             <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
@@ -28,15 +28,10 @@
             </h6>
         </div>
     </div>
-    <hr>
-    
-    <h5 class="otherProfileBookCount"><%= books.length %> books created.</h5>
-    <h5 class="otherProfileBookCount"><%= assoBooks.length %> books associated.</h5>
+    <div id="otherProfileBookCountContainer">
+        <h5 class="otherProfileBookCount"><%= books.length %> books created.</h5>
+        <h5 class="otherProfileBookCount"><%= assoBooks.length %> books associated.</h5>
+    </div>
 </div>
-
-<script>
-    let btn = document.getElementById("addFriendBtn");
-</script>
-
 
 <%- include("../partials/footer") %>

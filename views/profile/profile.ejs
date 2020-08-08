@@ -11,6 +11,7 @@
                 <div class="px-3">
                     <div id="bookInfoHeader">
                         <h4 class="text-center"><%= user.username %></h4>
+                        <h5 class="text-center"><a href="#" id="viewFriends"><i class="fas fa-user-friends"></i> 8 friends</a></h5>
                         <hr>
                     </div>
                     <div id="bookInfoDesc" class="py-1">
@@ -19,7 +20,6 @@
                         <% } else { %>
                             <p>Bio: <%= user.bio %></p>
                         <% } %>
-                        <hr> 
                     </div>
                     <div class="mb-3" id="bookInfoAssoAuthor">
                         <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
