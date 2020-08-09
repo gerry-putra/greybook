@@ -76,22 +76,56 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 			.populate("entries")
 			.populate("comments")
 			.exec();
-		
-		let assoEntriesArr		= [];
-		let foundEntries = await Entry.find({bookid: req.params.bookid});
-		console.log(foundEntries);
-		// if(foundBook.associates.length !== 0) {
-		// 	foundBook.associates.forEach(async (associate) => {
-				
-		// 		console.log(foundEntries);
-		// 		assoEntriesArr.push(foundEntries);
-		// 	});	
-		// 	// console.log(assoEntriesArr);
-		// }	
-		// console.log(assoEntriesArr);
-		// if statement here to branch for rendering between bookTypes...
-		res.render("greybook/greybookshow", {book: foundBook});
 
+		if(foundBook.associates.length !== 0) {
+			let toFromAmountArrLoan		= [],
+				toFromAmountArrPayment	= [],
+				objHolderLoan			= {},
+				objHolderPayment		= {},
+				foundEntries 			= await Entry.find({bookid: req.params.bookid});
+
+			foundEntries.forEach((entry) => {
+				if(entry.type === "loan") {
+					toFromAmountArrLoan.push({username: entry.tofrom.username, amount: entry.amount});
+				} else if(entry.type === "payment") {
+					toFromAmountArrPayment.push({username: entry.tofrom.username, amount: entry.amount});
+				}
+			});	
+			
+			toFromAmountArrLoan.forEach((loan) => {
+				if(objHolderLoan.hasOwnProperty(loan.username)) {
+					objHolderLoan[loan.username] = objHolderLoan[loan.username] + loan.amount;
+				} else {
+					objHolderLoan[loan.username] = loan.amount;
+				}
+			});
+			toFromAmountArrPayment.forEach((payment) => {
+				if(objHolderPayment.hasOwnProperty(payment.username)) {
+					objHolderPayment[payment.username] = objHolderPayment[payment.username] + payment.amount;
+				} else {
+					objHolderPayment[payment.username] = payment.amount;
+				}
+			});
+			
+			toFromAmountArrLoan		= [];
+			for(let obj in objHolderLoan) {
+				toFromAmountArrLoan.push({username: obj, loan: objHolderLoan[obj], payment: 0});
+			}
+			for(let obj in objHolderPayment) {
+				toFromAmountArrLoan.forEach((payment) => {
+					if(payment.username === obj) {
+						payment.payment = objHolderPayment[obj];
+					}
+				});
+			}
+			res.render("greybook/greybookshow", 
+				{book: foundBook, loans: toFromAmountArrLoan});
+
+		} else if(foundBook.associates.length === 0) {
+			// if statement here to branch for rendering between bookTypes...
+			res.render("greybook/greybookshow", {book: foundBook});
+		}	
+		
 	} catch(error) {
 		req.flash("error", "4:Something went wrong, please try again...");
 		res.redirect("/greybook");

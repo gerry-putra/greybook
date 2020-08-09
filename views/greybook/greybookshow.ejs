@@ -98,10 +98,22 @@
                             </tr>
                         <% } %>
                     </table>
-                    <h1>Existing Loan: <%= sum %></h1>
-                    <h1>Total Loans: <%= loanTotal %></h1>
-                    <h1>Total Payments: <%= paymentTotal %></h1>
-                    
+                    <div class="border border-success">
+                        <h2>Overview:</h2>
+                        <h4>Total Loans: <%= loanTotal %></h4>
+                        <h4>Total Payments: <%= paymentTotal %></h4>
+                        <h4>Existing Loan: <%= sum %></h4>
+                    </div>
+                    <% if(book.associates.length !== 0) { %>
+                        <% loans.forEach((loan) => { %>
+                            <div class="border border-success">
+                                <h2><%= loan.username %> :</h2>
+                                <h4>Total Loans: <%= loan.loan %></h4>
+                                <h4>Total Payments: <%= loan.payment %></h4>
+                                <h4>Existing Loan: <%= loan.loan - loan.payment %></h4>
+                            </div>
+                        <% }); %>
+                    <% } %>
                 <% } %>
             </div>
 
@@ -145,16 +157,18 @@
                                             <option value="payment">Payment</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="showBookLabels" for="tofrom">To/From </label>
-                                        <select class="form-control" id="tofrom" name="tofrom">
-                                            <% for(let associate of book.associates) { %>
-                                                <option value="<%= associate.id %>">
-                                                    <%= associate.username %>
-                                                </option>
-                                            <% } %> 
-                                        </select>
-                                    </div>
+                                    <% if(book.associates.length !== 0) { %>
+                                        <div class="form-group">
+                                            <label class="showBookLabels" for="tofrom">To/From </label>
+                                            <select class="form-control" id="tofrom" name="tofrom">
+                                                <% for(let associate of book.associates) { %>
+                                                    <option value="<%= associate.id %>">
+                                                        <%= associate.username %>
+                                                    </option>
+                                                <% } %> 
+                                            </select>
+                                        </div>
+                                    <% } %> 
                                     <button class="btn btn-lg btn-block btn-dark mt-5 mb-4">Add Entry</button>
                                 </form>
                             </div>
