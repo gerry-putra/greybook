@@ -34,14 +34,14 @@ middlewareObj.checkBookAndAssoOwnership = async (req, res, next) => {
                     foundBook.associates.forEach((asso) => {
                         if(asso.id.equals(req.user._id)) {
                             next();
-                        } else {
-                            req.flash("error", "Denied! You do not have permission to access.");
-                            // "back" redirects user BACK to wherever they came from...
-                            res.redirect("back");
-                        }
+                        } 
                     });
+                    // req.flash("error", "1: Denied! You do not have permission to access.");
+                    // // "back" redirects user BACK to wherever they came from...
+                    // res.redirect("back");
+
                 } else {
-                    req.flash("error", "Denied! You do not have permission to access.");
+                    req.flash("error", "2: Denied! You do not have permission to access.");
                     // "back" redirects user BACK to wherever they came from...
                     res.redirect("back");
                 }

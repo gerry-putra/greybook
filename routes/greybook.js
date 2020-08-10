@@ -50,12 +50,12 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 		if(Array.isArray(req.body.associate)) {
 			for(let associateId of req.body.associate) {
 				let foundUser 	= await User.findById(associateId);
-				associateObj 	= {id: associateId, username: foundUser.username};
+				associateObj 	= {id: foundUser._id, username: foundUser.username};
 				newBook.associates.push(associateObj);
 			}
-		} else if(req.body.associate != null || req.body.associate != undefined) {
+		} else if(req.body.associate !== null || req.body.associate !== undefined) {
 			let foundUser 	= await User.findById(req.body.associate);
-			associateObj 	= {id: req.body.associate, username: foundUser.username};
+			associateObj 	= {id: foundUser._id, username: foundUser.username};
 			newBook.associates.push(associateObj);
 		}
 		newBook.save();
