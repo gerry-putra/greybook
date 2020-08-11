@@ -37,6 +37,7 @@ $asteroids-belt-orb : 300px; $asteroids-belt-pl: 210px;
 }
 
 html, body{
+  padding-top: 3rem;
   height:100%;
   width:100%;
 }
@@ -49,21 +50,28 @@ body{
 
 .containerMain {
   position:absolute;
-  bottom: 6rem;
+  bottom: 4rem;
   text-align: center;
   z-index:999999999;
   min-width: 100%;
 }
+
 .containerMain h1 {
-  font-weight: 200;
+  font-weight: 100;
   color: #dadada;
   font-size: 3rem;
   letter-spacing: 0.3rem;
   padding-bottom: 0.2rem;
 }
-.containerMain button {
+
+.containerMain a {
   font-weight: 400;
   letter-spacing: 0.1rem;
+  border-width: 0.096rem;
+  border-color: #dadada;
+}
+.containerMain a:hover {
+  background-color: #dadada;
 }
 
 .solar-syst{
