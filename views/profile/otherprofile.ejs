@@ -7,9 +7,14 @@
         <div id="bookInfoHeader">
             <h4 class="text-center"><%= user.username %></h4>
             <h5><a href="#" id="viewFriends"><i class="fas fa-user-friends"></i> 8 friends</a></h5>
-            <button id="addFriendBtn" class="btn btn-outline-light mt-1 mb-3">
-                <i class="fas fa-user-plus"></i> Add Friend
-            </button>
+
+            <form action="/greybook/friends/<%= user._id %>/friend_req" method="POST">
+                <!-- IF statement here to change button2 -->
+                <!-- "Add Friend", "Requested", "Friend"  -->
+                <button id="addFriendBtn" class="btn btn-outline-light mt-1 mb-3">
+                    <i class="fas fa-user-plus"></i> Add Friend
+                </button>
+            </form>
             <hr>
         </div>
         <div id="bookInfoDesc" class="py-1">

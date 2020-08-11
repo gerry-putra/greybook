@@ -38,7 +38,7 @@
                     <a class="nav-link" href="/greybook/userprofile/<%= currentUser._id %>">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/greybook/friends/<%= currentUser._id %>">Friends</a>
+                    <a class="nav-link" href="/greybook/friends/<%= currentUser._id %>">Social</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
@@ -70,7 +70,7 @@
                 <% } else { %> 
                     <li class="nav-item">
                         <a class="nav-link" href="/greybook/userprofile/<%= currentUser._id %>">
-                            Welcome, <%= currentUser.username %>
+                            <%= currentUser.username %>
                         </a>
                     </li>
                     <li class="nav-item">

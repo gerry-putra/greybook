@@ -3,11 +3,18 @@ const   mongoose                = require("mongoose"),
 
 const UserSchema = new mongoose.Schema({
     username: String,
-    password: String,
     email: String,
     firstname: String,
     lastname: String,
     bio: String,
+    friends: [{
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        },
+        username: String,
+        _id: false
+    }],
     created: {type: Date, default: Date.now}
 });
 
