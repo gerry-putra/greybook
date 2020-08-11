@@ -27,7 +27,7 @@ router.get("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 		res.render("greybook/greybooknew", {users: allUsers});
 	} catch(error) {
 		req.flash("error", "2:Something went wrong, please try again...");
-		return res.redirect("/greybook");
+		res.redirect("/greybook");
 	}		
 });	
 	
@@ -65,7 +65,7 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	} catch(error) {
 		console.log(error);
 		req.flash("error", "3:Something went wrong, please try again...");
-		return res.redirect("/greybook/new");
+		res.redirect("/greybook/new");
 	}
 });
 

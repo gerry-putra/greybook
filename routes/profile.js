@@ -33,7 +33,7 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
 //                in 'show all books' page show overalls for every books created/associated.
 
 // GET
-router.get("/greybook/userprofile/:userid/editprofile", middleware.checkProfileOwnership, async (req, res) => {
+router.get("/greybook/userprofile/:userid/editprofile", middleware.checkUserOwnership, async (req, res) => {
     try {
         let foundUser   = await User.findById(req.params.userid);
         res.render("profile/editprofile", {user: foundUser});
