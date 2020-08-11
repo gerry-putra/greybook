@@ -1,0 +1,75 @@
+<%- include("../partials/header") %>
+
+<h1>FRIEND PAGE!</h1>
+<h3>FRIEND FEATURE COMING SOON!</h3>
+<h1>FRIEND PAGE!</h1>
+<h3>FRIEND FEATURE COMING SOON!</h3>
+
+<% if(currentUser && currentUser._id.equals(user._id)) { %>
+    <!-- Incoming FriendRequests -->
+    <h4>Friend Request: </h4>
+    <% if(requests.length === 0) { %>
+        <div class="container border">
+            <p>No friend request.</p>
+        </div>
+    <% } else { %>
+        <% requests.forEach((request) => { %>
+            <div class="container border">
+                <a href="/greybook/userprofile/<%= request.requester.id %>"><%= request.requester.username %></a>
+                <p>Requested <%= moment(request.createdAt).fromNow() %></p>
+                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester.id %>/status_3?_method=PUT" 
+                    method="POST">
+                    <button class="btn btn-success">Approve</button>
+                </form>
+                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester.id %>/status_2?_method=PUT" 
+                    method="POST">
+                    <button class="btn btn-danger my-2">Decline</button>
+                </form>
+            </div>
+        
+        <% }); %>
+    <% } %> 
+    
+    <br> 
+    <br> 
+
+    <!-- Outgoing Pending FriendRequests -->
+    <h4>Pending Friend Request:</h4>
+    <% if(pendings.length === 0) { %>
+        <div class="container border">
+            <p>No pending request.</p>
+        </div>
+    <% } else { %>
+        <% pendings.forEach((pending) => { %>
+            <div class="container border">
+                <a href="/greybook/userprofile/<%= pending.recipient.id %>"><%= pending.recipient.username %></a>
+                <p>Pending request. Still waiting for approval.</p>
+                <p>Requested <%= moment(pending.createdAt).fromNow() %></p>
+            </div>
+        <% }); %> 
+    <% } %> 
+    
+
+<% } %>
+<br> 
+<br>  
+
+<!-- Friends List -->
+<h4>Friends List:</h4>
+<% if(user.friends.length === 0) { %>
+    <div class="container border">
+        <p>You do not have any friends. Search for a user and make a friend request.</p>
+    </div>
+<% } else { %>
+    <% user.friends.forEach((friend) => { %>
+        <div class="container border">
+            <a href="/greybook/userprofile/<%= friend.id %>"><%= friend.username %></a>
+        </div>
+    <% }); %>
+<% } %> 
+<br> 
+<br> 
+
+
+
+<%- include("../partials/footer") %>

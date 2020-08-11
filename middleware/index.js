@@ -77,10 +77,10 @@ middlewareObj.checkCommentOwnership = async (req, res, next) => {
 	}
 }
 
-middlewareObj.checkProfileOwnership = async (req, res, next) => {
+middlewareObj.checkUserOwnership = async (req, res, next) => {
     if(req.isAuthenticated()) {
         try {
-            let foundUser   		= await User.findById(req.params.userid);
+            let foundUser   	 = await User.findById(req.params.userid);
             if(foundUser._id.equals(req.user._id)) {
                 next();
             } else {
