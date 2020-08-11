@@ -34,7 +34,9 @@ router.get("/login", (req, res) => {
 router.post("/login", passport.authenticate("local", 
 	{
 		successRedirect: "/greybook",
-		failureRedirect: "/login"
+		failureRedirect: "/login",
+		failureFlash: true,
+        successFlash: "Successfully signed in!" 
 	}), (req, res) => {
 });
 
@@ -68,7 +70,7 @@ router.post("/register", async (req, res) => {
 // Logout ROUTE logic...
 router.get("/logout", (req,res) => {
     req.logout();
-    req.flash("success", "Successfully signed out. Goodbye!");
+    req.flash("success", "You are signed out, goodbye!");
 	res.redirect("/");
 });
 
