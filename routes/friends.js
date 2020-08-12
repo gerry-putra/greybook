@@ -6,7 +6,7 @@ const   express         = require("express"),
         Friend 	        = require("../models/friend"),
         middleware      = require("../middleware");
         
-router.get("/greybook/friends/:userid", middleware.checkUserOwnership, async (req, res) => {
+router.get("/greybook/friends/:userid", middleware.isLoggedIn, async (req, res) => {
     // find friend with requester = currentUser_id with status.type=1 to get all 'pending request'
     // AND recipient = currentUser_id with status.type=1 to get all 'incoming friend request'
     let foundUser       = 
@@ -24,7 +24,12 @@ router.post("/greybook/friends/:userid/friend_req", middleware.isLoggedIn, async
         // Make sure to not make request to SELF...
         if(req.params.userid !== req.user._id) {
             let foundUser   = await User.findById(req.params.userid);
-            let foundFriend = await Friend.find({recipient: {id: foundUser._id, username: foundUser.username}});
+            let foundFriend = await Friend.find({
+                requester: {id: req.user._id, username: req.user.username},
+                recipient: {id: foundUser._id, username: foundUser.username}
+            });
+            console.log(foundUser);
+            console.log(foundFriend);
             
             // Make sure to not make double request
             if(foundFriend.length === 0 || foundFriend.status === 2) {

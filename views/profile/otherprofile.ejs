@@ -73,9 +73,9 @@
     </div>
 
     <div id="otherProfileBookCountContainer">
-        <h5><a href="/greybook/friends/<%= user._id %>" id="viewFriends">
-                <i class="fas fa-user-friends"></i> 
-                8 friends
+        <h5>
+            <a href="/greybook/friends/<%= user._id %>" id="viewFriends">
+                <i class="fas fa-user-friends"></i> <%= user.friends.length %> friends
             </a>
         </h5>
         <h5 class="otherProfileBookCount"><%= books.length %> books created.</h5>

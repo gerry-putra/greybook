@@ -33,8 +33,7 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
             }
             let foundFriend  = await Friend.findOne(obj);
             let foundFriend2 = await Friend.findOne(obj2);
-            console.log(foundFriend);
-            console.log(foundFriend2);
+
             res.render("profile/otherprofile", {
                 user: foundUser, 
                 books: foundBooks, 
