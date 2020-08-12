@@ -46,21 +46,16 @@ router.get("/register", (req, res) => {
 });
 // REGISTER logic
 router.post("/register", async (req, res) => {
-	let newUser	= new User(
-		{
+	let newUser	= new User({
 			username: req.body.username,
-			email: req.body.email,
-			firstname: req.body.firstname,
-			lastname: req.body.lastname
-		}
-	);
+			email: req.body.email
+	});
 	try {
 		let user = await User.register(newUser, req.body.password);	
 		passport.authenticate("local")(req, res, () => {
 			req.flash("success", "Welcome to Greybook " + user.username + "!");
 			res.redirect("/greybook");
 		});
-
 	} catch(error) {
 		req.flash("error", error.message);
 		return res.redirect("/register");

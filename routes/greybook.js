@@ -23,8 +23,7 @@ router.get("/greybook", middleware.isLoggedIn, async (req, res) => {
 // Greybook New ROUTE
 router.get("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	try {
-		let allUsers = await User.find({});
-		res.render("greybook/greybooknew", {users: allUsers});
+		res.render("greybook/greybooknew");
 	} catch(error) {
 		req.flash("error", "2:Something went wrong, please try again...");
 		res.redirect("/greybook");

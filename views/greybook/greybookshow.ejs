@@ -11,31 +11,43 @@
                 <div class="px-3">
                     <div id="bookInfoHeader">
                         <h4><%= book.title %></h4>
-                        <% if(book.associates.length !== 0) { %>
-                            <h5><%= book.type %></h5>
-                        <% } else { %>
-                            <h5><%= book.type %> <strong>(Private)</strong></h5>
-                        <% } %> 
-                        
+                        <h5><%= book.type %></h5>
                         <hr>
                     </div>
                     <div id="bookInfoDesc" class="py-1">
                         <p><%= book.desc %></p>
                     </div>
+
                     <div class="mb-3" id="bookInfoAssoAuthor">
                         <% if(book.associates.length !== 0) { %>
-                            <h6 class="d-inline">Associates: </h6>
+                            <h6 class="d-inline mt-1">Associates: </h6>
                             <% for(let i = 0; i < book.associates.length; i++) { %>
+                                <!-- Make sure the last associate do not have comma :) -->
                                 <% if(i < book.associates.length - 1) { %>
-                                    <span id="infoAsso"><strong><%= book.associates[i].username %>,</strong></span>
+                                    <span class="infoAsso">
+                                        <a href="/greybook/userprofile/<%= book.associates[i].id %>">
+                                            <strong><%= book.associates[i].username %>, </strong>
+                                        </a> 
+                                    </span>
                                 <% } else { %>
-                                    <span id="infoAsso"><strong><%= book.associates[i].username %></strong></span>
+                                    <span class="infoAsso">
+                                        <a href="/greybook/userprofile/<%= book.associates[i].id %>">
+                                            <strong><%= book.associates[i].username %></strong>
+                                        </a> 
+                                    </span>
                                 <% } %>         
                             <% } %> 
                         <% } %> 
                         
-                        <h6>Author: <strong><%= book.author.username %></strong></h6>
-                        <h6>Created: <em><%= book.created.toDateString() %> </em><strong>(<%= moment(book.created).fromNow() %>)</strong></h6>
+                        <h6 class="mt-1 infoAsso">Author: 
+                            <a href="/greybook/userprofile/<%= book.author.id %>">
+                                <strong><%= book.author.username %></strong>
+                            </a>
+                        </h6>
+                        <h6 class="mt-1">Created: 
+                            <em><%= book.created.toDateString() %> </em>
+                            <strong>(<%= moment(book.created).fromNow() %>)</strong>
+                        </h6>
                     </div>
                 </div>
             </div>
@@ -134,10 +146,23 @@
                             data-parent="#addEntryCollapse">
                             <div class="card-body">
                                 <form action="/greybook/<%= book._id %>/newentry" method="POST">
+
                                     <div class="form-group">
-                                        <label class="showBookLabels" for="entryDateInput">Date </label>
-                                        <input class="form-control" type="date" name="date" id="entryDateInput" required>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="showBookLabels" for="entryDateInput">Date </label>
+                                                <input class="form-control" type="date" name="date" id="entryDateInput" required>
+                                            </div>
+                                            <div class="col">
+                                                <label  class="showBookLabels"for="entryType">Entry Type </label>
+                                                <select class="form-control" id="entryType" name="entrytype">
+                                                    <option value="loan">Loan</option>
+                                                    <option value="payment">Payment</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div class="form-group">
                                         <label class="showBookLabels" for="entryDescInput">Description </label>
                                         <input class="form-control" type="text" name="description" 
@@ -146,30 +171,31 @@
                                             Give your entry a brief description of what it is about. 72 characters max.
                                         </small>
                                     </div>
+                                    
                                     <div class="form-group">
-                                        <label class="showBookLabels" for="entryAmountInput">Amount </label>
-                                        <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  class="showBookLabels"for="entryType">Entry Type </label>
-                                        <select class="form-control" id="entryType" name="entrytype">
-                                            <option value="loan">Loan</option>
-                                            <option value="payment">Payment</option>
-                                        </select>
-                                    </div>
-                                    <% if(book.associates.length !== 0) { %>
-                                        <div class="form-group">
-                                            <label class="showBookLabels" for="tofrom">To/From </label>
-                                            <select class="form-control" id="tofrom" name="tofrom">
-                                                <% for(let associate of book.associates) { %>
-                                                    <option value="<%= associate.id %>">
-                                                        <%= associate.username %>
-                                                    </option>
-                                                <% } %> 
-                                            </select>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label class="showBookLabels" for="entryAmountInput">Amount </label>
+                                                <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
+                                            </div>
+
+                                            <% if(book.associates.length !== 0) { %>
+                                                <div class="col">
+                                                    <label class="showBookLabels" for="tofrom">To/From </label>
+                                                    <select class="form-control" id="tofrom" name="tofrom">
+                                                        <% for(let associate of book.associates) { %>
+                                                            <option value="<%= associate.id %>">
+                                                                <%= associate.username %>
+                                                            </option>
+                                                        <% } %> 
+                                                    </select>
+                                                </div>
+                                            <% } %> 
                                         </div>
-                                    <% } %> 
-                                    <button class="btn btn-lg btn-block btn-dark mt-5 mb-4">Add Entry</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-lg btn-outline-dark mt-5 mb-4">Add Entry</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -193,12 +219,19 @@
                         data-parent="#commentCollapse">
                         <div class="card-body">
                             <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
-                                <div class="form-group">
-                                    <label class="showBookLabels" for="newComment">New comment </label>
-                                    <input class="form-control" type="text" name="newcomment" id="newComment">
+
+                                <div class="form-group mb-5">
+                                    <div class="row">
+                                        <div class="col-10 col-md-11">
+                                            <label class="showBookLabels" for="newComment">New comment </label>
+                                            <input class="form-control" type="text" name="newcomment" id="newComment">
+                                        </div>
+                                        <div class="col-2 col-md-1 addComment">
+                                            <button class="btn btn-dark">Submit</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <button class="btn btn-lg btn-block btn-dark my-4">Add Comment</button>
                             </form>
                             <% if(book.comments.length === 0) { %>
                                 <p class="noEntriesComment">No comments.</p>
@@ -216,13 +249,13 @@
                                             <i class="far fa-edit"></i>
                                         </a>
                                         <div class="collapse" id="collapseEditComment<%= i %>">
-                                            <div class="">
-                                                <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
+                                            <div class="form-group">
+                                                <form class="text-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
                                                     <input class="form-control mt-3" type="text" name="comment" 
                                                         id="comment" value="<%= book.comments[i].text %>">
                                                     <button class="btn btn-dark mt-3">Update</button>
                                                 </form>
-                                                <form action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
+                                                <form class="text-right float-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
                                                     <button class="btn btn-sm btn-outline-danger mt-2 mb-3">Delete</button>
                                                 </form>
                                             </div>
