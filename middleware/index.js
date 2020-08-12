@@ -106,4 +106,12 @@ middlewareObj.isLoggedIn = (req, res, next) => {
 	res.redirect("/login");
 }
 
+middlewareObj.isLoggedInMain = (req, res, next) => {
+	if(req.isAuthenticated()) {
+		return next();
+    }
+    req.flash("error", "Welcome to GreyBook! Please sign in to enter.");
+	res.redirect("/login");
+}
+
 module.exports  = middlewareObj;

@@ -1,5 +1,3 @@
-const user = require("../models/user");
-
 const   express         = require("express"),      
         router          = express.Router({mergeParams: true}), //this objects includes all params...
         Book 	 		= require("../models/book"),
@@ -50,7 +48,7 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
 
 
 // EDIT Profile Route
-// Features: Edit names, upload profile pic, change password, change email address, add/remove Friends, 
+// Features: Add names, Add bio, Upload/change profile pic, change password, change email address, unfriend?? 
 //           Link to Show All Books Page -- 
 //                in 'show all books' page show overalls for every books created/associated.
 
@@ -66,6 +64,23 @@ router.get("/greybook/userprofile/:userid/editprofile", middleware.checkUserOwne
 });
 
 // UPDATE
+router.put("/greybook/userprofile/:userid", async (req, res) => {
+    try {
+        let obj = {
+            profilepic: req.body.profilepic,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            bio: req.body.bio
+        }
+        await User.findByIdAndUpdate(req.params.userid, obj);
+        req.flash("success", "Successfully updated your profile!");
+        res.redirect("/greybook/userprofile/" + req.params.userid);
+    } catch(error) {
+        req.flash("error", "PROF 3: Something went wrong!");
+        res.redirect("back");
+    }
+});
 
 
 

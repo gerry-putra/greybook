@@ -10,7 +10,7 @@ const   express         = require("express"),
 //    BOOKS ROUTES   //
 //===================//
 // Greybook HOME Route
-router.get("/greybook", middleware.isLoggedIn, async (req, res) => {
+router.get("/greybook", middleware.isLoggedInMain, async (req, res) => {
 	try {
 		let allBooks = await Book.find({});
 		res.render("greybook/greybookhome", {books: allBooks});

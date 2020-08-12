@@ -1,10 +1,78 @@
 <%- include("../partials/header") %>
 
-<div class="container">
-    <h1>EDIT PROFILE PAGE</h1>
-    <h1>EDIT PROFILE PAGE</h1>
+<div class="container editEntryContainer">
+    <h1 class="mb-3">Edit Profile</h1>
+    <form action="/greybook/userprofile/<%= user._id %>?_method=PUT" method="POST">
+        <img src="<%= user.profilepic %>" id="profilePic" class="rounded-circle mx-auto img-fluid d-block py-4 px-3">
+        
+        <div class="form-group">
+            <label for="profilePicChoice">Choose Your Profile Picture</label>
+            <select class="form-control form-control-lg profilePicChoice" name="profilepic" id="profilePicChoice">
+                <option value="/img/profile/default.png">Default</option>
+                <option value="/img/profile/lion.jpg">Lion 1</option>
+                <option value="/img/profile/lion2.jpg">Lion 2</option>
+                <option value="/img/profile/lioness.jpg">Lioness</option>
+                <option value="/img/profile/tiger.jpg">Tiger 1</option>
+                <option value="/img/profile/tiger2.jpg">Tiger 2</option>
+                <option value="/img/profile/whitetiger.jpg">White Tiger</option>
+                <option value="/img/profile/panda.jpg">Panda</option>
+                <option value="/img/profile/giraffe.jpg">Giraffe</option>
+                <option value="/img/profile/fatsheep.jpg">Sheep</option>
+                <option value="/img/profile/chicken.jpg">Chicken 1</option>
+                <option value="/img/profile/chicken2.jpg">Chicken 2</option>
+                <option value="/img/profile/owl.jpg">Owl</option>
+                <option value="/img/profile/poodle.jpg">Poodle</option>
+                <option value="/img/profile/turtle.jpg">Turtle</option>
+                <option value="/img/profile/frog.jpg">Frog</option>
+            </select>
+        </div>
 
+        <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="firstnameInput">First Name </label>
+                    <input class="form-control form-control-lg" 
+                        value="<%= user.firstname %>" type="text" name="firstname" id="firstnameInput">
+                </div>
+
+                <div class="col">
+                    <label for="lastnameInput">Last Name </label>
+                    <input class="form-control form-control-lg" 
+                        value="<%= user.lastname %>" type="text" name="lastname" id="lastnameInput">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="emailInput">Email</label>
+                <input class="form-control form-control-lg" 
+                    value="<%= user.email %>" type="email" name="email" id="emailInput" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bioInput">Bio</label>
+                <input class="form-control form-control-lg" 
+                    value="<%= user.bio %>" type="text" name="bio" id="bioInput">
+        </div>
+        <div class="text-center mt-4 mb-3">
+            <button type="submit" class="btn btn-lg btn-dark">Update</button>
+        </div>
+    </form>
+    <div class="text-center">
+        <a href="/greybook/userprofile/<%= user._id %>" type="submit" class="btn btn-lg btn-secondary mb-4">Cancel</a>
+    </div>
 </div>
 
+<script>
+    $(document).ready(function(){
+        $("#profilePicChoice").change(function(){
+            $("img[id=profilePic]").attr("src",$(this).val());
+        });
+    });
+
+    $("#profilePicChoice").profilePicChoice({
+        dropupAuto: false
+    });
+</script>
 
 <%- include("../partials/footer") %>
