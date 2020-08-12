@@ -3,10 +3,30 @@
 <div class="container editEntryContainer">
     <h1>Edit Entry</h1>
     <form action="/greybook/<%= book._id %>/entry/<%= entry._id %>?_method=PUT" method="POST">
+
         <div class="form-group">
-            <label for="entryDateInput">Date </label>
-            <input class="form-control" value="<%= entry.date %>" type="date" name="date" id="entryDateInput" required>
+            <div class="row">
+                <div class="col">
+                    <label for="entryDateInput">Date </label>
+                    <input class="form-control" value="<%= entry.date %>" type="date" name="date" id="entryDateInput" required>
+                </div>
+
+                <div class="col">
+                    <label for="entryType">Entry Type </label>
+                    <select class="form-control" id="entryType" name="entrytype">
+                        <% if(entry.type === "loan") { %>
+                            <option value="loan" selected="selected">Loan</option>
+                            <option value="payment">Payment</option>
+                        <% } else { %>
+                            <option value="loan">Loan</option>
+                            <option value="payment" selected="selected">Payment</option>
+                        <% } %> 
+                        
+                    </select>
+                </div>
+            </div>
         </div>
+
         <div class="form-group">
             <label for="entryDescInput">Description </label>
             <input class="form-control" value="<%= entry.description %>" type="text" name="description" 
@@ -15,46 +35,42 @@
                 Give your entry a brief description of what it is about. 72 characters max.
             </small>
         </div>
-        <div class="form-group">
-            <label for="entryAmountInput">Amount </label>
-            <input class="form-control" value="<%= entry.amount %>" type="number" name="amount" id="entryAmountInput" required>
+
+       <div class="form-group">
+            <div class="row">
+                <div class="col">
+                    <label for="entryAmountInput">Amount </label>
+                    <input class="form-control" value="<%= entry.amount %>" type="number" name="amount" id="entryAmountInput" required>
+                </div>
+
+                <div class="col">
+                    <label for="tofrom">To/From </label>
+                    <select class="form-control" id="tofrom" name="tofrom">
+                        <% for(let associate of book.associates) { %>
+                            <% if(entry.tofrom.id.equals(associate.id)) { %>
+                                <option value="<%= associate.id %>" selected="selected">
+                                    <%= associate.username %>
+                                </option>
+                            <% } else { %>
+                                <option value="<%= associate.id %>">
+                                    <%= associate.username %>
+                                </option>
+                            <% } %> 
+                        <% } %> 
+                    </select>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="entryType">Entry Type </label>
-            <select class="form-control" id="entryType" name="entrytype">
-                <% if(entry.type === "loan") { %>
-                    <option value="loan" selected="selected">Loan</option>
-                    <option value="payment">Payment</option>
-                <% } else { %>
-                    <option value="loan">Loan</option>
-                    <option value="payment" selected="selected">Payment</option>
-                <% } %> 
-                
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="tofrom">To/From </label>
-            <select class="form-control" id="tofrom" name="tofrom">
-                <% for(let associate of book.associates) { %>
-                    <% if(entry.tofrom.id.equals(associate.id)) { %>
-                        <option value="<%= associate.id %>" selected="selected">
-                            <%= associate.username %>
-                        </option>
-                    <% } else { %>
-                        <option value="<%= associate.id %>">
-                            <%= associate.username %>
-                        </option>
-                    <% } %> 
-                <% } %> 
-            </select>
-        </div>
-        <button class="btn btn-lg btn-block btn-dark mt-5 mb-4">Update Entry</button>
+        <button class="btn btn-lg btn-dark mt-5 mb-3 d-block mx-auto">Update Entry</button>
     </form>
 
-    <a class="btn btn-lg btn-block btn-secondary mt-4 mb-4" href="/greybook/<%= book._id %>">Cancel</a>
+    <div class="text-center">
+        <a class="btn btn-lg btn-secondary" href="/greybook/<%= book._id %>">Cancel</a>
+    </div>
+
 
     <form action="/greybook/<%= book._id %>/entry/<%= entry._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-outline-danger mt-5 mb-2 d-block mx-auto">Delete Entry</button>
+        <button class="btn btn-outline-danger btn-sm mt-4 d-block mx-auto">Delete Entry</button>
     </form>
 </div>
 
