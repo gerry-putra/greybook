@@ -60,6 +60,6 @@ app.use("/", profileRoutes);
 app.use("/", friendsRoutes);
 
 
-app.listen(process.env.PORT || 3001, process.env.IP, () => {
-	console.log("The greyBook server start at port 3001.");
+app.listen(process.env.PORT || 3002, process.env.IP, () => {
+	console.log("The greyBook server start at port 3002.");
 });

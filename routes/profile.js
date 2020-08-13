@@ -2,7 +2,7 @@ const   express         = require("express"),
         router          = express.Router({mergeParams: true}), //this objects includes all params...
         Book 	 		= require("../models/book"),
         User 	 		= require("../models/user"),
-        Friend 	        = require("../models/friend"),
+        Friend 	        = require("../models/friends"),
         middleware 		= require("../middleware");
 
 //==================//
@@ -22,12 +22,12 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
         // Others' profile
         } else {
             let obj          = {
-                requester: {id: req.user._id, username: req.user.username}, 
-                recipient: {id: foundUser._id, username: foundUser.username}
+                requester: req.user._id, 
+                recipient: foundUser._id 
             }
             let obj2         = {
-                requester: {id: foundUser._id, username: foundUser.username}, 
-                recipient: {id: req.user._id, username: req.user.username}
+                requester: foundUser._id,
+                recipient: req.user._id
             }
             let foundFriend  = await Friend.findOne(obj);
             let foundFriend2 = await Friend.findOne(obj2);

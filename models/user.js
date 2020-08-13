@@ -9,12 +9,8 @@ const UserSchema = new mongoose.Schema({
     lastname: String,
     bio: String,
     friends: [{
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
-        },
-        username: String,
-        _id: false
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     }],
     created: {type: Date, default: Date.now}
 });

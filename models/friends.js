@@ -2,18 +2,12 @@ const mongoose = require("mongoose");
 
 const FriendSchema = new mongoose.Schema({
     requester: {
-		id:{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
-		},
-		username: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
 	},
     recipient: {
-		id:{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
-		},
-		username: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
 	},
     status: {
         type: Number,

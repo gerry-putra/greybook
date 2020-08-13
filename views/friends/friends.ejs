@@ -2,71 +2,78 @@
 
 <div class="container editEntryContainer">
     <h1>Social</h1>
+
+    <!-- Search bar -->
+    <div class="form-group text-center my-4">
+        <form action="/greybook/search/results" method="GET">
+            <div class="container">
+                <div class="row">
+                    <div class="col-9 col-lg-10">
+                        <input type="text" class="form-control" name="search" id="search" placeholder="Search username...">
+                    </div>
+                    <div class="col-3 col-lg-2">
+                        <button type="submit" class="btn btn-outline-success px-4 px-lg-5">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Friend Request -->
+    <h4>Friend Request</h4>
+    <% if(requests.length === 0) { %>
+        <div class="container border">
+            <p>No friend request.</p>
+        </div>
+    <% } else { %>
+        <% requests.forEach((request) => { %>
+            <div class="container border">
+                <img src="<%= request.requester.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
+                <a href="/greybook/userprofile/<%= request.requester._id %>"><%= request.requester.username %></a>
+                <p>Requested <%= moment(request.createdAt).fromNow() %></p>
+                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_3?_method=PUT" 
+                    method="POST">
+                    <button class="btn btn-success">Approve</button>
+                </form>
+                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_2?_method=PUT" 
+                    method="POST">
+                    <button class="btn btn-danger my-2">Decline</button>
+                </form>
+            </div>
+        <% }); %>
+    <% } %> 
+
+    <!-- Sent Requests -->
+    <h4>Sent Request</h4>
+    <% if(pendings.length === 0) { %>
+        <div class="container border">
+            <p>No pending sent request.</p>
+        </div>
+    <% } else { %>
+        <% pendings.forEach((pending) => { %>
+            <div class="container border">
+                <img src="<%= pending.recipient.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
+                <a href="/greybook/userprofile/<%= pending.recipient._id %>"><%= pending.recipient.username %></a>
+                <p>Pending request. Still waiting for approval.</p>
+                <p>Requested <%= moment(pending.createdAt).fromNow() %></p>
+            </div>
+        <% }); %> 
+    <% } %> 
+
+    <!-- Friends List -->
+    <h4>Friends List</h4>
+    <% if(user.friends.length === 0) { %>
+        <div class="container border">
+            <p>You do not have any friends. Search for a user and make a friend request.</p>
+        </div>
+    <% } else { %>
+        <% user.friends.forEach((friend) => { %>
+            <div class="container border">
+                <img src="<%= friend.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
+                <a href="/greybook/userprofile/<%= friend._id %>"><%= friend.username %></a>
+            </div>
+        <% }); %>
+    <% } %> 
 </div>
-
-
-<!-- Incoming FriendRequests -->
-<h4>Friend Request: </h4>
-<% if(requests.length === 0) { %>
-    <div class="container border">
-        <p>No friend request.</p>
-    </div>
-<% } else { %>
-    <% requests.forEach((request) => { %>
-        <div class="container border">
-            <a href="/greybook/userprofile/<%= request.requester.id %>"><%= request.requester.username %></a>
-            <p>Requested <%= moment(request.createdAt).fromNow() %></p>
-            <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester.id %>/status_3?_method=PUT" 
-                method="POST">
-                <button class="btn btn-success">Approve</button>
-            </form>
-            <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester.id %>/status_2?_method=PUT" 
-                method="POST">
-                <button class="btn btn-danger my-2">Decline</button>
-            </form>
-        </div>
-    
-    <% }); %>
-<% } %> 
-
-<br> 
-<br> 
-
-<!-- Outgoing Pending FriendRequests -->
-<h4>Pending Friend Request:</h4>
-<% if(pendings.length === 0) { %>
-    <div class="container border">
-        <p>No pending request.</p>
-    </div>
-<% } else { %>
-    <% pendings.forEach((pending) => { %>
-        <div class="container border">
-            <a href="/greybook/userprofile/<%= pending.recipient.id %>"><%= pending.recipient.username %></a>
-            <p>Pending request. Still waiting for approval.</p>
-            <p>Requested <%= moment(pending.createdAt).fromNow() %></p>
-        </div>
-    <% }); %> 
-<% } %> 
-    
-
-<br> 
-<br>  
-
-
-<!-- Friends List WILL BE SHOWN PUBLIC -->
-<h4>Friends List:</h4>
-<% if(user.friends.length === 0) { %>
-    <div class="container border">
-        <p>You do not have any friends. Search for a user and make a friend request.</p>
-    </div>
-<% } else { %>
-    <% user.friends.forEach((friend) => { %>
-        <div class="container border">
-            <a href="/greybook/userprofile/<%= friend.id %>"><%= friend.username %></a>
-        </div>
-    <% }); %>
-<% } %> 
-<br> 
-<br> 
 
 <%- include("../partials/footer") %>

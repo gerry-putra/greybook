@@ -6,6 +6,22 @@
         <i class="fas fa-search searchIcon"></i> 
         Sorry, we couldn't find any username matching '<%= search %>'...
     </h4>
+
+    <!-- Search bar -->
+    <div class="form-group text-center my-5">
+        <form action="/greybook/search/results" method="GET">
+            <div class="container">
+                <div class="row">
+                    <div class="col-9 col-lg-10">
+                        <input type="text" class="form-control" name="search" id="search" placeholder="Search again?">
+                    </div>
+                    <div class="col-3 col-lg-2">
+                        <button type="submit" class="btn btn-outline-success px-4 px-lg-5">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 <%- include("../partials/footer") %>
