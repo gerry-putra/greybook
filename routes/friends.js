@@ -9,14 +9,19 @@ const   express         = require("express"),
 router.get("/greybook/friends/:userid", middleware.isLoggedIn, async (req, res) => {
     // find friend with requester = currentUser_id with status.type=1 to get all 'pending request'
     // AND recipient = currentUser_id with status.type=1 to get all 'incoming friend request'
-    let foundUser       = 
-        await User.findById(req.params.userid);
-    let pendingFriends  = 
-        await Friend.find({requester: {id: req.user._id, username: req.user.username}, status: 1});
-    let friendRequests  = 
-        await Friend.find({recipient: {id: req.user._id, username: req.user.username}, status: 1});
+    let foundUser       = await User.findById(req.params.userid);
     
-    res.render("friends/friends", {user: foundUser, pendings: pendingFriends, requests: friendRequests});
+    if(foundUser._id.equals(req.user._id)) {
+        let pendingFriends  = 
+        await Friend.find({requester: {id: req.user._id, username: req.user.username}, status: 1});
+        let friendRequests  = 
+            await Friend.find({recipient: {id: req.user._id, username: req.user.username}, status: 1});
+        
+        res.render("friends/friends", {user: foundUser, pendings: pendingFriends, requests: friendRequests});
+    } else {
+        res.render("friends/otherfriends", {user: foundUser});
+    }
+    
 });
 
 router.post("/greybook/friends/:userid/friend_req", middleware.isLoggedIn, async (req, res) => {
