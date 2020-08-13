@@ -42,23 +42,24 @@
                     <label for="entryAmountInput">Amount </label>
                     <input class="form-control form-control-lg" value="<%= entry.amount %>" type="number" name="amount" id="entryAmountInput" required>
                 </div>
-
-                <div class="col">
-                    <label for="tofrom">To/From </label>
-                    <select class="form-control form-control-lg" id="tofrom" name="tofrom">
-                        <% for(let associate of book.associates) { %>
-                            <% if(entry.tofrom.id.equals(associate.id)) { %>
-                                <option value="<%= associate.id %>" selected="selected">
-                                    <%= associate.username %>
-                                </option>
-                            <% } else { %>
-                                <option value="<%= associate.id %>">
-                                    <%= associate.username %>
-                                </option>
+                <% if(book.associates.length !== 0) { %>
+                    <div class="col">
+                        <label for="tofrom">To/From </label>
+                        <select class="form-control form-control-lg" id="tofrom" name="tofrom">
+                            <% for(let associate of book.associates) { %>
+                                <% if(entry.tofrom.id.equals(associate.id)) { %>
+                                    <option value="<%= associate.id %>" selected="selected">
+                                        <%= associate.username %>
+                                    </option>
+                                <% } else { %>
+                                    <option value="<%= associate.id %>">
+                                        <%= associate.username %>
+                                    </option>
+                                <% } %> 
                             <% } %> 
-                        <% } %> 
-                    </select>
-                </div>
+                        </select>
+                    </div>
+                <% } %> 
             </div>
         </div>
         <button class="btn btn-lg btn-dark mt-5 mb-2 d-block mx-auto">Update Entry</button>

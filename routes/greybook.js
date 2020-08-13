@@ -46,17 +46,20 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	try {
 		let newBook			= await Book.create(bookObj);
 		let associateObj	= {};
+
 		if(Array.isArray(req.body.associate)) {
 			for(let associateId of req.body.associate) {
 				let foundUser 	= await User.findById(associateId);
 				associateObj 	= {id: foundUser._id, username: foundUser.username};
 				newBook.associates.push(associateObj);
 			}
-		} else if(req.body.associate !== null || req.body.associate !== undefined) {
+
+		} else if(req.body.associate != undefined || req.body.associate != null) {
 			let foundUser 	= await User.findById(req.body.associate);
 			associateObj 	= {id: foundUser._id, username: foundUser.username};
 			newBook.associates.push(associateObj);
 		}
+		
 		newBook.save();
 		req.flash("success", "Successfully created " + newBook.title + " book!");
 		res.redirect("/greybook");

@@ -57,18 +57,32 @@ router.get("/greybook/:bookid/entry/:entryid/editentry", middleware.checkBookOwn
 
 // UPDATE Entry Route
 router.put("/greybook/:bookid/entry/:entryid", middleware.checkBookOwnership, async (req, res) => {
-	let	description	= req.body.description,
+	let entryObj	= {};
+	let	date		= req.body.date,
+		description	= req.body.description,
 		amount		= req.body.amount,
 		type		= req.body.entrytype;
-	try {	
-		let foundUser	= await User.findById(req.body.tofrom);
-		let tofromObj	= {id: req.body.tofrom, username: foundUser.username};
-		let entryObj	= {
-			description: description, 
-			amount: amount, 
-			type: type, 
-			tofrom: tofromObj
-		};
+	try {
+		// BOOKS w/o associate will have Entries w/o tofrom(undefined)	
+		if(req.body.tofrom == undefined) {
+			entryObj		= {
+				date: date,
+				description: description, 
+				amount: amount, 
+				type: type, 
+			};
+		} else {
+			let foundUser	= await User.findById(req.body.tofrom);
+			let tofromObj	= {id: req.body.tofrom, username: foundUser.username};
+			entryObj		= {
+				date: date,
+				description: description, 
+				amount: amount, 
+				type: type, 
+				tofrom: tofromObj
+			};
+		}
+		
 		await Entry.findByIdAndUpdate(req.params.entryid, entryObj);
 		req.flash("success", "Successfully editted entry!");
 		res.redirect("/greybook/" + req.params.bookid);
