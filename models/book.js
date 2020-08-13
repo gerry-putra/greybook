@@ -4,7 +4,6 @@ const BookSchema = new mongoose.Schema({
 	title: String,
 	type: String,
 	desc: String,
-	cover: String,
     author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -32,7 +31,6 @@ const BookSchema = new mongoose.Schema({
 			ref: "Comment"
 		}
     ],
-    created: {type: Date, default: Date.now}
-});
+}, {timestamps: true});
 
 module.exports = mongoose.model("Book", BookSchema);

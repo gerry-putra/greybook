@@ -4,9 +4,8 @@
     <div class="row border">
 
         <!-- LEFT COLUMN SIDEBAR HERE -->
-        <div class="col-xl-3 bd-sidebar shadow showSidebar">
+        <div class="col-xl-3 bd-sidebar shadow showSidebar pt-5">
             <div class="px-3">
-                <img src="<%= book.cover %>" id="coverImage" class="rounded mx-auto img-fluid d-block py-4 px-3">
             
                 <div class="px-3">
                     <div id="bookInfoHeader">
@@ -44,9 +43,8 @@
                                 <strong><%= book.author.username %></strong>
                             </a>
                         </h6>
-                        <h6 class="mt-1">Created: 
-                            <em><%= book.created.toDateString() %> </em>
-                            <strong>(<%= moment(book.created).fromNow() %>)</strong>
+                        <h6 class="mt-1">Created since: 
+                            <strong><%= moment(book.createdAt).fromNow() %></strong>
                         </h6>
                     </div>
                 </div>
@@ -61,7 +59,7 @@
         </div> <!--- LEFT column (sidebar) end --->
 
         <!-- RIGHT COLUMN HERE -->
-        <div class="col-xl-9 mt-4 px-0 px-lg-5" id="rightContent">
+        <div class="col-xl-9 px-0 px-lg-5 pt-5" id="rightContent">
             <!-- SHOW ENTRIES -->
             <div>
                 <h3 class="py-2" id="viewEntriesHeader">Book Entries</h3>
@@ -239,7 +237,7 @@
                             <% } else { %>
                                 <% for(let i = book.comments.length - 1; i >= 0; i--) { %>
                                     <strong><%= book.comments[i].author.username %></strong>
-                                    <span class="float-right"><%= moment(book.comments[i].created).fromNow() %></span>
+                                    <span class="float-right"><%= moment(book.comments[i].createdAt).fromNow() %></span>
                                     
                                     <!-- Edit COMMENT section STARTS here -->
                                     <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>

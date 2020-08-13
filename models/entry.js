@@ -12,8 +12,7 @@ const EntrySchema = new mongoose.Schema({
           ref: "User"
         },
         username: String
-    },
-    created: {type: Date, default: Date.now}
-});
+    }
+}, {timestamps: true});
 
 module.exports = mongoose.model("Entry", EntrySchema);

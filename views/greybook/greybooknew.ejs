@@ -35,20 +35,6 @@
                 Give your book a brief description of what it is about. 160 characters max.
             </small>
 
-            <label class="mt-4 d-block text-left newbookLabel">Book Cover </label>
-            <div class="coverSelectBox">
-                <div>
-                    <select class="form-control" name="cover" id="bookcover">
-                        <option value="/img/book1.jpg">GreyBook Cover Image 1</option>
-                        <option value="/img/book2.jpg">GreyBook Cover Image 2</option>
-                        <option value="/img/book3.jpg">GreyBook Cover Image 3</option>
-                    </select>
-                </div>
-                <div>
-                    <img src="/img/book1.jpg" id="coverImage" class="rounded mx-auto img-fluid d-block coverSelectImg">
-                </div>
-            </div>
-
             <label class="mt-4 d-block text-left newbookLabel">Add Associates 
                 <i class="fas fa-question-circle" data-toggle="collapse" href="#collapseAssoInfo" role="button" aria-expanded="false" aria-controls="collapseAssoInfo"></i>
             </label>
@@ -65,15 +51,19 @@
                 </div>
             </div>
             <div class="addAssoBox">
-                <% for(let i = 0; i < currentUser.friends.length; i++) { %> 
-                    <div class="custom-control custom-checkbox ml-3">
-                        <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
-                            name="associate" value="<%= currentUser.friends[i].id %>">
-                        <label class="custom-control-label newbookLabel" for="<%= 'associate' + i %>">
-                            <%= currentUser.friends[i].username %>
-                        </label>
-                    </div>
-                <% } %> 
+                <% if(user.friends.length === 0) { %>
+                    <p>You do not have any friend to add as your book associate.</p>
+                <% } else { %>
+                    <% for(let i = 0; i < user.friends.length; i++) { %> 
+                        <div class="custom-control custom-checkbox ml-3">
+                            <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
+                                name="associate" value="<%= user.friends[i]._id %>">
+                            <label class="custom-control-label newbookLabel" for="<%= 'associate' + i %>">
+                                <%= user.friends[i].username %>
+                            </label>
+                        </div>
+                    <% } %> 
+                <% } %>
             </div>    
             
             <div class="text-center">

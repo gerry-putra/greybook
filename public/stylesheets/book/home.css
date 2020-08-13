@@ -29,18 +29,37 @@
 .homeBookTitle {
     font-size: 1.6rem;
     font-weight: 200;
+    color: #525252;
 }
 .homeBookTitle:hover {
     text-decoration: none;
+    color: #7a7a7a;
+}
+
+.homeBookDesc {
+    font-weight: 300;
+    letter-spacing: 0.05rem;
+    color: #525252;
+}
+.homeBookDesc:hover {
+    text-decoration: none;
+    color: #7a7a7a;
 }
 
 .homeCardBody {
-    padding: 0.8rem;
-    background-color: rgba(82, 82, 82, 0.6);
+    background-color: #e0e0e0;
 }
 
 .homeCards {
-    width: 21rem;
+    max-width: 18rem;
+    padding: 0;
+}
+
+.homeCards .card-header {
+    font-weight: 300;
+    font-size: 1.2rem;
+    letter-spacing: 0.1rem;
+    background-color: #eeeeee;
 }
 
 .noBookNotif {
@@ -53,11 +72,7 @@
 .galleryLabel {
     letter-spacing: 0.2rem;
     font-weight: 200;
-    font-size: 2.8rem;
+    font-size: 2.6rem;
     color: #525252;
-}
-
-hr.gallery {
-    border-top: 3px double #8c8b8b;
-    margin-bottom: 2rem;
+    padding-bottom: 2rem;
 }

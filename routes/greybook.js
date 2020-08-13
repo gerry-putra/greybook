@@ -23,7 +23,8 @@ router.get("/greybook", middleware.isLoggedInMain, async (req, res) => {
 // Greybook New ROUTE
 router.get("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	try {
-		res.render("greybook/greybooknew");
+		let foundUser = await User.findById(req.user._id).populate("friends").exec(); 
+		res.render("greybook/greybooknew", {user: foundUser});
 	} catch(error) {
 		req.flash("error", "2:Something went wrong, please try again...");
 		res.redirect("/greybook");
@@ -36,12 +37,11 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	let	title	= req.body.title,
 		type	= req.body.type,
 		desc	= req.body.desc,
-		cover	= req.body.cover,
 		author	= {
 			id		: req.user._id,
 			username: req.user.username
 		};
-	let bookObj	= {title: title, type: type, desc: desc, cover: cover, author: author};
+	let bookObj	= {title: title, type: type, desc: desc, author: author};
 
 	try {
 		let newBook			= await Book.create(bookObj);

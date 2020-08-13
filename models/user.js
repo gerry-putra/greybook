@@ -11,9 +11,8 @@ const UserSchema = new mongoose.Schema({
     friends: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }],
-    created: {type: Date, default: Date.now}
-});
+    }]
+}, {timestamps: true});
 
 UserSchema.plugin(passportLocalMongoose);
 
