@@ -20,58 +20,84 @@
     </div>
 
     <!-- Friend Request -->
-    <h4>Friend Request</h4>
+    <h4 class="socialSubHeader">Friend Request</h4>
     <% if(requests.length === 0) { %>
-        <div class="container border">
-            <p>No friend request.</p>
+        <div class="container">
+            <p class="friendReqDetails">No friend request.</p>
+            <hr>
         </div>
     <% } else { %>
         <% requests.forEach((request) => { %>
-            <div class="container border">
-                <img src="<%= request.requester.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
-                <a href="/greybook/userprofile/<%= request.requester._id %>"><%= request.requester.username %></a>
-                <p>Requested <%= moment(request.createdAt).fromNow() %></p>
-                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_3?_method=PUT" 
-                    method="POST">
-                    <button class="btn btn-success">Approve</button>
-                </form>
-                <form action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_2?_method=PUT" 
-                    method="POST">
-                    <button class="btn btn-danger my-2">Decline</button>
-                </form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-5 col-md-4 col-lg-3 col-xl-2">
+                        <img src="<%= request.requester.profilepic %>" class="rounded-circle img-fluid d-block ml-5 py-4 px-3 friendDp">
+                    </div>
+                    <div class="col-7 col-md-8 col-lg-9 col-xl-10 my-auto p-0">
+                        <a class="userlink" href="/greybook/userprofile/<%= request.requester._id %>"><%= request.requester.username %></a>
+                        <p class="friendReqDetails">Requested <%= moment(request.createdAt).fromNow() %></p>
+                        <form class="d-inline" action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_3?_method=PUT" 
+                            method="POST">
+                            <button class="btn btn-sm btn-outline-success">Approve</button>
+                        </form>
+                        <form class="d-inline" action="/greybook/friends/<%= currentUser._id %>/<%= request.requester._id %>/status_2?_method=PUT" 
+                            method="POST">
+                            <button class="btn btn-sm btn-outline-danger ml-2">Decline</button>
+                        </form>
+                    </div>
+                </div>
             </div>
+            <hr>
         <% }); %>
-    <% } %> 
+    <% } %>
 
     <!-- Sent Requests -->
-    <h4>Sent Request</h4>
+    <h4 class="socialSubHeader">Sent Request</h4>
     <% if(pendings.length === 0) { %>
-        <div class="container border">
-            <p>No pending sent request.</p>
+        <div class="container">
+            <p class="friendReqDetails">No pending sent request.</p>
+            <hr>
         </div>
     <% } else { %>
         <% pendings.forEach((pending) => { %>
-            <div class="container border">
-                <img src="<%= pending.recipient.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
-                <a href="/greybook/userprofile/<%= pending.recipient._id %>"><%= pending.recipient.username %></a>
-                <p>Pending request. Still waiting for approval.</p>
-                <p>Requested <%= moment(pending.createdAt).fromNow() %></p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-5 col-md-4 col-lg-3 col-xl-2">
+                        <img src="<%= pending.recipient.profilepic %>" 
+                            class="rounded-circle img-fluid d-block ml-5 py-4 px-3 friendDp">
+                    </div>
+                    <div class="col-7 col-md-8 col-lg-9 col-xl-10 my-auto p-0">
+                        <a class="userlink" href="/greybook/userprofile/<%= pending.recipient._id %>"><%= pending.recipient.username %></a>
+                        <p class="friendReqDetails">Pending request. Still waiting for approval.</p>
+                        <p class="friendReqDetails">Requested <%= moment(pending.createdAt).fromNow() %></p>
+                    </div>
+                </div>
             </div>
+            <hr>
         <% }); %> 
     <% } %> 
 
     <!-- Friends List -->
-    <h4>Friends List</h4>
+    <h4 class="socialSubHeader">Friends List</h4>
     <% if(user.friends.length === 0) { %>
-        <div class="container border">
-            <p>You do not have any friends. Search for a user and make a friend request.</p>
+        <div class="container">
+            <p class="friendReqDetails">You do not have any friends. Search for a user and make a friend request.</p>
+            <hr>
         </div>
     <% } else { %>
         <% user.friends.forEach((friend) => { %>
-            <div class="container border">
-                <img src="<%= friend.profilepic %>" class="rounded-circle mx-auto img-fluid d-block py-4 px-3 friendDp">
-                <a href="/greybook/userprofile/<%= friend._id %>"><%= friend.username %></a>
+            <div class="container">
+                <div class="row">
+                    <div class="col-5 col-md-4 col-lg-3 col-xl-2">
+                        <img src="<%= friend.profilepic %>" 
+                            class="rounded-circle img-fluid d-block ml-5 py-4 px-3 friendDp">
+                    </div>
+                    <div class="col-7 col-md-8 col-lg-9 col-xl-10 my-auto p-0">
+                        <a class="userlink" href="/greybook/userprofile/<%= friend._id %>"><%= friend.username %></a>
+                    </div>
+                </div>
             </div>
+            <hr>
         <% }); %>
     <% } %> 
 </div>
