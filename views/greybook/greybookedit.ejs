@@ -22,23 +22,22 @@
             </label>
             <div class="collapse" id="collapseAssoInfo">
                 <div class="card card-body text-left">
-                    <p>Invite your friends as an associate of this book.</p> 
+                    <p>Add additional associates or remove existing ones.</p>
+                    <p>Removing associates will 
+                        <strong>not remove existing entries </strong>
+                        dedicated to/from the removed associate.
+                    </p>
+                    <p>Adding new associates will add make them available in the 'to/from' list.</p>
                     <p>Book Associates are someone you borrowed/lended money to, or someone just being an eye witness.</p>
                     <p>Associates are authorized for a view-only (no editting to any part of the book).</p> 
-                    <p>Books will be featured in associates' home page under 'Associated Books' menu.</p> 
-                    <p>
-                        <strong>Note that</strong> 
-                        if you want to keep this book completely private, then leave these unckecked.
-                    </p>    
+                    <p>Books will be featured on their home page under 'Associated Books' menu.</p>    
                 </div>
             </div>
             <div class="addAssoBox">
                 <% if(user.friends.length !== 0) { %>
                     <% for(let i = 0; i < user.friends.length; i++) { %> 
                         <div class="custom-control custom-checkbox ml-3">
-
-                            <% if(book.associates.includes(user.friends[i]._id)) { %>
-
+                            <% if(myFunctions.isInArray(user.friends[i]._id, book.associates)) { %>
                                 <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
                                     name="associate" value="<%= user.friends[i]._id %>" checked>
                             <% } else { %>
@@ -54,31 +53,43 @@
                 <% } %> 
             </div> 
         </div>
-
-        <button class="btn btn-dark">Update Book</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-dark">Update Book</button>
+        </div>
     </form>
 
-    <a class="btn btn-secondary" href="/greybook/<%= book._id %>">Cancel</a>
+    <div class="text-center">
+        <a class="btn btn-secondary my-2" href="/greybook/<%= book._id %>">Cancel</a>
+    </div>
 
-    <div class="container dangerZoneContainer">
+    <div class="container dangerZoneContainer my-5">
         <div class="row justify-content-around">
             <div class="col-10 col-md-8 rounded border border-danger px-4 py-3">
-                <h1 class="text-danger text-left">Danger Zone</h1>
+                <h1 class="text-danger text-center">Danger Zone</h1>
+                <hr class="bg-danger">
+                <h4 class="text-danger">Book Deletion</h4>
                 <p class="text-left text-danger">
                     <strong>Note that </strong>deleting a book will remove its entire 
                     content from the database including all existing Entries and Comments.
                 </p>
                 <form class="text-right" action="/greybook/<%= book._id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-sm btn-outline-danger">Delete Book</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete Book</button>
                 </form>
+                <hr class="bg-danger">
+
+
+                <h4 class="text-danger">Change Book Ownership</h4>
+                <p class="text-left text-danger">
+                    Coming Soon :)
+                </p>
+                <form class="text-right">
+                    <button type="submit" class="btn btn-sm btn-outline-danger" disabled>Change Ownership</button>
+                </form>
+                <hr class="bg-danger">
             </div>
         </div>
     </div>
         
-    
-    
-    
 </div>
-
 
 <%- include("../partials/footer") %>

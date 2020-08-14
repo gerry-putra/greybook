@@ -7,3 +7,9 @@
     font-weight: 300;
     letter-spacing: 0.06rem;
 }
+
+.dangerZoneContainer hr {
+    border: 0;
+    border-top: 1px solid #f00;
+    opacity: .2;
+}

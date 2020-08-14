@@ -4,7 +4,8 @@ const   express         = require("express"),
         Book 	 		= require("../models/book"),
         Entry 	 		= require("../models/entry"),
 		Comment 	 	= require("../models/comment"),
-		middleware 		= require("../middleware");
+		middleware 		= require("../middleware"),
+		myFunctions		= require("../public/js/functions.js");
 
 //===================//
 //    BOOKS ROUTES   //
@@ -48,19 +49,14 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 		let bookObj	= {title: title, type: type, desc: desc, author: author};
 		let newBook	= await Book.create(bookObj);
 
-		console.log(req.body.associate);
-
 		if(Array.isArray(req.body.associate)) {
-			console.log("1");
 			for(let associateId of req.body.associate) {
 				newBook.associates.push(associateId);
 			}
 
 		} else if(req.body.associate !== undefined) {
-			console.log("2");
 			newBook.associates.push(req.body.associate);
 		}
-		console.log("3");
 		newBook.save();
 		req.flash("success", "Successfully created " + newBook.title + " book!");
 		res.redirect("/greybook");
@@ -140,7 +136,7 @@ router.get("/greybook/:bookid/bookedit", middleware.checkBookOwnership, async (r
 	try {
 		let foundBook = await Book.findById(req.params.bookid).populate("associates").exec();
 		let foundUser = await User.findById(req.user._id).populate("friends").exec(); 
-		res.render("greybook/greybookedit", {book: foundBook, user: foundUser});
+		res.render("greybook/greybookedit", {book: foundBook, user: foundUser, myFunctions: myFunctions});
 	} catch(error) {
 		req.flash("error", "7:Something went wrong, please try again...");
 		res.redirect("/greybook/" + req.params.bookid + "/bookedit");
@@ -149,9 +145,27 @@ router.get("/greybook/:bookid/bookedit", middleware.checkBookOwnership, async (r
 
 // UPDATE Book Route
 router.put("/greybook/:bookid", middleware.checkBookOwnership, async (req, res) => {
-	let titleObj 	= {title: req.body.title};
 	try {
-		await Book.findByIdAndUpdate(req.params.bookid, titleObj);
+		let obj		= {
+			title: req.body.title,
+			desc: req.body.desc
+		} 
+		// Clear existing array for new associates...
+		let updatedBook	= await Book.findByIdAndUpdate(req.params.bookid, {associates: []});
+
+		if(Array.isArray(req.body.associate)) {
+			for(let associateId of req.body.associate) {
+				updatedBook.associates.push(associateId);
+			}
+
+		} else if(req.body.associate !== undefined) {
+			updatedBook.associates.push(req.body.associate);
+		}
+		// Update associate...
+		updatedBook.save();
+		// Update title and description...
+		await Book.findByIdAndUpdate(req.params.bookid, obj);
+
 		req.flash("success", "Successfully editted book!");
 		res.redirect("/greybook/" + req.params.bookid);
 	} catch(error) {
