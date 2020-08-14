@@ -14,7 +14,7 @@ router.get("/greybook", middleware.isLoggedInMain, async (req, res) => {
 	try {
 		let foundUser 		= await User.findById(req.user._id);
 		let foundBooks 		= await Book.find({author: {id: foundUser._id, username: foundUser.username}});
-		let foundAssoBooks 	= await Book.find({associates: {id: foundUser._id, username: foundUser.username}});
+		let foundAssoBooks 	= await Book.find({associates: foundUser._id}).populate("associates").exec();
 
 		res.render("greybook/greybookhome", {books: foundBooks, assoBooks: foundAssoBooks});
 	} catch(error) {
@@ -37,38 +37,35 @@ router.get("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 
 // Greybook CREATE NEW BOOK Route
 router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
-	let	title	= req.body.title,
-		type	= req.body.type,
-		desc	= req.body.desc,
-		author	= {
-			id		: req.user._id,
-			username: req.user.username
-		};
-	let bookObj	= {title: title, type: type, desc: desc, author: author};
-
 	try {
-		let newBook			= await Book.create(bookObj);
-		let associateObj	= {};
+		let	title	= req.body.title,
+			type	= req.body.type,
+			desc	= req.body.desc,
+			author	= {
+				id		: req.user._id,
+				username: req.user.username
+			};
+		let bookObj	= {title: title, type: type, desc: desc, author: author};
+		let newBook	= await Book.create(bookObj);
+
+		console.log(req.body.associate);
 
 		if(Array.isArray(req.body.associate)) {
+			console.log("1");
 			for(let associateId of req.body.associate) {
-				let foundUser 	= await User.findById(associateId);
-				associateObj 	= {id: foundUser._id, username: foundUser.username};
-				newBook.associates.push(associateObj);
+				newBook.associates.push(associateId);
 			}
 
-		} else if(req.body.associate != undefined || req.body.associate != null) {
-			let foundUser 	= await User.findById(req.body.associate);
-			associateObj 	= {id: foundUser._id, username: foundUser.username};
-			newBook.associates.push(associateObj);
+		} else if(req.body.associate !== undefined) {
+			console.log("2");
+			newBook.associates.push(req.body.associate);
 		}
-		
+		console.log("3");
 		newBook.save();
 		req.flash("success", "Successfully created " + newBook.title + " book!");
 		res.redirect("/greybook");
 
 	} catch(error) {
-		console.log(error);
 		req.flash("error", "3:Something went wrong, please try again...");
 		res.redirect("/greybook/new");
 	}
@@ -80,6 +77,7 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 		let foundBook = await Book.findById(req.params.bookid)
 			.populate("entries")
 			.populate("comments")
+			.populate("associates")
 			.exec();
 
 		if(foundBook.associates.length !== 0) {
@@ -140,8 +138,9 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 // EDIT Book Route
 router.get("/greybook/:bookid/bookedit", middleware.checkBookOwnership, async (req, res) => {
 	try {
-		let foundBook = await Book.findById(req.params.bookid);
-		res.render("greybook/greybookedit", {book: foundBook});
+		let foundBook = await Book.findById(req.params.bookid).populate("associates").exec();
+		let foundUser = await User.findById(req.user._id).populate("friends").exec(); 
+		res.render("greybook/greybookedit", {book: foundBook, user: foundUser});
 	} catch(error) {
 		req.flash("error", "7:Something went wrong, please try again...");
 		res.redirect("/greybook/" + req.params.bookid + "/bookedit");

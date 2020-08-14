@@ -11,14 +11,12 @@ const BookSchema = new mongoose.Schema({
 		},
 		username: String
 	},
-    associates: [{
-		id: {
+    associates: [
+		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
-		},
-		username: String,
-		_id: false
-	}],
+		}
+	],
     entries: [
 		{
 			type: mongoose.Schema.Types.ObjectId,

@@ -1,0 +1,9 @@
+.dangerZoneContainer h1 {
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+.dangerZoneContainer p {
+    font-weight: 300;
+    letter-spacing: 0.06rem;
+}

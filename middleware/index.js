@@ -32,7 +32,7 @@ middlewareObj.checkBookAndAssoOwnership = async (req, res, next) => {
                     next();
                 } else if(foundBook.associates.length > 0) {
                     foundBook.associates.forEach((asso) => {
-                        if(asso.id.equals(req.user._id)) {
+                        if(asso._id.equals(req.user._id)) {
                             next();
                         } 
                     });

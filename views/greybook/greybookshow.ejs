@@ -24,17 +24,18 @@
                                 <!-- Make sure the last associate do not have comma :) -->
                                 <% if(i < book.associates.length - 1) { %>
                                     <span class="infoAsso">
-                                        <a href="/greybook/userprofile/<%= book.associates[i].id %>">
+                                        <a href="/greybook/userprofile/<%= book.associates[i]._id %>">
                                             <strong><%= book.associates[i].username %>, </strong>
                                         </a> 
                                     </span>
                                 <% } else { %>
                                     <span class="infoAsso">
-                                        <a href="/greybook/userprofile/<%= book.associates[i].id %>">
+                                        <a href="/greybook/userprofile/<%= book.associates[i]._id %>">
                                             <strong><%= book.associates[i].username %></strong>
                                         </a> 
                                     </span>
-                                <% } %>         
+                                <% } %>     
+
                             <% } %> 
                         <% } %> 
                         
@@ -182,7 +183,7 @@
                                                     <label class="showBookLabels" for="tofrom">To/From </label>
                                                     <select class="form-control" id="tofrom" name="tofrom">
                                                         <% for(let associate of book.associates) { %>
-                                                            <option value="<%= associate.id %>">
+                                                            <option value="<%= associate._id %>">
                                                                 <%= associate.username %>
                                                             </option>
                                                         <% } %> 

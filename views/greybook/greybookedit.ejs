@@ -1,19 +1,84 @@
 <%- include("../partials/header") %>
 
-<h1>EDIT BOOK <%= book.title %></h1>
+<div class="container editEntryContainer">
+    <h1>Edit '<%= book.title %>'</h1>    
+    <form action="/greybook/<%= book._id %>?_method=PUT" method="POST">
 
-<form action="/greybook/<%= book._id %>?_method=PUT" method="POST">
-    <div>
-        <label for="booktitle">Book Title </label>
-        <input type="text" id="booktitle" value="<%= book.title %>" name="title" required>
+        <div class="form-group">
+            <label for="booktitle">Book Title </label>
+            <input type="text" class="form-control form-control-lg" 
+                id="booktitle" value="<%= book.title %>" name="title" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bookdesc">Book Description </label>
+            <input type="text" class="form-control form-control-lg" 
+                id="bookdesc" value="<%= book.desc %>" name="desc" required>
+        </div>
+
+        <div class="form-group">
+            <label class="mt-4 d-block text-left newbookLabel">Add Associates 
+                <i class="fas fa-question-circle" data-toggle="collapse" href="#collapseAssoInfo" role="button" aria-expanded="false" aria-controls="collapseAssoInfo"></i>
+            </label>
+            <div class="collapse" id="collapseAssoInfo">
+                <div class="card card-body text-left">
+                    <p>Invite your friends as an associate of this book.</p> 
+                    <p>Book Associates are someone you borrowed/lended money to, or someone just being an eye witness.</p>
+                    <p>Associates are authorized for a view-only (no editting to any part of the book).</p> 
+                    <p>Books will be featured in associates' home page under 'Associated Books' menu.</p> 
+                    <p>
+                        <strong>Note that</strong> 
+                        if you want to keep this book completely private, then leave these unckecked.
+                    </p>    
+                </div>
+            </div>
+            <div class="addAssoBox">
+                <% if(user.friends.length !== 0) { %>
+                    <% for(let i = 0; i < user.friends.length; i++) { %> 
+                        <div class="custom-control custom-checkbox ml-3">
+
+                            <% if(book.associates.includes(user.friends[i]._id)) { %>
+
+                                <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
+                                    name="associate" value="<%= user.friends[i]._id %>" checked>
+                            <% } else { %>
+                                <input class="custom-control-input" type="checkbox" id="<%= 'associate' + i %>" 
+                                    name="associate" value="<%= user.friends[i]._id %>">
+                            <% } %> 
+                            <label class="custom-control-label newbookLabel" for="<%= 'associate' + i %>">
+                                <%= user.friends[i].username %>
+                            </label>
+
+                        </div>
+                    <% } %> 
+                <% } %> 
+            </div> 
+        </div>
+
+        <button class="btn btn-dark">Update Book</button>
+    </form>
+
+    <a class="btn btn-secondary" href="/greybook/<%= book._id %>">Cancel</a>
+
+    <div class="container dangerZoneContainer">
+        <div class="row justify-content-around">
+            <div class="col-10 col-md-8 rounded border border-danger px-4 py-3">
+                <h1 class="text-danger text-left">Danger Zone</h1>
+                <p class="text-left text-danger">
+                    <strong>Note that </strong>deleting a book will remove its entire 
+                    content from the database including all existing Entries and Comments.
+                </p>
+                <form class="text-right" action="/greybook/<%= book._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-outline-danger">Delete Book</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <button>Edit book</button>
-</form>
+        
+    
+    
+    
+</div>
 
-<form action="/greybook/<%= book._id %>?_method=DELETE" method="POST">
-    <button>Delete <%= book.title %></button>
-</form>
-
-<a href="/greybook/<%= book._id %>">Go back</a>
 
 <%- include("../partials/footer") %>

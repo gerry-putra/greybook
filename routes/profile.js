@@ -13,7 +13,7 @@ router.get("/greybook/userprofile/:userid", middleware.isLoggedIn, async (req, r
     try {
         let foundUser       = await User.findById(req.params.userid);
         let foundBooks      = await Book.find({author: {id: foundUser._id, username: foundUser.username}});
-        let foundAssoBooks  = await Book.find({associates: {id: foundUser._id, username: foundUser.username}});
+        let foundAssoBooks  = await Book.find({associates: foundUser._id}).populate("associates").exec();
 
         // Self profile
         if(req.user._id.equals(req.params.userid)) {

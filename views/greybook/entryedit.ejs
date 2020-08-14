@@ -40,19 +40,20 @@
             <div class="row">
                 <div class="col">
                     <label for="entryAmountInput">Amount </label>
-                    <input class="form-control form-control-lg" value="<%= entry.amount %>" type="number" name="amount" id="entryAmountInput" required>
+                    <input class="form-control form-control-lg" value="<%= entry.amount %>" type="number" 
+                        name="amount" id="entryAmountInput" required>
                 </div>
                 <% if(book.associates.length !== 0) { %>
                     <div class="col">
                         <label for="tofrom">To/From </label>
                         <select class="form-control form-control-lg" id="tofrom" name="tofrom">
                             <% for(let associate of book.associates) { %>
-                                <% if(entry.tofrom.id.equals(associate.id)) { %>
-                                    <option value="<%= associate.id %>" selected="selected">
+                                <% if(entry.tofrom.id.equals(associate._id)) { %>
+                                    <option value="<%= associate._id %>" selected="selected">
                                         <%= associate.username %>
                                     </option>
                                 <% } else { %>
-                                    <option value="<%= associate.id %>">
+                                    <option value="<%= associate._id %>">
                                         <%= associate.username %>
                                     </option>
                                 <% } %> 

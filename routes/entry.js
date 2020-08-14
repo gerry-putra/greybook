@@ -28,7 +28,7 @@ router.post("/greybook/:bookid/newentry", middleware.checkBookOwnership, async (
 				type: type};
 		} else {
 			let tofromObj	= {id: req.body.tofrom, username: foundUser.username};
-			entryObj	= {
+			entryObj		= {
 				bookid: bookid,
 				date: date, 
 				description: description, 
@@ -50,7 +50,7 @@ router.post("/greybook/:bookid/newentry", middleware.checkBookOwnership, async (
 
 // EDIT Entry Route
 router.get("/greybook/:bookid/entry/:entryid/editentry", middleware.checkBookOwnership, async (req, res) => {
-	let foundBook	= await Book.findById(req.params.bookid);
+	let foundBook	= await Book.findById(req.params.bookid).populate("associates").exec();
 	let foundEntry	= await Entry.findById(req.params.entryid);
 	res.render("greybook/entryedit", {book: foundBook, entry: foundEntry});
 });
