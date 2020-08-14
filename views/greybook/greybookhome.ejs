@@ -76,24 +76,21 @@
 
         <% let count = 0; %> 
         <% books.forEach((book) => { %>
-            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                <% count++; %>
-                
-                <div class="card border-secondary mb-5 col-12 col-lg-6 col-xl-4 shadow-sm homeCards">
-                    <div class="card-header"><%= book.type %></div>
-                    <div class="card-body text-primary text-left homeCardBody">
-                        <h5 class="card-title">
-                            <a class="card-title homeBookTitle" href="/greybook/<%= book._id %>">
-                                <%= book.title.substring(0, 30) %>
-                            </a>
-                        </h5>
-                        <a class="card-text homeBookDesc" href="/greybook/<%= book._id %>">
-                            <%= book.desc.substring(0, 90) %>...
+            <% count++; %>
+            
+            <div class="card border-secondary mb-5 col-12 col-lg-6 col-xl-4 shadow-sm homeCards">
+                <div class="card-header"><%= book.type %></div>
+                <div class="card-body text-primary text-left homeCardBody">
+                    <h5 class="card-title">
+                        <a class="card-title homeBookTitle" href="/greybook/<%= book._id %>">
+                            <%= book.title.substring(0, 30) %>
                         </a>
-                    </div>
-                </div> 
-
-            <% } %>
+                    </h5>
+                    <a class="card-text homeBookDesc" href="/greybook/<%= book._id %>">
+                        <%= book.desc.substring(0, 90) %>...
+                    </a>
+                </div>
+            </div> 
         <% }); %> 
         <% if(count == 0) { %>
             <p class="noBookNotif pt-3">You do not have any created books.</p>
@@ -116,27 +113,23 @@
     <div class="row text-center justify-content-around">
 
         <% let countAsso = 0; %> 
-        <% books.forEach((book) => { %>
-            <% book.associates.forEach((associate) => { %>
-                <% if(currentUser && currentUser._id.equals(associate.id)) { %>
-                    <% countAsso++; %>
+        <% assoBooks.forEach((assoBook) => { %>
+            <% countAsso++; %>
 
-                    <div class="card border-light mb-5 col-12 col-lg-6 col-xl-4 shadow-sm homeCards">
-                        <div class="card-header"><%= book.type %></div>
-                        <div class="card-body text-primary text-left homeCardBody">
-                            <h5 class="card-title">
-                                <a class="card-title homeBookTitle" href="/greybook/<%= book._id %>">
-                                    <%= book.title.substring(0, 30) %>
-                                </a>
-                            </h5>
-                            <a class="card-text homeBookDesc" href="/greybook/<%= book._id %>">
-                                <%= book.desc.substring(0, 90) %>...
-                            </a>
-                        </div>
-                    </div>
+            <div class="card border-light mb-5 col-12 col-lg-6 col-xl-4 shadow-sm homeCards">
+                <div class="card-header"><%= assoBook.type %></div>
+                <div class="card-body text-primary text-left homeCardBody">
+                    <h5 class="card-title">
+                        <a class="card-title homeBookTitle" href="/greybook/<%= assoBook._id %>">
+                            <%= assoBook.title.substring(0, 30) %>
+                        </a>
+                    </h5>
+                    <a class="card-text homeBookDesc" href="/greybook/<%= assoBook._id %>">
+                        <%= assoBook.desc.substring(0, 90) %>...
+                    </a>
+                </div>
+            </div>
 
-                <% } %>
-            <% }); %>  
         <% }); %>
         <% if(countAsso == 0) { %>
             <p class="noBookNotif pt-3">No associated books.</p>

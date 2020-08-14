@@ -63,7 +63,7 @@
             <% } %> 
         </div>
         <div class="mb-3" id="bookInfoAssoAuthor">
-            <% if(user.firstname != null) { %>
+            <% if(user.firstname != "") { %>
                 <h6>Name: <strong><%= user.firstname %> <%= user.lastname %></strong></h6>
             <% } %>
             <h6>Email: <strong><%= user.email %></strong></h6>

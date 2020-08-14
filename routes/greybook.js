@@ -12,8 +12,11 @@ const   express         = require("express"),
 // Greybook HOME Route
 router.get("/greybook", middleware.isLoggedInMain, async (req, res) => {
 	try {
-		let allBooks = await Book.find({});
-		res.render("greybook/greybookhome", {books: allBooks});
+		let foundUser 		= await User.findById(req.user._id);
+		let foundBooks 		= await Book.find({author: {id: foundUser._id, username: foundUser.username}});
+		let foundAssoBooks 	= await Book.find({associates: {id: foundUser._id, username: foundUser.username}});
+
+		res.render("greybook/greybookhome", {books: foundBooks, assoBooks: foundAssoBooks});
 	} catch(error) {
 		req.flash("error", "1:Something went wrong, please try again...");
 		res.redirect("/greybook");
