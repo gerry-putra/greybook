@@ -73,6 +73,17 @@
     $("#profilePicChoice").profilePicChoice({
         dropupAuto: false
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var select = document.querySelector('#profilepicChoice');
+        var option = select.options;
+        for (var opt, j = 0; opt = option[j]; j++) {
+            if (opt.value == user.profilepic) {
+                select.selectedIndex = j;
+                break;
+            }
+        }
+    });
 </script>
 
 <%- include("../partials/footer") %>

@@ -68,47 +68,53 @@
                     <p class="noEntriesComment">There are no entries.</p>
                 <% } else { %>
                     <table class="table table-striped" id="entriesTable">
-                        <tr>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Type</th>
-                            <% if(book.associates.length !== 0) { %>
-                                <th>To/from</th>
-                            <% } %> 
-                        </tr>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <% if(book.associates.length !== 0) { %>
+                                    <th>To/from</th>
+                                <% } %> 
+                            </tr>
+                        </thead>
+                        
                         
                         <% let sum          = 0; %>
                         <% let loanTotal    = 0; %>
                         <% let paymentTotal = 0; %>
                         <% for(let entry of book.entries) { %>
-                            <tr>
-                                <td><%= entry.date %></td>
-                                <td id="entryDesc"><%= entry.description %></td>
-                                
-                                <% if(entry.type === "payment") { %>
-                                    <% sum          -= entry.amount; %>
-                                    <% paymentTotal += entry.amount; %>
-                                    <td class="text-success">-<%= entry.amount %></td>
-                                <% } else { %>
-                                    <% loanTotal    += entry.amount; %>
-                                    <% sum          += entry.amount; %>
-                                    <td><%= entry.amount %></td>
-                                <% } %>
-                                <td><%= entry.type.toUpperCase() %></td>
-                                <% if(book.associates.length !== 0) { %>
-                                    <td id="entryTofrom"><%= entry.tofrom.username %></td>
-                                <% } %> 
-                                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                                    <td id="editEntryBtn">
-                                        <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
-                                            <i class="far fa-edit"></i>
-                                        </a>
-                                    </td>
-                                <% } %> 
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td><%= entry.date %></td>
+                                    <td id="entryDesc"><%= entry.description %></td>
+                                    
+                                    <% if(entry.type === "payment") { %>
+                                        <% sum          -= entry.amount; %>
+                                        <% paymentTotal += entry.amount; %>
+                                        <td class="text-success">-<%= entry.amount %></td>
+                                    <% } else { %>
+                                        <% loanTotal    += entry.amount; %>
+                                        <% sum          += entry.amount; %>
+                                        <td><%= entry.amount %></td>
+                                    <% } %>
+                                    <td><%= entry.type.toUpperCase() %></td>
+                                    <% if(book.associates.length !== 0) { %>
+                                        <td id="entryTofrom"><%= entry.tofrom.username %></td>
+                                    <% } %> 
+                                    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                                        <td id="editEntryBtn">
+                                            <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    <% } %> 
+                                </tr>
+                            </tbody>
                         <% } %>
                     </table>
+
                     <div class="border border-success">
                         <h2>Overview:</h2>
                         <h4>Total Loans: <%= loanTotal %></h4>
@@ -155,8 +161,8 @@
                                             <div class="col">
                                                 <label  class="showBookLabels"for="entryType">Entry Type </label>
                                                 <select class="form-control" id="entryType" name="entrytype">
-                                                    <option value="loan">Loan</option>
-                                                    <option value="payment">Payment</option>
+                                                    <option value="IN">IN</option>
+                                                    <option value="OUT">OUT</option>
                                                 </select>
                                             </div>
                                         </div>
