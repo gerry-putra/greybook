@@ -1,5 +1,6 @@
 const   express         = require("express"),      
-        router          = express.Router(),
+		router          = express.Router(),
+		faker	 		= require("faker"),
         User 	 		= require("../models/user"),
         Book 	 		= require("../models/book"),
         Entry 	 		= require("../models/entry"),
@@ -67,15 +68,49 @@ router.post("/greybook/new", middleware.isLoggedIn, async (req, res) => {
 	}
 });
 
+//////////////////////////////////////////////////////////
+// SEED DB (with fake data) Route
+/////////////////////////////////////////////////////////
+router.get('/greybook/:bookid/seed-entries', async (req, res, next) => {
+	let book	= await Book.findById(req.params.bookid).populate("associates").exec();
+	for (let i = 0; i < 100; i++) {
+        let entry = new Entry()
+
+        entry.bookid 		= req.params.bookid
+        entry.date 			= faker.date.recent()
+        entry.description 	= "ENTRY Testing " + i
+        entry.amount 		= 5000
+        entry.type	 		= "IN"
+        entry.tofrom 		= {id: book.associates[0]._id, username:book.associates[0].username}
+
+        entry.save(function(err) {
+            if (err) throw err
+        })
+    }
+    res.redirect('/greybook/' + req.params.bookid);
+})
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
 // Greybook SHOW BOOK Route
 router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req, res) => {
 	try {
 		let foundBook = await Book.findById(req.params.bookid)
-			.populate("entries")
 			.populate("comments")
 			.populate("associates")
 			.exec();
-
+		
+		// PAGINATION
+		let perPage 	= 8,
+			pageQuery	= parseInt(req.query.page);
+		let pageNumber	= pageQuery ? pageQuery : 1;
+		let entries		= await Entry.find({bookid: foundBook._id})
+									.skip((perPage * pageNumber) - perPage)
+									.limit(perPage)
+									.exec();
+		let count		= await Entry.find({bookid: foundBook._id}).count().exec();
+							
+		// OVERVIEW SUMMARY 
 		if(foundBook.associates.length !== 0) {
 			let toFromAmountArrLoan		= [],
 				toFromAmountArrPayment	= [],
@@ -84,9 +119,9 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 				foundEntries 			= await Entry.find({bookid: req.params.bookid});
 
 			foundEntries.forEach((entry) => {
-				if(entry.type === "loan") {
+				if(entry.type === "IN") {
 					toFromAmountArrLoan.push({username: entry.tofrom.username, amount: entry.amount});
-				} else if(entry.type === "payment") {
+				} else if(entry.type === "OUT") {
 					toFromAmountArrPayment.push({username: entry.tofrom.username, amount: entry.amount});
 				}
 			});	
@@ -117,12 +152,24 @@ router.get("/greybook/:bookid", middleware.checkBookAndAssoOwnership, async (req
 					}
 				});
 			}
-			res.render("greybook/greybookshow", 
-				{book: foundBook, loans: toFromAmountArrLoan});
+
+			res.render("greybook/greybookshow", {
+				book: foundBook, 
+				bookEntries: foundEntries,
+				loans: toFromAmountArrLoan, 
+				entries: entries, 
+				current: pageNumber, 
+				pages: Math.ceil(count / perPage)
+			});
 
 		} else if(foundBook.associates.length === 0) {
 			// if statement here to branch for rendering between bookTypes...
-			res.render("greybook/greybookshow", {book: foundBook});
+			res.render("greybook/greybookshow", {
+				book: foundBook,
+				entries: entries, 
+				current: pageNumber, 
+				pages: Math.ceil(count / perPage)
+			});
 		}	
 		
 	} catch(error) {

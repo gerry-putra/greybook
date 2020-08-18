@@ -62,220 +62,263 @@
         <!-- RIGHT COLUMN HERE -->
         <div class="col-xl-9 px-0 px-lg-5 pt-5" id="rightContent">
             <!-- SHOW ENTRIES -->
-            <div>
-                <h3 class="py-2" id="viewEntriesHeader">Book Entries</h3>
-                <% if(book.entries.length === 0) { %>
-                    <p class="noEntriesComment">There are no entries.</p>
-                <% } else { %>
-                    <table class="table table-striped" id="entriesTable">
-                        <thead>
+            <h3 class="py-2 text-center viewEntriesHeader">Book Entries</h3>
+            <% if(book.entries.length === 0) { %>
+                <p class="noEntriesComment">There are no entries.</p>
+            <% } else { %>
+                <table class="table table-striped" id="entriesTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <% if(book.associates.length !== 0) { %>
+                                <th>To/from</th>
+                            <% } %> 
+                        </tr>
+                    </thead>
+                    
+                    <% for(let entry of entries) { %>
+                        <tbody>
                             <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Amount</th>
-                                <th>Type</th>
-                                <% if(book.associates.length !== 0) { %>
-                                    <th>To/from</th>
-                                <% } %> 
-                            </tr>
-                        </thead>
-                        
-                        
-                        <% let sum          = 0; %>
-                        <% let loanTotal    = 0; %>
-                        <% let paymentTotal = 0; %>
-                        <% for(let entry of book.entries) { %>
-                            <tbody>
-                                <tr>
-                                    <td><%= entry.date %></td>
-                                    <td id="entryDesc"><%= entry.description %></td>
-                                    
-                                    <% if(entry.type === "payment") { %>
-                                        <% sum          -= entry.amount; %>
-                                        <% paymentTotal += entry.amount; %>
-                                        <td class="text-success">-<%= entry.amount %></td>
-                                    <% } else { %>
-                                        <% loanTotal    += entry.amount; %>
-                                        <% sum          += entry.amount; %>
-                                        <td><%= entry.amount %></td>
-                                    <% } %>
-                                    <td><%= entry.type.toUpperCase() %></td>
-                                    <% if(book.associates.length !== 0) { %>
-                                        <td id="entryTofrom"><%= entry.tofrom.username %></td>
-                                    <% } %> 
-                                    <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
-                                        <td id="editEntryBtn">
-                                            <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
-                                                <i class="far fa-edit"></i>
-                                            </a>
-                                        </td>
-                                    <% } %> 
-                                </tr>
-                            </tbody>
-                        <% } %>
-                    </table>
-
-                    <div class="border border-success">
-                        <h2>Overview:</h2>
-                        <h4>Total Loans: <%= loanTotal %></h4>
-                        <h4>Total Payments: <%= paymentTotal %></h4>
-                        <h4>Existing Loan: <%= sum %></h4>
-                    </div>
-                    <% if(book.associates.length !== 0) { %>
-                        <% loans.forEach((loan) => { %>
-                            <div class="border border-success">
-                                <h2><%= loan.username %> :</h2>
-                                <h4>Total Loans: <%= loan.loan %></h4>
-                                <h4>Total Payments: <%= loan.payment %></h4>
-                                <h4>Existing Loan: <%= loan.loan - loan.payment %></h4>
-                            </div>
-                        <% }); %>
-                    <% } %>
-                <% } %>
-            </div>
-
-            <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
-            <% if(currentUser && currentUser._id.equals(book.author.id)) { %>     
-                <div class="accordion my-5 accordionCollapse" id="addEntryCollapse">
-                    <div class="card shadow-sm">
-                        <div class="card-header" id="headingOne">
-                            <h2 class="mb-0">
-                            <button class="btn btn-link btn-block text-center accordionBtn" 
-                                type="button" data-toggle="collapse" data-target="#addEntryMenu" 
-                                aria-expanded="true" aria-controls="addEntryMenu">Add New Entry  
-                            </button>
-                            </h2>
-                        </div>
-                
-                        <div id="addEntryMenu" class="collapse px-5 pt-2" aria-labelledby="headingOne" 
-                            data-parent="#addEntryCollapse">
-                            <div class="card-body">
-                                <form action="/greybook/<%= book._id %>/newentry" method="POST">
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="showBookLabels" for="entryDateInput">Date </label>
-                                                <input class="form-control" type="date" name="date" id="entryDateInput" required>
-                                            </div>
-                                            <div class="col">
-                                                <label  class="showBookLabels"for="entryType">Entry Type </label>
-                                                <select class="form-control" id="entryType" name="entrytype">
-                                                    <option value="IN">IN</option>
-                                                    <option value="OUT">OUT</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="showBookLabels" for="entryDescInput">Description </label>
-                                        <input class="form-control" type="text" name="description" 
-                                            id="entryDescInput" maxlength="72" required>
-                                        <small class="form-text text-muted text-left pl-1">
-                                            Give your entry a brief description of what it is about. 72 characters max.
-                                        </small>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col">
-                                                <label class="showBookLabels" for="entryAmountInput">Amount </label>
-                                                <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
-                                            </div>
-
-                                            <% if(book.associates.length !== 0) { %>
-                                                <div class="col">
-                                                    <label class="showBookLabels" for="tofrom">To/From </label>
-                                                    <select class="form-control" id="tofrom" name="tofrom">
-                                                        <% for(let associate of book.associates) { %>
-                                                            <option value="<%= associate._id %>">
-                                                                <%= associate.username %>
-                                                            </option>
-                                                        <% } %> 
-                                                    </select>
-                                                </div>
-                                            <% } %> 
-                                        </div>
-                                    </div>
-                                    <div class="text-center">
-                                        <button class="btn btn-lg btn-outline-dark my-3">Add Entry</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            <% } %> <!-- Add new entry section ends here -->
-            
-            <!-- SHOW COMMENTS -->
-            <div class="accordion my-5 accordionCollapse" id="commentCollapse">
-                <div class="card shadow-sm">
-                    <div class="card-header" id="headingOne">
-                        <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-center accordionBtn" 
-                            type="button" data-toggle="collapse" data-target="#commentMenu" 
-                            aria-expanded="true" aria-controls="commentMenu">Comments  
-                        </button>
-                        </h2>
-                    </div>
-            
-                    <div id="commentMenu" class="collapse show px-5 pt-2" aria-labelledby="headingOne" 
-                        data-parent="#commentCollapse">
-                        <div class="card-body">
-                            <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
-
-                                <div class="form-group mb-5">
-                                    <div class="row">
-                                        <div class="col-10 col-md-11">
-                                            <label class="showBookLabels" for="newComment">New comment </label>
-                                            <input class="form-control" type="text" name="newcomment" id="newComment">
-                                        </div>
-                                        <div class="col-2 col-md-1 addComment">
-                                            <button class="btn btn-dark">Submit</button>
-                                        </div>
-                                    </div>
-                                </div>
+                                <td><%= entry.date %></td>
+                                <td id="entryDesc"><%= entry.description %></td>
                                 
-                            </form>
-                            <% if(book.comments.length === 0) { %>
-                                <p class="noEntriesComment">No comments.</p>
+                                <% if(entry.type === "OUT") { %>
+                                    <td class="text-success">-<%= entry.amount %></td>
+                                <% } else { %>
+                                    <td><%= entry.amount %></td>
+                                <% } %>
 
-                            <% } else { %>
-                                <% for(let i = book.comments.length - 1; i >= 0; i--) { %>
-                                    <strong><%= book.comments[i].author.username %></strong>
-                                    <span class="float-right"><%= moment(book.comments[i].createdAt).fromNow() %></span>
-                                    
-                                    <!-- Edit COMMENT section STARTS here -->
-                                    <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>
-                                        
-                                        <a class="pl-3" data-toggle="collapse" href="#collapseEditComment<%= i %>" role="button" 
-                                        aria-expanded="false" aria-controls="collapseEditComment<%= i %>">
+                                <td><%= entry.type %></td>
+                                <% if(book.associates.length !== 0) { %>
+                                    <td id="entryTofrom"><%= entry.tofrom.username %></td>
+                                <% } %> 
+                                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>
+                                    <td id="editEntryBtn">
+                                        <a href="/greybook/<%= book._id %>/entry/<%= entry._id %>/editentry">
                                             <i class="far fa-edit"></i>
                                         </a>
-                                        <div class="collapse" id="collapseEditComment<%= i %>">
-                                            <div class="form-group">
-                                                <form class="text-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
-                                                    <input class="form-control mt-3" type="text" name="comment" 
-                                                        id="comment" value="<%= book.comments[i].text %>">
-                                                    <button class="btn btn-dark mt-3">Update</button>
-                                                </form>
-                                                <form class="text-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
-                                                    <button class="btn btn-sm btn-outline-danger mt-3">Delete</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    <% } %> <!-- Edit comment ends here -->
+                                    </td>
+                                <% } %> 
+                            </tr>
+                        </tbody>
+                    <% } %>
+                </table>
 
-                                    <p id="commentText"><%= book.comments[i].text %></p>
-                                    <hr>
+                <!-- Pagination Section -->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col">
+                            <nav aria-label="Page navigation">
+                                <% if (pages && pages > 0) { %>
+                                    <ul class="pagination justify-content-center">
+                                        <% if (current == 1) { %>
+                                            <li class="page-item disabled"><a class="page-link">First</a></li>
+                                        <% } else { %>
+                                            <li><a class="page-link" href="/greybook/<%= book._id %>">First</a></li>
+                                        <% } %>
+                                
+                                        <% if (current == 1) { %>
+                                            <li class="page-item disabled"><a class="page-link">«</a></li>
+                                        <% } else { %>
+                                            <li><a class="page-link" href="/greybook/<%= book._id %>?page=<%= Number(current) - 1 %>">«</a></li>
+                                        <% } %>
+                                
+                                        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                        <% if (i !== 1) { %>
+                                            <li class="page-item disabled"><a class="page-link">...</a></li>
+                                        <% } %>
+                                        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                            <% if (i == current) { %>
+                                                <li class="active"><a class="page-link"><%= i %></a></li>
+                                            <% } else { %>
+                                                <li><a class="page-link" href="/greybook/<%= book._id %>?page=<%= i %>"><%= i %></a></li>
+                                            <% } %>
+                                            <% if (i == Number(current) + 4 && i < pages) { %>
+                                                <li class="page-item disabled"><a class="page-link">...</a></li>
+                                            <% } %>
+                                        <% } %>
+                                
+                                        <% if (current == pages) { %>
+                                            <li class="page-item disabled"><a class="page-link">»</a></li>
+                                        <% } else { %>
+                                            <li><a class="page-link" href="/greybook/<%= book._id %>?page=<%= Number(current) + 1 %>">»</a></li>
+                                        <% } %>
+                                
+                                        <% if (current == pages) { %>
+                                            <li class="page-item disabled"><a class="page-link">Last</a></li>
+                                        <% } else { %>
+                                            <li><a class="page-link" href="/greybook/<%= book._id %>?page=<%= pages %>">Last</a></li>
+                                        <% } %>
+                                    </ul>
                                 <% } %>
-                            <% } %> 
+                            </nav>
                         </div>
                     </div>
-                </div>
+                </div> <!-- Pagination ENDS HERE -->
 
-            </div> <!-- Comment section ends here -->
+                <!-- ADD NEW ENTRY PANEL (ONLY VISIBLE TO BOOK AUTHOR) -->
+                <% if(currentUser && currentUser._id.equals(book.author.id)) { %>     
+                    <div class="accordion mt-2 mb-5 accordionCollapse" id="addEntryCollapse">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-center accordionBtn" 
+                                    type="button" data-toggle="collapse" data-target="#addEntryMenu" 
+                                    aria-expanded="true" aria-controls="addEntryMenu">Add New Entry  
+                                </button>
+                                </h2>
+                            </div>
+                    
+                            <div id="addEntryMenu" class="collapse px-5 pt-2" aria-labelledby="headingOne" 
+                                data-parent="#addEntryCollapse">
+                                <div class="card-body">
+                                    <form action="/greybook/<%= book._id %>/newentry" method="POST">
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="showBookLabels" for="entryDateInput">Date </label>
+                                                    <input class="form-control" type="date" name="date" id="entryDateInput" required>
+                                                </div>
+                                                <div class="col">
+                                                    <label  class="showBookLabels"for="entryType">Entry Type </label>
+                                                    <select class="form-control" id="entryType" name="entrytype">
+                                                        <option value="IN">IN</option>
+                                                        <option value="OUT">OUT</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="showBookLabels" for="entryDescInput">Description </label>
+                                            <input class="form-control" type="text" name="description" 
+                                                id="entryDescInput" maxlength="72" required>
+                                            <small class="form-text text-muted text-left pl-1">
+                                                Give your entry a brief description of what it is about. 72 characters max.
+                                            </small>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <label class="showBookLabels" for="entryAmountInput">Amount </label>
+                                                    <input class="form-control" type="number" name="amount" id="entryAmountInput" required>
+                                                </div>
+
+                                                <% if(book.associates.length !== 0) { %>
+                                                    <div class="col">
+                                                        <label class="showBookLabels" for="tofrom">To/From </label>
+                                                        <select class="form-control" id="tofrom" name="tofrom">
+                                                            <% for(let associate of book.associates) { %>
+                                                                <option value="<%= associate._id %>">
+                                                                    <%= associate.username %>
+                                                                </option>
+                                                            <% } %> 
+                                                        </select>
+                                                    </div>
+                                                <% } %> 
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-dark my-3">Add Entry</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %> <!-- Add new entry section ends here -->
+                
+                <!-- Overview Summary section here -->
+                <% let sum          = 0; %>
+                <% let loanTotal    = 0; %>
+                <% let paymentTotal = 0; %>
+                <% bookEntries.forEach((entry) => { %>
+                    <% if(entry.type === "OUT") { %>
+                        <% sum          -= entry.amount; %>
+                        <% paymentTotal += entry.amount; %>
+                    <% } else { %>
+                        <% loanTotal    += entry.amount; %>
+                        <% sum          += entry.amount; %>
+                    <% } %>
+                <% }); %>
+                <div class="border border-success">
+                    <h2>Overview:</h2>
+                    <h4>Total Loan (IN): <strong><%= loanTotal %></strong></h4>
+                    <h4>Total Payment (OUT): <strong><%= paymentTotal %></strong></h4>
+                    <h4>Existing Loan: <strong><%= sum %></strong></h4>
+                </div>
+                <% if(book.associates.length !== 0) { %>
+                    <% loans.forEach((loan) => { %>
+                        <div class="border border-success">
+                            <h2><%= loan.username %> :</h2>
+                            <h4>Total Loans (IN): <strong><%= loan.loan %></strong></h4>
+                            <h4>Total Payment (OUT): <strong><%= loan.payment %></strong></h4>
+                            <h4>Existing Loan: <strong><%= loan.loan - loan.payment %></strong></h4>
+                        </div>
+                    <% }); %>
+                <% } %>
+            <% } %>
+
+            
+            <!-- COMMENTS SECTION -->
+            <div class="container my-5 border rounded">
+                <div class="row">
+                    <div class="col py-3 px-5">
+                        <h3 class="py-2 text-center viewEntriesHeader">Comments</h3>
+                        <form action="/greybook/<%= book._id %>/comment/newcomment" method="POST">
+                            <div class="form-group mb-5">
+                                <div class="row">
+                                    <div class="col-10 col-md-11">
+                                        <label class="showBookLabels" for="newComment">New comment </label>
+                                        <input class="form-control" type="text" name="newcomment" id="newComment">
+                                    </div>
+                                    <div class="col-2 col-md-1 addComment">
+                                        <button class="btn btn-dark">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </form>
+                        <% if(book.comments.length === 0) { %>
+                            <p class="noEntriesComment">No comments.</p>
+            
+                        <% } else { %>
+                            <% for(let i = book.comments.length - 1; i >= 0; i--) { %>
+                                <hr>
+                                <strong><%= book.comments[i].author.username %></strong>
+                                <span class="float-right"><%= moment(book.comments[i].createdAt).fromNow() %></span>
+                                
+                                <!-- Edit COMMENT section STARTS here -->
+                                <% if(currentUser && currentUser._id.equals(book.comments[i].author.id)) { %>
+                                    
+                                    <a class="pl-3" data-toggle="collapse" href="#collapseEditComment<%= i %>" role="button" 
+                                    aria-expanded="false" aria-controls="collapseEditComment<%= i %>">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <div class="collapse" id="collapseEditComment<%= i %>">
+                                        <div class="form-group">
+                                            <form class="text-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=PUT" method="POST">
+                                                <input class="form-control mt-3" type="text" name="comment" 
+                                                    id="comment" value="<%= book.comments[i].text %>">
+                                                <button class="btn btn-dark mt-3">Update</button>
+                                            </form>
+                                            <form class="text-right" action="/greybook/<%= book._id %>/comment/<%= book.comments[i].id %>?_method=DELETE" method="POST">
+                                                <button class="btn btn-sm btn-outline-danger mt-3">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                <% } %> <!-- Edit comment ends here -->
+                                <p id="commentText"><%= book.comments[i].text %></p>
+                            <% } %>
+                        <% } %> 
+                    </div>
+                </div>
+            </div>            
             
         </div> <!--- RIGHT column end --->
 

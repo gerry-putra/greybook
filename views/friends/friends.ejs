@@ -56,13 +56,13 @@
     <% if(pendings.length === 0) { %>
         <div class="container">
             <p class="friendReqDetails">No pending sent request.</p>
-            <hr>
         </div>
     <% } else { %>
         <% pendings.forEach((pending) => { %>
             <div class="container">
                 <div class="row">
                     <div class="col-5 col-md-4 col-lg-3 col-xl-2">
+                        <hr>
                         <img src="<%= pending.recipient.profilepic %>" 
                             class="rounded-circle img-fluid d-block ml-5 py-4 px-3 friendDp">
                     </div>
@@ -73,20 +73,18 @@
                     </div>
                 </div>
             </div>
-            <hr>
         <% }); %> 
     <% } %> 
 
     <!-- Friends List -->
-    <h4 class="socialSubHeader">Friends List</h4>
-    <% if(user.friends.length === 0) { %>
-        <div class="container">
+    <div class="container border rounded my-5">
+        <h4 class="socialSubHeader">Friends List</h4>
+        <% if(user.friends.length === 0) { %>
             <p class="friendReqDetails">You do not have any friends. Search for a user and make a friend request.</p>
             <hr>
-        </div>
-    <% } else { %>
-        <% user.friends.forEach((friend) => { %>
-            <div class="container">
+            
+        <% } else { %>
+            <% user.friends.forEach((friend) => { %>
                 <div class="row">
                     <div class="col-5 col-md-4 col-lg-3 col-xl-2">
                         <img src="<%= friend.profilepic %>" 
@@ -96,10 +94,10 @@
                         <a class="userlink" href="/greybook/userprofile/<%= friend._id %>"><%= friend.username %></a>
                     </div>
                 </div>
-            </div>
-            <hr>
-        <% }); %>
-    <% } %> 
+                <hr>
+            <% }); %>
+        <% } %> 
+    </div>
 </div>
 
 <%- include("../partials/footer") %>
