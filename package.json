@@ -11,7 +11,7 @@
     "faker": "^4.1.0",
     "jquery": "^3.5.1",
     "method-override": "^3.0.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "mongoose": "^5.9.25",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
